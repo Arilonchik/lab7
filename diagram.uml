@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="40.0625" y="160.0">Creature</node>
+    <node x="91.5625" y="80.0">RealObject</node>
+    <node x="344.0" y="315.0">XException</node>
+    <node x="158.0625" y="160.0">Shelter</node>
+    <node x="109.0" y="240.0">Dog</node>
+    <node x="149.0" y="390.0">Finish</node>
+    <node x="0.0" y="240.0">Human</node>
+    <node x="0.0" y="465.0">NpE</node>
+    <node x="0.0" y="390.0">ParseXML</node>
+    <node x="102.3125" y="0.0">Sound</node>
+    <node x="0.0" y="315.0">PhysicalStatus</node>
+    <node x="205.3125" y="0.0">AbstractObject</node>
+    <node x="274.0" y="390.0">Main</node>
+    <node x="9.3125" y="0.0">Map</node>
+    <node x="173.0" y="315.0">ListOfShelters</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Shelter" target="RealObject">
+      <point x="0.0" y="-15.0" />
+      <point x="202.0625" y="135.0" />
+      <point x="172.5625" y="135.0" />
+      <point x="27.0" y="15.0" />
+    </edge>
+    <edge source="RealObject" target="Sound">
+      <point x="0.0" y="-15.0" />
+      <point x="145.5625" y="55.0" />
+      <point x="143.8125" y="55.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="RealObject" target="Map">
+      <point x="-36.0" y="-15.0" />
+      <point x="109.5625" y="55.0" />
+      <point x="45.8125" y="55.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="Creature" target="RealObject">
+      <point x="0.0" y="-15.0" />
+      <point x="89.0625" y="135.0" />
+      <point x="118.5625" y="135.0" />
+      <point x="-27.0" y="15.0" />
+    </edge>
+    <edge source="RealObject" target="AbstractObject">
+      <point x="36.0" y="-15.0" />
+      <point x="181.5625" y="55.0" />
+      <point x="270.8125" y="55.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="Human" target="Creature">
+      <point x="0.0" y="-15.0" />
+      <point x="44.5" y="215.0" />
+      <point x="64.5625" y="215.0" />
+      <point x="-24.5" y="15.0" />
+    </edge>
+    <edge source="Dog" target="Creature">
+      <point x="0.0" y="-15.0" />
+      <point x="144.5" y="215.0" />
+      <point x="113.5625" y="215.0" />
+      <point x="24.5" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9108108108108108" x="321.0" y="516.8100890207716" />
+  <SelectedNodes>
+    <node>Human</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

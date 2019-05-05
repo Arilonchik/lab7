@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ShelterList>
+    <Shelter>
+        <Name>Tree</Name>
+        <Position>20</Position>
+    </Shelter>
+    <Shelter>
+        <Name>Small Tree</Name>
+        <Position>25</Position>
+    </Shelter>
+    <Shelter>
+        <Name>Big Rock</Name>
+        <Position>30</Position>
+    </Shelter>
+    <Shelter>
+        <Name>Rock</Name>
+        <Position>35</Position>
+    </Shelter>
+</ShelterList>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ShelterList>
+
+	<Shelter>
+		<Name>Big Rock</Name>
+		<Position>30.0</Position>
+		<Date>Fri May 03 15:20:02 MSK 2019</Date>
+	</Shelter>
+
+	<Shelter>
+		<Name>Hello</Name>
+		<Position>45.0</Position>
+		<Date>Fri May 03 15:20:02 MSK 2019</Date>
+	</Shelter>
+
+	<Shelter>
+		<Name>Rock</Name>
+		<Position>35.0</Position>
+		<Date>Fri May 03 15:20:02 MSK 2019</Date>
+	</Shelter>
+
+	<Shelter>
+		<Name>Small Tree</Name>
+		<Position>25.0</Position>
+		<Date>Fri May 03 15:20:02 MSK 2019</Date>
+	</Shelter>
+
+	<Shelter>
+		<Name>Tree</Name>
+		<Position>20.0</Position>
+		<Date>Fri May 03 15:20:02 MSK 2019</Date>
+	</Shelter>
+</ShelterList>
