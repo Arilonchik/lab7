@@ -1,8 +1,8 @@
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class Shelter extends RealObject implements Comparable<Shelter>{
     private Date date;
-    private double height;
 
     Shelter(double x, String name) {
         super(x, name);

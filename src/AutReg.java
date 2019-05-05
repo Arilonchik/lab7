@@ -1,5 +1,9 @@
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.Random;
 
 public class AutReg {
 
@@ -32,13 +36,19 @@ public class AutReg {
         }
     }
     //Регестрация
-    public String reg(Connection c, String em){
+    public String reg(Connection c, String em) {
         try {
 
             //Сюда добавить генерацию пароля и отправление его по почте javamail
+
             if(em.matches("\\w*[@]\\w*[.]\\w*")){
-            String pas = "fkfk";
-            Statement stmt = c.createStatement();
+            String pas = generatePassword();
+                try {
+                    pas = encryptMD2(pas);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM \"USERS\" WHERE \"EMAIL\"='" +em+"';");
             System.out.println("keksus" + em);
             if(!rs.next()) {
@@ -62,5 +72,29 @@ public class AutReg {
         }
         return "This email already registered";
 
+    }
+
+    static String generatePassword() {
+        String password = new Random().ints(48, 123)
+                .filter(i -> (i <= 57 || (i >= 65 && i <= 90) || i >= 97))
+                .limit(10)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        return password;
+
+
+    }
+
+    static String encryptMD2(String string) throws NoSuchAlgorithmException {
+        MessageDigest md2 = MessageDigest.getInstance("MD2");
+        byte[] bytes = md2.digest(string.getBytes());
+        BigInteger no = new BigInteger(1, bytes);
+        String hashtext = no.toString(16);
+
+        while (hashtext.length() < 32) {
+            hashtext = "0" + hashtext;
+        }
+
+        return hashtext;
     }
 }
