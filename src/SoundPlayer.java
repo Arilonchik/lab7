@@ -10,15 +10,17 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class SoundPlayer implements AutoCloseable {
+public class SoundPlayer extends Thread implements AutoCloseable {
     private boolean released = false;
     private AudioInputStream stream = null;
     private Clip clip = null;
     private FloatControl volumeControl = null;
     private boolean playing = false;
+    private File f;
 
     public SoundPlayer(File f) {
         try {
+            this.f =f;
             stream = AudioSystem.getAudioInputStream(f);
             clip = AudioSystem.getClip();
             clip.open(stream);
@@ -65,7 +67,7 @@ public class SoundPlayer implements AutoCloseable {
     }
 
     // Останавливает воспроизведение
-    public void stop() {
+    public void stopt() {
         if (playing) {
             clip.stop();
         }
@@ -84,7 +86,7 @@ public class SoundPlayer implements AutoCloseable {
     }
 
     // Дожидается окончания проигрывания звука
-    public void join() {
+    public void joint() {
         if (!released) return;
         synchronized(clip) {
             try {
@@ -111,5 +113,10 @@ public class SoundPlayer implements AutoCloseable {
                 }
             }
         }
+    }
+
+    @Override
+    public void run() {
+        play();
     }
 }
