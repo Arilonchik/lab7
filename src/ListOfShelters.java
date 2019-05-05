@@ -214,7 +214,7 @@ class ListOfShelters {
             bfr.write("\t<Shelter>\n");
             bfr.write("\t\t<Name>" + shelter.name + "</Name>\n");
             bfr.write("\t\t<Position>" + shelter.x + "</Position>\n");
-            bfr.write("\t\t<Date>" + shelter.getDate() + "</Date>\n");
+            bfr.write("\t\t<Zone>" + shelter.getZone() + "</Zone>\n");
             bfr.write("\t</Shelter>\n");
         }
         bfr.write("</ShelterList>\n");

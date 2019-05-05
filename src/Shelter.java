@@ -1,27 +1,40 @@
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Shelter extends RealObject implements Comparable<Shelter>{
-    private Date date;
+    //private Date date;
+    private String zone;
 
     Shelter(double x, String name) {
         super(x, name);
-        date = new Date();
+        //date = new Date();
+        zone = getZone();
     }
 
     Shelter() {
         super();
-        date = new Date();
+        //date = new Date();
+        zone = getZone();
     }
 
-    public String getDate() {
-        return date.toString();
+    //public String getDate() { return date.toString(); }
+
+    public String getZone() {
+        ZonedDateTime zone = ZonedDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm, dd MMM yyyy");
+        String str = zone.format(format) + " " +zone.getZone() + " " + zone.getOffset();
+        return str;
     }
 
 
     @Override
     public String toString() {
-        return "Object: " + getClass().getName() + ", Name: " + name + ", Position: " + x + "\n";
+        return "Object: " + getClass().getName()
+                + ", Name: " + name
+                + ", Position: " + x
+                + ", ZonedDate: " + zone
+                + "\n";
     }
 
     @Override

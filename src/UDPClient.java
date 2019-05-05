@@ -21,8 +21,8 @@ class UDPClient
             boolean check = true;
             System.out.println("Hello, u need to auth or register, CHOOSE YOUR DESTINY: A/R?");
             //Вкинуть сюда музяку из морты
-            SoundPlayer snd = SoundPlayer.playSound("mk11.wav");
-            snd.start();
+            //SoundPlayer snd = SoundPlayer.playSound("mk11.wav");
+            //snd.start();
             while (check) {
                 System.out.println("A/R?");
                 String ar = inFromUser.readLine().trim();
@@ -40,7 +40,7 @@ class UDPClient
                             System.out.println("U have logged in with " + log);
                             this.login = log;
                             this.password = pas;
-                            snd.close();
+                            //snd.close();
                             check = false;
                         } else {
                             System.out.println(ans + " Try again");
