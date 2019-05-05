@@ -21,7 +21,6 @@ public class UDPServer {
 
         //Блок регистрации БД
         con = getCon();
-
         new Thread(() -> {
             Scanner listen = new Scanner(System.in);
             while (true) {

@@ -46,28 +46,28 @@ public class ClientThread  extends Thread {
             try {
                 switch (command) {
                     case "show":
-                        sendMsg(list.show(), address, port);
+                        sendMsg(list.show(con), address, port);
                         break;
                     case "remove_last":
-                        sendMsg(list.remove_last(), address, port);
+                        sendMsg(list.remove_last(con), address, port);
                         break;
                     case "remove_first":
-                        sendMsg(list.remove_first(), address, port);
+                        sendMsg(list.remove_first(con), address, port);
                         break;
                     case "add":
-                        sendMsg(list.add(req[1]), address, port);
+                        sendMsg(list.add(req[1],con), address, port);
                         break;
                     case "info":
-                        sendMsg(list.info(), address, port);
+                        sendMsg(list.info(con), address, port);
                         break;
                     case "sort":
                         sendMsg(list.sort(), address, port);
                         break;
                     case "add_if_max":
-                        sendMsg(list.addIfMax(req[1]), address, port);
+                        sendMsg(list.addIfMax(req[1],con), address, port);
                         break;
                     case "remove":
-                        sendMsg(list.remove(req[1]), address, port);
+                        sendMsg(list.remove(req[1],con), address, port);
                         break;
                     case "disconnect":
                         System.out.println("User with Port: " + port + ", IpAddress: " + address + " disconnect. :(");
@@ -90,6 +90,7 @@ public class ClientThread  extends Thread {
                 }
             } catch (JsonSyntaxException | NullPointerException | NoSuchElementException e) {
                 sendMsg("Enter is wrong.", address, port);
+                e.printStackTrace();
             }
 
     }

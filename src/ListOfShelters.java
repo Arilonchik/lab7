@@ -3,6 +3,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.*;
+import java.sql.Connection;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -30,7 +31,7 @@ class ListOfShelters {
      * Add new item in collection
      * You enter command 'add' after that the next line is the name and position of item which you want to add.
      */
-    String add(String object) throws JsonSyntaxException {
+    String add(String object, Connection c) throws JsonSyntaxException {
             int size = sh.size();
             Shelter shelter = builder.fromJson(object, Shelter.class);
 
@@ -43,7 +44,7 @@ class ListOfShelters {
     /**
      * Show all Shelter in collection.
      */
-    String show() {
+    String show(Connection c) {
         return sh.stream()
                 .sorted(Shelter::compareTo)
                 .map(Shelter::toString)
@@ -54,7 +55,7 @@ class ListOfShelters {
     /**
      * Show some information about this collection.
      */
-    String info() {
+    String info(Connection c) {
         if (sh.isEmpty()) return "Collection is empty";
         else {
             return "Size of this collection: " + sh.size() +
@@ -66,7 +67,7 @@ class ListOfShelters {
     /**
      * Remove last item form collection.
      */
-    String remove_last() { // Correct
+    String remove_last(Connection c) { // Correct
         Shelter last = sh.stream().findFirst().orElse(null);
         if (last != null) {
             sh.stream().sorted(Shelter::compareTo)
@@ -83,7 +84,7 @@ class ListOfShelters {
     /**
      * Remove first item form collection.
      */
-    String remove_first() { // Correct
+    String remove_first(Connection c) { // Correct
         Shelter first = sh.stream()
                 .sorted(Shelter::compareTo)
                 .findFirst()
@@ -100,7 +101,7 @@ class ListOfShelters {
     /**
      * Remove the item{name : position}
      */
-    String remove(String object) throws JsonSyntaxException, NullPointerException{
+    String remove(String object, Connection c) throws JsonSyntaxException, NullPointerException{
            Shelter remove_object = builder.fromJson(object, Shelter.class);
 
            int size = sh.size();
@@ -122,7 +123,7 @@ class ListOfShelters {
      * Add item if it's the biggest Shelter in collection
      */
 
-    String addIfMax(String object) {
+    String addIfMax(String object, Connection c) {
         Shelter compare_object = builder.fromJson(object, Shelter.class);
         Optional<Shelter> maxShelter = sh.stream().min(Shelter::compareTo);
 
@@ -199,8 +200,7 @@ class ListOfShelters {
         sh = sh.stream()
                 .sorted(Shelter::compareTo)
                 .collect(CopyOnWriteArrayList::new, CopyOnWriteArrayList::add, CopyOnWriteArrayList::addAll);
-
-        return show();
+        return "Sorted";
     }
 
     private void writeInFile(File file) throws IOException {

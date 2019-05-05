@@ -39,16 +39,16 @@ public class AutReg {
     public String reg(Connection c, String em) {
         try {
 
-            //Сюда добавить генерацию пароля и отправление его по почте javamail
-
-            if(em.matches("\\w*[@]\\w*[.]\\w*")){
+            EmailSender s = new EmailSender();
+            if(em.matches("(.*)[@](.*)[.](.*)")){
             String pas = generatePassword();
             System.out.println(pas);
+
             String hashpas = encryptMD2(pas);
                 Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM \"USERS\" WHERE \"EMAIL\"='" +em+"';");
-            System.out.println("keksus" + em);
             if(!rs.next()) {
+                s.sendemail(em,pas);
                 String sql ="INSERT INTO \"USERS\"(\"EMAIL\",\"PASS\") VALUES (?,?);";
                 PreparedStatement psmt = c.prepareStatement(sql);
                 psmt.setString(1,em);

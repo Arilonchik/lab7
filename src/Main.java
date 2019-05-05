@@ -43,7 +43,7 @@ public class Main {
                 command.add("exit");
                 command.add("help");
                 command.add("sort");
-
+/*
                 lable:
                 while (true) {
                     System.out.print("-> ");
@@ -86,7 +86,7 @@ public class Main {
                     } else {
                         System.out.println("It isn't a command. Please enter 'help' to show list of command.");
                     }
-                }
+                }*/
             }
         }
 
