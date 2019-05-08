@@ -3,7 +3,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.*;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 class ListOfShelters {
     CopyOnWriteArrayList<Shelter> sh;
+    private Connection con;
 
     private Gson builder = new GsonBuilder()
             .registerTypeAdapter(Shelter.class, new CustomConverter())
@@ -22,20 +23,29 @@ class ListOfShelters {
     private Date date;
 
     ListOfShelters(String fileName) {
-            ParseXML xml = new ParseXML();
-            sh = xml.parse(fileName);
-            date = new Date();
+        ParseXML xml = new ParseXML();
+        sh = xml.parse(fileName);
+        date = new Date();
+    }
+
+    ListOfShelters(CopyOnWriteArrayList<Shelter> sh, Connection con) {
+        this.sh = sh;
+        date = new Date();
+        this.con = con;
     }
 
     /**
      * Add new item in collection
      * You enter command 'add' after that the next line is the name and position of item which you want to add.
      */
-    String add(String object, Connection c) throws JsonSyntaxException {
+    String add(String object, String log) throws JsonSyntaxException {
+
             int size = sh.size();
             Shelter shelter = builder.fromJson(object, Shelter.class);
-
-            if (shelter != null) { sh.add(shelter); }
+            if (shelter != null) {
+                shelter.setCreator(log);
+                sh.add(shelter);
+            }
 
             if (size != sh.size()) { return "Shelter is successfully added."; }
             else { return "Enter is wrong."; }
@@ -44,7 +54,7 @@ class ListOfShelters {
     /**
      * Show all Shelter in collection.
      */
-    String show(Connection c) {
+    String show() {
         return sh.stream()
                 .sorted(Shelter::compareTo)
                 .map(Shelter::toString)
@@ -55,21 +65,19 @@ class ListOfShelters {
     /**
      * Show some information about this collection.
      */
-    String info(Connection c) {
-        if (sh.isEmpty()) return "Collection is empty";
-        else {
+    String info() {
             return "Size of this collection: " + sh.size() +
                     "\nType of collection: " + sh.get(0).getClass().getName() +
                     "\nDate of initialization: " + date.toString();
-        }
+
     }
 
     /**
      * Remove last item form collection.
      */
-    String remove_last(Connection c) { // Correct
+    String remove_last(String log) { // Correct
         Shelter last = sh.stream().findFirst().orElse(null);
-        if (last != null) {
+        if (last != null && last.getCreator().equals(log)) {
             sh.stream().sorted(Shelter::compareTo)
                     .skip(sh.size() -1)
                     .findAny()
@@ -77,36 +85,37 @@ class ListOfShelters {
             sh.remove(last);
             return "The element was deleted";
         } else {
-            return "Collection is empty";
+            return "Collection is empty or u don't have permissions for this shelter";
         }
     }
 
     /**
      * Remove first item form collection.
      */
-    String remove_first(Connection c) { // Correct
+    String remove_first(String log) { // Correct
         Shelter first = sh.stream()
                 .sorted(Shelter::compareTo)
                 .findFirst()
                 .orElse(null);
 
-        if (first != null) {
+        if (first != null && first.getCreator().equals(log)) {
             sh.remove(first);
             return "The element was deleted";
         } else {
-            return "Collection is empty";
+            return "Collection is empty or u don't have permission for this shelter";
         }
     }
 
     /**
      * Remove the item{name : position}
      */
-    String remove(String object, Connection c) throws JsonSyntaxException, NullPointerException{
+
+    String remove(String object, String log) throws JsonSyntaxException, NullPointerException{
            Shelter remove_object = builder.fromJson(object, Shelter.class);
 
            int size = sh.size();
 
-           if (sh.contains(remove_object)) {
+           if (sh.contains(remove_object) && remove_object.getCreator().equals(log)) {
                sh.remove(remove_object);
            } else {
                return "There isn't this shelter in collection";
@@ -115,7 +124,7 @@ class ListOfShelters {
            if (size != sh.size()) {
                return "Shelter is deleted";
            } else {
-               return "Shelter isn't deleted";
+               return "Shelter isn't deleted\nU don't have permissions";
            }
     }
 
@@ -123,10 +132,10 @@ class ListOfShelters {
      * Add item if it's the biggest Shelter in collection
      */
 
-    String addIfMax(String object, Connection c) {
+    String addIfMax(String object, String log) {
         Shelter compare_object = builder.fromJson(object, Shelter.class);
+        compare_object.setCreator(log);
         Optional<Shelter> maxShelter = sh.stream().min(Shelter::compareTo);
-
         if (maxShelter.isPresent()) {
             if (compare_object.compareTo(maxShelter.get()) < 0) {
                 sh.add(compare_object);
@@ -149,6 +158,7 @@ class ListOfShelters {
         try{
             File file = new File("Downloads/collection.xml");
             writeInFile(file);
+            savePost(con);
         } catch (IOException e) {
             System.out.println("File hasn't been saved.");
         }
@@ -158,7 +168,7 @@ class ListOfShelters {
 
     String save (String filename) {
         File file = new File(filename.trim());
-
+        savePost(con);
         try {
             writeInFile(file);
         } catch (IOException e) {
@@ -168,6 +178,40 @@ class ListOfShelters {
         return "File is saved.";
     }
 
+    private void savePost(Connection con){
+        boolean check = true;
+        try {
+            con.setAutoCommit(false);
+            PreparedStatement stmt = con.prepareStatement("DROP TABLE IF EXISTS \"COLLECTION\";\n" +
+                    "CREATE TABLE \"COLLECTION\"\n" +
+                    "(\"NAME\" VARCHAR NOT NULL,\n" +
+                    "\"DATE\" VARCHAR NOT NULL,\n" +
+                    "\"CREATOR\" VARCHAR NOT NULL,\n" +
+                    "\"POSITION\" VARCHAR NOT NULL\n" +
+                    ");");
+            stmt.executeUpdate();
+            stmt.close();
+            for (Shelter shel:sh) {
+                boolean tp = insert(con,shel.getName(),shel.getDate(),shel.getCreator(),String.valueOf(shel.getPos()));
+                if(tp == false){
+                    check = false;
+                }
+            }
+            if(check){
+                // Завершаем транзакцию - подтверждаем
+                con.commit();}
+            else{
+                // Вызов rollback отменит все внесенные изменения
+                con.rollback();}
+            // Возвращаем свойство AutoCommit в true
+            con.setAutoCommit(true);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     void saveOnServer() {
         try{
             File file = new File("Downloads/backup.xml");
@@ -175,6 +219,8 @@ class ListOfShelters {
         } catch (IOException e) {
             System.out.println("File hasn't been saved.");
         }
+        savePost(con);
+
     }
 
     String load (String filename) {
@@ -215,9 +261,26 @@ class ListOfShelters {
             bfr.write("\t\t<Name>" + shelter.name + "</Name>\n");
             bfr.write("\t\t<Position>" + shelter.x + "</Position>\n");
             bfr.write("\t\t<Zone>" + shelter.getZone() + "</Zone>\n");
+            bfr.write("\t\t<Creator>" + shelter.getCreator() + "</Creator>\n");
             bfr.write("\t</Shelter>\n");
         }
         bfr.write("</ShelterList>\n");
         bfr.close();
+    }
+
+    private boolean insert(Connection con, String name, String date, String creator, String pos) {
+        try {
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO \"COLLECTION\"(\"NAME\",\"DATE\",\"CREATOR\",\"POSITION\") VALUES (?, ?, ?, ?)");
+            stmt.setString(1, name);
+            stmt.setString(2, date);
+            stmt.setString(3, creator);
+            stmt.setString(4, pos);
+            stmt.executeUpdate();
+            stmt.close();
+            return true;
+        } catch (SQLException e){
+            return false;
+        }
+
     }
 }

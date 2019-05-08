@@ -36,7 +36,7 @@ public class ParseXML {
         }
 
         for (int i = 0; i < names.size(); i++) {
-            map.add(new Shelter(positions.get(i), names.get(i)));
+            //map.add(new Shelter(positions.get(i), names.get(i)));
         }
 
         return map;

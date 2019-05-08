@@ -29,7 +29,7 @@ class UDPClient
 
                 switch (ar) {
                     case "A":
-                        String answ = sendwait("A", clientSocket, IPAddress);
+                        sendwait("A", clientSocket, IPAddress);
                         System.out.println("Enter login: ");
                         String log = inFromUser.readLine();
                         System.out.println("Enter password: ");

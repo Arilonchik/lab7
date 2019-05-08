@@ -4,7 +4,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class UDPServer {
     private DatagramSocket udpSocket;
     private Connection con;
@@ -31,6 +36,11 @@ public class UDPServer {
             }
         }).start();
         ListOfShelters list = new ListOfShelters("Downloads/collection.xml");
+        try {
+            list = takeCol(con);
+        }catch(SQLException e){
+            System.out.println("Got wrong...");
+        }
         Runtime.getRuntime().addShutdownHook(new Thread(list::saveOnServer));
         AutReg ar = new AutReg();
 
@@ -163,4 +173,27 @@ public class UDPServer {
         }
 
     }
+
+    /**
+     * @param c
+     * @return
+     * @throws SQLException
+     */
+    private ListOfShelters takeCol(Connection c) throws SQLException {
+            CopyOnWriteArrayList<Shelter> sh = new CopyOnWriteArrayList<Shelter>();
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM \"COLLECTION\";");
+            while (rs.next()) {
+                String name = rs.getString(1);
+                String date = rs.getString(2);
+                String cr = rs.getString(3);
+                String pos = rs.getString(4);
+                Double d2 = Double.valueOf(pos);
+                Shelter shel = new Shelter(d2, name, cr, date);
+                sh.add(shel);
+            }
+            ListOfShelters list = new ListOfShelters(sh,c);
+            return list;
+    }
+
 }

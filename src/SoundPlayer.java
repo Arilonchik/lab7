@@ -96,13 +96,6 @@ public class SoundPlayer extends Thread implements AutoCloseable {
         }
     }
 
-    // Статический метод, для удобства
-    public static SoundPlayer playSound(String path) {
-        File f = new File(path);
-        SoundPlayer snd = new SoundPlayer(f);
-        snd.play();
-        return snd;
-    }
 
     private class Listener implements LineListener {
         public void update(LineEvent ev) {

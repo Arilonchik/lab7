@@ -46,28 +46,28 @@ public class ClientThread  extends Thread {
             try {
                 switch (command) {
                     case "show":
-                        sendMsg(list.show(con), address, port);
+                        sendMsg(list.show(), address, port);
                         break;
                     case "remove_last":
-                        sendMsg(list.remove_last(con), address, port);
+                        sendMsg(list.remove_last(req[2]), address, port);
                         break;
                     case "remove_first":
-                        sendMsg(list.remove_first(con), address, port);
+                        sendMsg(list.remove_first(req[2]), address, port);
                         break;
                     case "add":
-                        sendMsg(list.add(req[1],con), address, port);
+                        sendMsg(list.add(req[1],req[2]), address, port);
                         break;
                     case "info":
-                        sendMsg(list.info(con), address, port);
+                        sendMsg(list.info(), address, port);
                         break;
                     case "sort":
                         sendMsg(list.sort(), address, port);
                         break;
                     case "add_if_max":
-                        sendMsg(list.addIfMax(req[1],con), address, port);
+                        sendMsg(list.addIfMax(req[1],req[2]), address, port);
                         break;
                     case "remove":
-                        sendMsg(list.remove(req[1],con), address, port);
+                        sendMsg(list.remove(req[1], req[2]), address, port);
                         break;
                     case "disconnect":
                         System.out.println("User with Port: " + port + ", IpAddress: " + address + " disconnect. :(");
@@ -80,12 +80,8 @@ public class ClientThread  extends Thread {
                         break;
 
                     default:
-                        DatagramPacket response = new DatagramPacket(packet.getData(), packet.getData().length, address, port);
-                        try {
-                            socket.send(response);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        String sm = "Unknown command";
+                        sendMsg(sm,address,port);
                         break;
                 }
             } catch (JsonSyntaxException | NullPointerException | NoSuchElementException e) {
