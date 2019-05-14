@@ -4,30 +4,30 @@
 	<Shelter>
 		<Name>Big Rock</Name>
 		<Position>30.0</Position>
-		<Zone>20:30, 05 мая 2019 Europe/Moscow +03:00</Zone>
+		<Zone>11:28, 14 мая 2019 Europe/Moscow +03:00</Zone>
 	</Shelter>
 
 	<Shelter>
 		<Name>Hello</Name>
 		<Position>45.0</Position>
-		<Zone>20:30, 05 мая 2019 Europe/Moscow +03:00</Zone>
+		<Zone>11:28, 14 мая 2019 Europe/Moscow +03:00</Zone>
 	</Shelter>
 
 	<Shelter>
 		<Name>Rock</Name>
 		<Position>35.0</Position>
-		<Zone>20:30, 05 мая 2019 Europe/Moscow +03:00</Zone>
+		<Zone>11:28, 14 мая 2019 Europe/Moscow +03:00</Zone>
 	</Shelter>
 
 	<Shelter>
 		<Name>Small Tree</Name>
 		<Position>25.0</Position>
-		<Zone>20:30, 05 мая 2019 Europe/Moscow +03:00</Zone>
+		<Zone>11:28, 14 мая 2019 Europe/Moscow +03:00</Zone>
 	</Shelter>
 
 	<Shelter>
 		<Name>Tree</Name>
 		<Position>20.0</Position>
-		<Zone>20:30, 05 мая 2019 Europe/Moscow +03:00</Zone>
+		<Zone>11:28, 14 мая 2019 Europe/Moscow +03:00</Zone>
 	</Shelter>
 </ShelterList>

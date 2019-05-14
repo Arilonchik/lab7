@@ -1,5 +1,8 @@
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
+
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 class UDPClient
 {
@@ -8,6 +11,7 @@ class UDPClient
     private void work() {
         try {
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+            Scanner scanner = new Scanner(System.in);
             DatagramSocket clientSocket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName("localhost");
             clientSocket.connect(IPAddress, 1703);
@@ -29,13 +33,12 @@ class UDPClient
 
                 switch (ar) {
                     case "A":
-                        sendwait("A", clientSocket, IPAddress);
                         System.out.println("Enter login: ");
                         String log = inFromUser.readLine();
                         System.out.println("Enter password: ");
                         String pas = inFromUser.readLine();
-                        String logp = log + "_" + pas;
-                        String ans = sendwait(logp, clientSocket, IPAddress);
+                        Packet pac = new Packet("A",log,pas,true);
+                        String ans = sendwait(pac, clientSocket, IPAddress);
                         if (ans.equals("Success")) {
                             System.out.println("U have logged in with " + log);
                             this.login = log;
@@ -47,10 +50,10 @@ class UDPClient
                         }
                         break;
                     case "R":
-                        String anse = sendwait("R", clientSocket, IPAddress);
                         System.out.println("Enter ur email: ");
                         String em = inFromUser.readLine();
-                        ans = sendwait(em, clientSocket, IPAddress);
+                        Packet pacs = new Packet("R", em,null,true);
+                        ans = sendwait(pacs, clientSocket, IPAddress);
                         if (ans.equals("Success")) {
                             System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
                         } else {
@@ -67,17 +70,28 @@ class UDPClient
             while (true) {
                 try {
                     System.out.print("-> ");
-                    String sentence = inFromUser.readLine().trim();
-                    if (sentence.equals("import")) {
+                    //String sentence = inFromUser.readLine().trim();
+                    String command = scanner.next();
+                    String argument;
+                    if (scanner.hasNext()) {
+                        argument = scanner.nextLine().trim();
+                    }
+                    else{
+                        argument = null;
+                    }
+
+                    if (command.equals("import")) {
                         try {
-                            sentence = (sentence + " " + login + " " + password);
+                            //sentence = (sentence + " " + login + " " + password);
+                            Packet pacs = new Packet(command,login,password);
                             byte[] data = new byte[1000];
                             System.out.println("Введите название файла плез:");
                             System.out.print("-> ");
                             String path = inFromUser.readLine();
+                            pacs.setPath(path);
                             DatagramSocket s = new DatagramSocket();
                             InetAddress addr = InetAddress.getLocalHost();
-                            DatagramPacket sendPacket = new DatagramPacket(sentence.getBytes(), sentence.getBytes().length, IPAddress, 1703);
+                            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pacs), Serializer.serialize(pacs).length, IPAddress, 1703);
                             clientSocket.send(sendPacket);
                             FileInputStream fr = new FileInputStream(new File(path));
                             DatagramPacket pac;
@@ -102,14 +116,21 @@ class UDPClient
                         }
                         continue;
                     }
-                    if (sentence.equals("disconnect")) {
-                        sentence = (sentence + " " + login + " " + password);
-                        DatagramPacket sendPacket = new DatagramPacket(sentence.getBytes(), sentence.getBytes().length, IPAddress, 1703);
+                    if (command.equals("disconnect")) {
+                        //sentence = (sentence + " " + login + " " + password);
+                        Packet pacs = new Packet(command,login,password);
+                        DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pacs), Serializer.serialize(pacs).length, IPAddress, 1703);
                         clientSocket.send(sendPacket);
                         break;
-                    } else if (!sentence.equals("import")) {
-                        sentence = (sentence + " " + login + " " + password);
-                        String modifiedSentence = sendwait(sentence, clientSocket, IPAddress);
+                    } else if (!command.equals("import")) {
+                        //sentence = (sentence + " " + login + " " + password);
+                        Packet pacs;
+                        if (argument!= null) {
+                            pacs = new Packet(command,argument, login, password);
+                        }else{
+                            pacs = new Packet(command, login, password);
+                        }
+                        String modifiedSentence = sendwait(pacs, clientSocket, IPAddress);
                         System.out.println("FROM SERVER:\n" + modifiedSentence);
                     }
                 } catch (PortUnreachableException ex) {
@@ -134,10 +155,10 @@ class UDPClient
 
 
     //Более удобный варинат отправления и принятия пакета
-    private String sendwait(String sentence, DatagramSocket clientSocket, InetAddress IPAddress){
+    private String sendwait(Packet pac, DatagramSocket clientSocket, InetAddress IPAddress){
         try {
             byte[] receiveData = new byte[1024];
-            DatagramPacket sendPacket = new DatagramPacket(sentence.getBytes(), sentence.getBytes().length, IPAddress, 1703);
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
             clientSocket.send(sendPacket);
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             clientSocket.receive(receivePacket);
