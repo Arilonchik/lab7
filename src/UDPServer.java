@@ -58,7 +58,6 @@ public class UDPServer {
                     e.printStackTrace();
                 }
 
-                if(packet.getLogin()!= null) {
                     if (packet.getCommand().equals("import")) {
                         File file = new File("imp_data.xml");
                         System.out.println("Прием данных…");
@@ -68,28 +67,11 @@ public class UDPServer {
                             e.printStackTrace();
                         }
                     }
-                    new ClientThread(udpSocket, list, request, con, request.getAddress());
+                    new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
                     msg = new String(request.getData()).trim();
                     System.out.println("Message from " + request.getAddress().getHostAddress() + ":/" + request.getPort() + ": " + msg);
-                } else{
 
-                    switch (packet.getCommand()){
-                        case "A":
-                            sendMsg("A",request.getAddress(), request.getPort());
-                            String a = takeMsg();
-                            String logp[] = a.split("_");
-                            System.out.println(logp[0] + logp[1]);
-                            String ans = ar.auth(con, logp[0], logp[1]);
-                            sendMsg(ans, request.getAddress(), request.getPort());
-                        break;
-                    case "R":
-                        sendMsg("R",request.getAddress(), request.getPort());
-                            String em = takeMsg();
-                            String answer = ar.reg(con,em);
-                            sendMsg(answer, request.getAddress(), request.getPort());
-                        break;
-                    }
-                }
+
             } catch (IOException e) {
 
                 e.printStackTrace();

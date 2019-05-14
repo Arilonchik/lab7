@@ -158,7 +158,7 @@ class ListOfShelters {
         try{
             File file = new File("Downloads/collection.xml");
             writeInFile(file);
-            savePost(con);
+            savePost();
         } catch (IOException e) {
             System.out.println("File hasn't been saved.");
         }
@@ -168,7 +168,7 @@ class ListOfShelters {
 
     String save (String filename) {
         File file = new File(filename.trim());
-        savePost(con);
+        savePost();
         try {
             writeInFile(file);
         } catch (IOException e) {
@@ -178,7 +178,7 @@ class ListOfShelters {
         return "File is saved.";
     }
 
-    private void savePost(Connection con){
+    private void savePost(){
         boolean check = true;
         try {
             con.setAutoCommit(false);
@@ -219,7 +219,7 @@ class ListOfShelters {
         } catch (IOException e) {
             System.out.println("File hasn't been saved.");
         }
-        savePost(con);
+        savePost();
 
     }
 

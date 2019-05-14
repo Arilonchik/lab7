@@ -14,15 +14,18 @@ public class ClientThread  extends Thread {
     private DatagramSocket socket;
     private DatagramPacket packet;
     private Connection con;
+    @SuppressWarnings("FieldCanBeLocal")
     private InetAddress adress;
     ListOfShelters list;
+    private Packet pac;
 
-    public ClientThread(DatagramSocket socket, ListOfShelters list, DatagramPacket packet, Connection con, InetAddress adress) {
+    public ClientThread(DatagramSocket socket, ListOfShelters list, DatagramPacket packet, Connection con, InetAddress adress, Packet pac) {
         this.socket = socket;
         this.list = list;
         this.packet = packet;
         this.con = con;
         this.adress = adress;
+        this.pac=pac;
         System.out.println("kekkeded");
         start();
 
@@ -39,23 +42,24 @@ public class ClientThread  extends Thread {
         int port = packet.getPort();
         AutReg ar = new AutReg();
 
-        String msg = new String(packet.getData()).trim();
-        String req[] = msg.split(" ");
+        //String msg = new String(packet.getData()).trim();
+        //String req[] = msg.split(" ");
 
-            String command = req[0];
+
+            String command = pac.getCommand();
             try {
                 switch (command) {
                     case "show":
                         sendMsg(list.show(), address, port);
                         break;
                     case "remove_last":
-                        sendMsg(list.remove_last(req[2]), address, port);
+                        sendMsg(list.remove_last(pac.getArgument()), address, port);
                         break;
                     case "remove_first":
-                        sendMsg(list.remove_first(req[2]), address, port);
+                        sendMsg(list.remove_first(pac.getArgument()), address, port);
                         break;
                     case "add":
-                        sendMsg(list.add(req[1],req[2]), address, port);
+                        sendMsg(list.add(pac.getArgument(),pac.getLogin()), address, port);
                         break;
                     case "info":
                         sendMsg(list.info(), address, port);
@@ -64,21 +68,27 @@ public class ClientThread  extends Thread {
                         sendMsg(list.sort(), address, port);
                         break;
                     case "add_if_max":
-                        sendMsg(list.addIfMax(req[1],req[2]), address, port);
+                        sendMsg(list.addIfMax(pac.getArgument(),pac.getLogin()), address, port);
                         break;
                     case "remove":
-                        sendMsg(list.remove(req[1], req[2]), address, port);
+                        sendMsg(list.remove(pac.getArgument(), pac.getLogin()), address, port);
                         break;
                     case "disconnect":
                         System.out.println("User with Port: " + port + ", IpAddress: " + address + " disconnect. :(");
                         break;
                     case "load":
-                        sendMsg(list.load(req[1].trim()), address, port);
+                        sendMsg(list.load(pac.getArgument()), address, port);
                         break;
                     case "save":
-                        sendMsg(list.save(req[1]), address, port);
+                        sendMsg(list.save(pac.getArgument()), address, port);
                         break;
-
+                    case "A":
+                        String ans = ar.auth(con, pac.getLogin(), pac.getPassword());
+                        sendMsg(ans, packet.getAddress(), packet.getPort());
+                        break;
+                    case "R":
+                        String answer = ar.reg(con,pac.getLogin());
+                        sendMsg(answer, packet.getAddress(), packet.getPort());
                     default:
                         String sm = "Unknown command";
                         sendMsg(sm,address,port);
