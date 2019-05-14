@@ -70,15 +70,20 @@ class UDPClient
             while (true) {
                 try {
                     System.out.print("-> ");
-                    //String sentence = inFromUser.readLine().trim();
-                    String command = scanner.next();
+                    String sentence = inFromUser.readLine().trim();
+                    String req[] = sentence.split(" ");
+                    String command = req[0];
+                    String argument = null;
+                    if(req.length > 1){
+                    argument = req[1];}
+                    /*String command = scanner.next();
                     String argument;
                     if (scanner.hasNext()) {
                         argument = scanner.nextLine().trim();
                     }
                     else{
                         argument = null;
-                    }
+                    }*/
 
                     if (command.equals("import")) {
                         try {

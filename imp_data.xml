@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ShelterList>
+
+	<Shelter>
+		<Name>kekus</Name>
+		<Position>39.0</Position>
+		<Zone>22:33, 14 мая 2019 Europe/Moscow +03:00</Zone>
+		<Creator>egorreal2011@yandex.ru</Creator>
+	</Shelter>
+
+	<Shelter>
+		<Name>kekus</Name>
+		<Position>32.0</Position>
+		<Zone>22:33, 14 мая 2019 Europe/Moscow +03:00</Zone>
+		<Creator>egorreal2011@yandex.ru</Creator>
+	</Shelter>
+
+	<Shelter>
+		<Name>oio</Name>
+		<Position>9.0</Position>
+		<Zone>22:33, 14 мая 2019 Europe/Moscow +03:00</Zone>
+		<Creator>egorreal2011@yandex.ru</Creator>
+	</Shelter>
+</ShelterList>

@@ -77,6 +77,8 @@ class ListOfShelters {
      */
     String remove_last(String log) { // Correct
         Shelter last = sh.stream().findFirst().orElse(null);
+        System.out.println(last.getCreator());
+        System.out.println(log);
         if (last != null && last.getCreator().equals(log)) {
             sh.stream().sorted(Shelter::compareTo)
                     .skip(sh.size() -1)

@@ -53,10 +53,10 @@ public class ClientThread  extends Thread {
                         sendMsg(list.show(), address, port);
                         break;
                     case "remove_last":
-                        sendMsg(list.remove_last(pac.getArgument()), address, port);
+                        sendMsg(list.remove_last(pac.getLogin()), address, port);
                         break;
                     case "remove_first":
-                        sendMsg(list.remove_first(pac.getArgument()), address, port);
+                        sendMsg(list.remove_first(pac.getLogin()), address, port);
                         break;
                     case "add":
                         sendMsg(list.add(pac.getArgument(),pac.getLogin()), address, port);
@@ -83,12 +83,16 @@ public class ClientThread  extends Thread {
                         sendMsg(list.save(pac.getArgument()), address, port);
                         break;
                     case "A":
+                        if(pac.getAt() == true){
                         String ans = ar.auth(con, pac.getLogin(), pac.getPassword());
-                        sendMsg(ans, packet.getAddress(), packet.getPort());
+                        sendMsg(ans, packet.getAddress(), packet.getPort());}
+                        else{sendMsg("U had already logged in", packet.getAddress(), packet.getPort());}
                         break;
                     case "R":
+                        if (pac.getAt()){
                         String answer = ar.reg(con,pac.getLogin());
-                        sendMsg(answer, packet.getAddress(), packet.getPort());
+                        sendMsg(answer, packet.getAddress(), packet.getPort());}
+                        else{sendMsg("U had already logged in", packet.getAddress(), packet.getPort());}
                     default:
                         String sm = "Unknown command";
                         sendMsg(sm,address,port);
