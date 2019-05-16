@@ -93,6 +93,7 @@ public class ClientThread  extends Thread {
                         String answer = ar.reg(con,pac.getLogin());
                         sendMsg(answer, packet.getAddress(), packet.getPort());}
                         else{sendMsg("U had already logged in", packet.getAddress(), packet.getPort());}
+                        break;
                     default:
                         String sm = "Unknown command";
                         sendMsg(sm,address,port);
