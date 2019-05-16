@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
-
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -27,6 +25,7 @@ class UDPClient
             //Вкинуть сюда музяку из морты
             //SoundPlayer snd = SoundPlayer.playSound("mk11.wav");
             //snd.start();
+
             while (check) {
                 System.out.println("A/R?");
                 String ar = inFromUser.readLine().trim();
@@ -49,6 +48,7 @@ class UDPClient
                             System.out.println(ans + " Try again");
                         }
                         break;
+
                     case "R":
                         System.out.println("Enter ur email: ");
                         String em = inFromUser.readLine();
@@ -60,10 +60,10 @@ class UDPClient
                             System.out.println(ans + " Try again");
                         }
                         break;
+
                     default:
                         System.out.println("Invalid message");
                         break;
-
                 }
             }
 
