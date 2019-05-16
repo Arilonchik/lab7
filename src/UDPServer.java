@@ -3,10 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -68,6 +65,7 @@ public class UDPServer {
                         }
                     }
                     new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
+                    list.savePost();
                     msg = new String(request.getData()).trim();
                     System.out.println("Message from " + request.getAddress().getHostAddress() + ":/" + request.getPort() + ": " + msg);
 
@@ -92,16 +90,45 @@ public class UDPServer {
     private Connection getCon(){
         try {
             BufferedReader inr = new BufferedReader(new InputStreamReader(System.in));
+
             System.out.println("Enter database: ");
-            String data ="Collectionslab";// inr.readLine();
+            String data =inr.readLine();
+            //String data ="Collectionslab";
             System.out.print("Connecting to " + data + "...\nEnter SQL login: ");
-            String login ="postgres"; //inr.readLine();
+            String login =inr.readLine(); //"postgres"; //
             System.out.print("Password: ");
-            String pas = "postgres"; inr.readLine();
+            String pas =  inr.readLine(); //"postgres";
             DataConnection Dcon = new DataConnection(data, login, pas);
             Connection con = Dcon.connect();
             if (!con.equals(null)) {
                 System.out.println("Success");
+                System.out.println("New server?");
+                String d =inr.readLine();
+                if (d.equals("yes")){
+                    try{
+                        String sql = "DROP TABLE IF EXISTS \"COLLECTION\";\n" +
+                                " \n" +
+                                "CREATE TABLE \"COLLECTION\"\n" +
+                                "(\n" +
+                                "       \t\"NAME\" VARCHAR NOT NULL,\n" +
+                                "        \"DATE\" VARCHAR NOT NULL,\n" +
+                                "        \"CREATOR\" VARCHAR NOT NULL,\n" +
+                                "       \t\"POSITION\" VARCHAR NOT NULL\n" +
+                                ");\nDROP TABLE IF EXISTS \"USERS\";\n" +
+                                " \n" +
+                                "CREATE TABLE \"USERS\"\n" +
+                                "(\n" +
+                                "       \t\"EMAIL\" VARCHAR NOT NULL,\n" +
+                                "        \"PASS\" VARCHAR NOT NULL\n" +
+                                ");";
+                        PreparedStatement psmt = con.prepareStatement(sql);
+                        psmt.executeUpdate();
+                        psmt.close();
+                    }catch(SQLException e){
+                        System.out.println("Not work");
+                        return con;
+                    }
+                }
                 return con;
             } else {
                 System.out.println("Fuck");

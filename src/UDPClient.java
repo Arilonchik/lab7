@@ -9,6 +9,8 @@ class UDPClient
     private String login;
     private String password;
     private void work() {
+        SoundPlayer snd;
+
         try {
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
             Scanner scanner = new Scanner(System.in);
@@ -25,11 +27,11 @@ class UDPClient
             boolean check = true;
             System.out.println("Hello, u need to auth or register, CHOOSE YOUR DESTINY: A/R?");
             //Вкинуть сюда музяку из морты
-            SoundPlayer snd = new SoundPlayer("mk11.wav");
-            snd.start();
+           snd = new SoundPlayer("mk11.mp3");
             while (check) {
                 System.out.println("A/R?");
                 String ar = inFromUser.readLine().trim();
+
                 try{
                 switch (ar) {
                         case "A":
@@ -44,7 +46,9 @@ class UDPClient
                                 this.login = log;
                                 this.password = pas;
                                 //snd.close();
+                                //snd.stopPlay();
                                 check = false;
+                                snd.close();
                             } else {
                                 System.out.println(ans + " Try again");
                             }
@@ -58,6 +62,7 @@ class UDPClient
                                 System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
                             } else {
                                 System.out.println(ans + " Try again");
+                                //snd.startPlay("yesterday.mp3");
                             }
                             break;
                         default:
@@ -66,6 +71,8 @@ class UDPClient
 
                     }
                 }catch(NullPointerException e){ System.out.println("Сервер временно недоступен, подождите...\n" + secret.getsos());
+
+
                     continue;}
             }
 
@@ -139,9 +146,12 @@ class UDPClient
                         }
                         String modifiedSentence = sendwait(pacs, clientSocket, IPAddress);
                         System.out.println("FROM SERVER:\n" + modifiedSentence);
+                        if (modifiedSentence.equals("Enter is wrong.")){new SoundPlayer("loose.mp3",200);
+                        }
                     }
                 } catch (PortUnreachableException | NullPointerException ex) {
                     System.out.println("Сервер временно недоступен, подождите...\n" + secret.getsos());
+                    new SoundPlayer("dimon.mp3",200);
                     continue;
                 } catch (IOException e) {
                     System.out.println("Something goes wrong");

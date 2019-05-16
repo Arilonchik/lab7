@@ -1,115 +1,72 @@
+import javazoom.jl.player.AudioDevice;
+import javazoom.jl.player.JavaSoundAudioDevice;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 
-public class SoundPlayer extends Thread implements AutoCloseable {
+public class SoundPlayer extends Thread {
     private boolean released = false;
     private AudioInputStream stream = null;
     private Clip clip = null;
     private FloatControl volumeControl = null;
     private boolean playing = false;
     private File f;
+    private String path;
+    private AdvancedPlayer ap;
+    private int d = 0;
 
-    public SoundPlayer(String fl) {
-        try {
-            f = new File(fl);
-            stream = AudioSystem.getAudioInputStream(f);
-            clip = AudioSystem.getClip();
-            clip.open(stream);
-            clip.addLineListener(new Listener());
-            volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            released = true;
-        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException exc) {
-            exc.printStackTrace();
-            released = false;
-
-            close();
-        }
+    public SoundPlayer( String path){
+        this.path = path;
+        start();
     }
 
-    // true если звук успешно загружен, false если произошла ошибка
-    public boolean isReleased() {
-        return released;
-    }
-
-    // проигрывается ли звук в данный момент
-    public boolean isPlaying() {
-        return playing;
-    }
-
-
-    public void play(boolean breakOld) {
-        if (released) {
-            if (breakOld) {
-                clip.stop();
-                clip.setFramePosition(0);
-                clip.start();
-                playing = true;
-            } else if (!isPlaying()) {
-                clip.setFramePosition(0);
-                clip.start();
-                playing = true;
-            }
-        }
-    }
-
-    // То же самое, что и play(true)
-    public void play() {
-        play(true);
-    }
-
-    // Останавливает воспроизведение
-    public void stopt() {
-        if (playing) {
-            clip.stop();
-        }
-    }
-
-    public void close() {
-        if (clip != null)
-            clip.close();
-
-        if (stream != null)
-            try {
-                stream.close();
-            } catch (IOException exc) {
-                exc.printStackTrace();
-            }
-    }
-
-    // Дожидается окончания проигрывания звука
-    public void joint() {
-        if (!released) return;
-        synchronized(clip) {
-            try {
-                while (playing)
-                    clip.wait();
-            } catch (InterruptedException exc) {}
-        }
-    }
-
-
-    private class Listener implements LineListener {
-        public void update(LineEvent ev) {
-            if (ev.getType() == LineEvent.Type.STOP) {
-                playing = false;
-                synchronized(clip) {
-                    clip.notify();
-                }
-            }
-        }
+    public SoundPlayer( String path, int dur){
+        this.path = path;
+        this.d = dur;
+        start();
     }
 
     @Override
     public void run() {
-        play();
+        if(d == 0){
+        myPlay(path);}else{myPlay(path,d);}
     }
-}
+        public void myPlay(String path){
+            try{
+                InputStream is=new FileInputStream(path);
+                AudioDevice device=new JavaSoundAudioDevice();
+                ap=new AdvancedPlayer(is,device);
+                ap.play();//Можно указать начало и конец проигрывания - ap.play(int start,int end);
+                //ap.stop();
+                //ap.close();
+            }catch(Exception e){}
+
+        }
+
+    public void myPlay(String path, int dur){
+        try{
+            InputStream is=new FileInputStream(path);
+            AudioDevice device=new JavaSoundAudioDevice();
+            ap=new AdvancedPlayer(is,device);
+            ap.play(0,dur);//Можно указать начало и конец проигрывания - ap.play(int start,int end);
+            //ap.stop();
+            ap.close();
+        }catch(Exception e){}
+
+    }
+        public void stopPlay(){
+        ap.stop();
+
+        }
+
+        public void close(){
+        ap.close();
+        }
+    }
+
+

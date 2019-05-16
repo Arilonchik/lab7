@@ -116,10 +116,11 @@ class ListOfShelters {
            Shelter remove_object = builder.fromJson(object, Shelter.class);
 
            int size = sh.size();
+           remove_object.setCreator(log);
            if (sh.contains(remove_object) && remove_object.getCreator().equals(log)) {
                sh.remove(remove_object);
            } else {
-               return "There isn't this shelter in collection";
+               return "There isn't this shelter in collection or U don't have permissions";
            }
 
            if (size != sh.size()) {
@@ -179,7 +180,7 @@ class ListOfShelters {
         return "File is saved.";
     }
 
-    private void savePost(){
+    public void savePost(){
         boolean check = true;
         try {
             con.setAutoCommit(false);

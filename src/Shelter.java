@@ -68,7 +68,7 @@ public class Shelter extends RealObject implements Comparable<Shelter>{
 
         if(ob instanceof Shelter) {
             Shelter rO = (Shelter) ob;
-            return (this.name.equals(rO.getMyName())) && (this.x == rO.getX());
+            return (this.name.equals(rO.getMyName())) && (this.x == rO.getX() && (this.creator.equals(rO.getCreator())));
         }
         return false;
     }
