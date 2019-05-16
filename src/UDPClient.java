@@ -25,46 +25,48 @@ class UDPClient
             boolean check = true;
             System.out.println("Hello, u need to auth or register, CHOOSE YOUR DESTINY: A/R?");
             //Вкинуть сюда музяку из морты
-            //SoundPlayer snd = SoundPlayer.playSound("mk11.wav");
-            //snd.start();
+            SoundPlayer snd = new SoundPlayer("mk11.wav");
+            snd.start();
             while (check) {
                 System.out.println("A/R?");
                 String ar = inFromUser.readLine().trim();
-
+                try{
                 switch (ar) {
-                    case "A":
-                        System.out.println("Enter login: ");
-                        String log = inFromUser.readLine();
-                        System.out.println("Enter password: ");
-                        String pas = inFromUser.readLine();
-                        Packet pac = new Packet("A",log,pas,true);
-                        String ans = sendwait(pac, clientSocket, IPAddress);
-                        if (ans.equals("Success")) {
-                            System.out.println("U have logged in with " + log);
-                            this.login = log;
-                            this.password = pas;
-                            //snd.close();
-                            check = false;
-                        } else {
-                            System.out.println(ans + " Try again");
-                        }
-                        break;
-                    case "R":
-                        System.out.println("Enter ur email: ");
-                        String em = inFromUser.readLine();
-                        Packet pacs = new Packet("R", em,null,true);
-                        ans = sendwait(pacs, clientSocket, IPAddress);
-                        if (ans.equals("Success")) {
-                            System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
-                        } else {
-                            System.out.println(ans + " Try again");
-                        }
-                        break;
-                    default:
-                        System.out.println("Invalid message");
-                        break;
+                        case "A":
+                            System.out.println("Enter login: ");
+                            String log = inFromUser.readLine();
+                            System.out.println("Enter password: ");
+                            String pas = inFromUser.readLine();
+                            Packet pac = new Packet("A", log, pas, true);
+                            String ans = sendwait(pac, clientSocket, IPAddress);
+                            if (ans.equals("Success")) {
+                                System.out.println("U have logged in with " + log);
+                                this.login = log;
+                                this.password = pas;
+                                //snd.close();
+                                check = false;
+                            } else {
+                                System.out.println(ans + " Try again");
+                            }
+                            break;
+                        case "R":
+                            System.out.println("Enter ur email: ");
+                            String em = inFromUser.readLine();
+                            Packet pacs = new Packet("R", em, null, true);
+                            ans = sendwait(pacs, clientSocket, IPAddress);
+                            if (ans.equals("Success")) {
+                                System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
+                            } else {
+                                System.out.println(ans + " Try again");
+                            }
+                            break;
+                        default:
+                            System.out.println("Invalid message");
+                            break;
 
-                }
+                    }
+                }catch(NullPointerException e){ System.out.println("Сервер временно недоступен, подождите...\n" + secret.getsos());
+                    continue;}
             }
 
             while (true) {
@@ -138,7 +140,7 @@ class UDPClient
                         String modifiedSentence = sendwait(pacs, clientSocket, IPAddress);
                         System.out.println("FROM SERVER:\n" + modifiedSentence);
                     }
-                } catch (PortUnreachableException ex) {
+                } catch (PortUnreachableException | NullPointerException ex) {
                     System.out.println("Сервер временно недоступен, подождите...\n" + secret.getsos());
                     continue;
                 } catch (IOException e) {

@@ -116,7 +116,6 @@ class ListOfShelters {
            Shelter remove_object = builder.fromJson(object, Shelter.class);
 
            int size = sh.size();
-
            if (sh.contains(remove_object) && remove_object.getCreator().equals(log)) {
                sh.remove(remove_object);
            } else {

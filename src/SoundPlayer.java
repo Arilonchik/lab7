@@ -18,9 +18,9 @@ public class SoundPlayer extends Thread implements AutoCloseable {
     private boolean playing = false;
     private File f;
 
-    public SoundPlayer(File f) {
+    public SoundPlayer(String fl) {
         try {
-            this.f =f;
+            f = new File(fl);
             stream = AudioSystem.getAudioInputStream(f);
             clip = AudioSystem.getClip();
             clip.open(stream);
