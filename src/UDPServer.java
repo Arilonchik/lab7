@@ -133,34 +133,7 @@ public class UDPServer {
         }
     }
 
-    //Прием пакета
-    private String takeMsg(){
-        try {
-            byte[] buf2 = new byte[1024];
-            DatagramPacket req2 = new DatagramPacket(buf2, buf2.length);
-            udpSocket.receive(req2);
-            String ans = new String(req2.getData()).trim();
-            Scanner scanner = new Scanner(ans);
-            String command = scanner.next();
-            return command;
-        }catch (IOException e){
-            e.printStackTrace();
-            return null;
 
-        }
-    }
-
-    private void sendMsg(String msg, InetAddress address, int port) {
-        msg += "\n";
-        DatagramPacket h = new DatagramPacket(msg.getBytes(), msg.getBytes().length, address, port);
-        try {
-            System.out.println("sent");
-            udpSocket.send(h);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     /**
      * @param c
