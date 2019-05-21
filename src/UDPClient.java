@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
-
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -16,7 +14,7 @@ class UDPClient
             Scanner scanner = new Scanner(System.in);
             DatagramSocket clientSocket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName("localhost");
-            clientSocket.connect(IPAddress, 1703);
+            clientSocket.connect(IPAddress, 1710);
 
             //AutReg ar = new AutReg();
             System.out.println("\nHello! " +
@@ -27,7 +25,7 @@ class UDPClient
             boolean check = true;
             System.out.println("Hello, u need to auth or register, CHOOSE YOUR DESTINY: A/R?");
             //Вкинуть сюда музяку из морты
-           snd = new SoundPlayer("mk11.mp3");
+            //snd = new SoundPlayer("mk11.mp3");
             while (check) {
                 System.out.println("A/R?");
                 String ar = inFromUser.readLine().trim();
@@ -48,7 +46,7 @@ class UDPClient
                                 //snd.close();
                                 //snd.stopPlay();
                                 check = false;
-                                snd.close();
+                                //snd.close();
                             } else {
                                 System.out.println(ans + " Try again");
                             }
@@ -105,13 +103,13 @@ class UDPClient
                             pacs.setPath(path);
                             DatagramSocket s = new DatagramSocket();
                             InetAddress addr = InetAddress.getLocalHost();
-                            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pacs), Serializer.serialize(pacs).length, IPAddress, 1703);
+                            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pacs), Serializer.serialize(pacs).length, IPAddress, 1710);
                             clientSocket.send(sendPacket);
                             FileInputStream fr = new FileInputStream(new File(path));
                             DatagramPacket pac;
                             while (fr.read(data) != -1) {
 //создание пакета данных
-                                pac = new DatagramPacket(data, data.length, addr, 1703);
+                                pac = new DatagramPacket(data, data.length, addr, 1710);
                                 s.send(pac);//отправление пакета
                             }
                             fr.close();
@@ -133,7 +131,7 @@ class UDPClient
                     if (command.equals("disconnect")) {
                         //sentence = (sentence + " " + login + " " + password);
                         Packet pacs = new Packet(command,login,password);
-                        DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pacs), Serializer.serialize(pacs).length, IPAddress, 1703);
+                        DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pacs), Serializer.serialize(pacs).length, IPAddress, 1710);
                         clientSocket.send(sendPacket);
                         break;
                     } else if (!command.equals("import")) {
@@ -175,7 +173,7 @@ class UDPClient
     private String sendwait(Packet pac, DatagramSocket clientSocket, InetAddress IPAddress){
         try {
             byte[] receiveData = new byte[1024];
-            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1710);
             clientSocket.send(sendPacket);
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             clientSocket.receive(receivePacket);

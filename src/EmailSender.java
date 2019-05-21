@@ -10,7 +10,12 @@ public class EmailSender {
     public String sendemail(String em, String pas){
         try {
             final Properties properties = new Properties();
-            properties.load(new FileInputStream("mail.properties"));
+            properties.setProperty("mail.transport.protocol","smtps");
+            properties.setProperty("mail.smtps.host", "smtp.gmail.com"); // "smtp.gmail.com"
+            properties.setProperty("mail.smtps.user", "loviparol@gmail.com");
+            // properties.setProperty("mail.smtps.port", "1705");
+            //properties.setProperty("mail.smtp.socketFactory.port", "1707");
+            //properties.load(new FileInputStream("mail.properties"));
 
             Session mailSession = Session.getDefaultInstance(properties);
             MimeMessage message = new MimeMessage(mailSession);
@@ -26,8 +31,6 @@ public class EmailSender {
             tr.sendMessage(message, message.getAllRecipients());
             tr.close();
             return "done";
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (AddressException e) {
             e.printStackTrace();
         } catch (NoSuchProviderException e) {

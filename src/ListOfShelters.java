@@ -66,9 +66,13 @@ class ListOfShelters {
      * Show some information about this collection.
      */
     String info() {
-            return "Size of this collection: " + sh.size() +
-                    "\nType of collection: " + sh.get(0).getClass().getName() +
-                    "\nDate of initialization: " + date.toString();
+            if (sh.size() != 0) {
+                return "Size of this collection: " + sh.size() +
+                        "\nType of collection: " + sh.get(0).getClass().getName() +
+                        "\nDate of initialization: " + date.toString();
+            } else {
+                return "Collection is empty";
+            }
 
     }
 
