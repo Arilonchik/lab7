@@ -66,9 +66,18 @@ public class UDPServer {
                     }
                     new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
                     list.savePost();
-                    msg = new String(request.getData()).trim();
-                    System.out.println("Message from " + request.getAddress().getHostAddress() + ":/" + request.getPort() + ": " + msg);
-
+                    if (packet.getArgument() != null) {
+                        System.out.println("Message from " +
+                                packet.getLogin() +
+                                ":/" + request.getPort() +
+                                ": " + packet.getCommand() + " " +
+                                packet.getArgument());
+                    } else {
+                        System.out.println("Message from " +
+                                packet.getLogin() +
+                                ":/" + request.getPort() +
+                                ": " + packet.getCommand());
+                    }
 
             } catch (IOException e) {
 
@@ -81,7 +90,7 @@ public class UDPServer {
 
 
     public static void main(String[] args) throws Exception {
-        UDPServer server = new UDPServer(1703);
+        UDPServer server = new UDPServer(1710);
         server.work();
     }
 
@@ -90,14 +99,14 @@ public class UDPServer {
     private Connection getCon(){
         try {
             BufferedReader inr = new BufferedReader(new InputStreamReader(System.in));
-            inr.readLine();
+
             System.out.println("Enter database: ");
-            //String data =inr.readLine();
-            String data ="Collectionslab";
+            String data =inr.readLine();
+            //String data ="Collectionslab";
             System.out.print("Connecting to " + data + "...\nEnter SQL login: ");
-            String login ="postgres";
+            String login = inr.readLine(); // inr.readLine() "postgres"; //
             System.out.print("Password: ");
-            String pas =   "postgres";
+            String pas = inr.readLine(); // "postgres";
             DataConnection Dcon = new DataConnection(data, login, pas);
             Connection con = Dcon.connect();
             if (!con.equals(null)) {
