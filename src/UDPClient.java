@@ -8,74 +8,29 @@ class UDPClient
 {
     private String login;
     private String password;
+    SoundPlayer snd;
+    BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+    DatagramSocket clientSocket;
+    InetAddress IPAddress;
     private void work() {
-        SoundPlayer snd;
+
+
 
         try {
-            BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
             Scanner scanner = new Scanner(System.in);
-            DatagramSocket clientSocket = new DatagramSocket();
-            InetAddress IPAddress = InetAddress.getByName("localhost");
+            clientSocket = new DatagramSocket();
+            IPAddress = InetAddress.getByName("localhost");
             clientSocket.connect(IPAddress, 1703);
 
-            //AutReg ar = new AutReg();
+
             System.out.println("\nHello! " +
                     "It's a console.\n" +
                     "List of command: remove_last, remove {element}, show, add_if_max {element}, " +
                     "remove_first, info, add {element}");
             //Работа с визуальной частью регистрации
-            boolean check = true;
-            System.out.println("Hello, u need to auth or register, CHOOSE YOUR DESTINY: A/R?");
-            //Вкинуть сюда музяку из морты
-           snd = new SoundPlayer("mk11.mp3");
-            while (check) {
-                System.out.println("A/R?");
-                String ar = inFromUser.readLine().trim();
 
-                try{
-                switch (ar) {
-                        case "A":
-                            System.out.println("Enter login: ");
-                            String log = inFromUser.readLine();
-                            System.out.println("Enter password: ");
-                            String pas = inFromUser.readLine();
-                            Packet pac = new Packet("A", log, pas, true);
-                            String ans = sendwait(pac, clientSocket, IPAddress);
-                            if (ans.equals("Success")) {
-                                System.out.println("U have logged in with " + log);
-                                this.login = log;
-                                this.password = pas;
-                                //snd.close();
-                                //snd.stopPlay();
-                                check = false;
-                                snd.close();
-                            } else {
-                                System.out.println(ans + " Try again");
-                            }
-                            break;
-                        case "R":
-                            System.out.println("Enter ur email: ");
-                            String em = inFromUser.readLine();
-                            Packet pacs = new Packet("R", em, null, true);
-                            ans = sendwait(pacs, clientSocket, IPAddress);
-                            if (ans.equals("Success")) {
-                                System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
-                            } else {
-                                System.out.println(ans + " Try again");
-                                //snd.startPlay("yesterday.mp3");
-                            }
-                            break;
-                        default:
-                            System.out.println("Invalid message");
-                            break;
-
-                    }
-                }catch(NullPointerException e){ System.out.println("Сервер временно недоступен, подождите...\n" + secret.getsos());
-
-
-                    continue;}
-            }
-
+            //authReg();
+            createClientDialog();
             while (true) {
                 try {
                     System.out.print("-> ");
@@ -184,6 +139,75 @@ class UDPClient
         }catch(IOException e){
             System.out.println("Something goes wrong...");
             return null;
+        }
+    }
+    //Создание главного окна
+    private void createClientDialog(){
+        MainClientGUI gui = new MainClientGUI("kwkwk");
+        gui.pack();
+        gui.setSize(1280,720);
+        gui.setVisible(true);
+    }
+
+    //Метод вызывающий авторизацию и регистрацию
+    private void authReg() {
+        try {
+            boolean check = true;
+            System.out.println("Hello, u need to auth or register, CHOOSE YOUR DESTINY: A/R?");
+            //Вкинуть сюда музяку из морты
+            snd = new SoundPlayer("mk11.mp3");
+            while (check) {
+                System.out.println("A/R?");
+                String ar = inFromUser.readLine().trim();
+
+                try {
+                    switch (ar) {
+                        case "A":
+                            System.out.println("Enter login: ");
+                            String log = inFromUser.readLine();
+                            System.out.println("Enter password: ");
+                            String pas = inFromUser.readLine();
+                            Packet pac = new Packet("A", log, pas, true);
+                            String ans = sendwait(pac, clientSocket, IPAddress);
+                            if (ans.equals("Success")) {
+                                System.out.println("U have logged in with " + log);
+                                this.login = log;
+                                this.password = pas;
+                                //snd.close();
+                                //snd.stopPlay();
+                                check = false;
+                                snd.close();
+                            } else {
+                                System.out.println(ans + " Try again");
+                            }
+                            break;
+                        case "R":
+                            System.out.println("Enter ur email: ");
+                            String em = inFromUser.readLine();
+                            Packet pacs = new Packet("R", em, null, true);
+                            ans = sendwait(pacs, clientSocket, IPAddress);
+                            if (ans.equals("Success")) {
+                                System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
+                            } else {
+                                System.out.println(ans + " Try again");
+                                //snd.startPlay("yesterday.mp3");
+                            }
+                            break;
+                        default:
+                            System.out.println("Invalid message");
+                            break;
+
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("Сервер временно недоступен, подождите...\n" + secret.getsos());
+
+
+                    continue;
+                }
+            }
+
+        } catch (IOException e){
+            System.out.println("Ошибка ввода");
         }
     }
 
