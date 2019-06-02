@@ -36,7 +36,7 @@ class UDPClient
                             System.out.println("Enter login: ");
                             String log = inFromUser.readLine();
                             System.out.println("Enter password: ");
-                            String pas = inFromUser.readLine();
+                            String pas = new String(System.console().readPassword()); //inFromUser.readLine()
                             Packet pac = new Packet("A", log, pas, true);
                             String ans = sendwait(pac, clientSocket, IPAddress);
                             if (ans.equals("Success")) {

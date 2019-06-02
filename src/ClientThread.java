@@ -26,7 +26,6 @@ public class ClientThread  extends Thread {
         this.con = con;
         this.adress = adress;
         this.pac=pac;
-        System.out.println("kekkeded");
         start();
 
     }
@@ -74,13 +73,16 @@ public class ClientThread  extends Thread {
                         sendMsg(list.remove(pac.getArgument(), pac.getLogin()), address, port);
                         break;
                     case "disconnect":
-                        System.out.println("User with Port: " + port + ", IpAddress: " + address + " disconnect. :(");
+                        System.out.println("User with Port: " + port + ", IpAddress: " + pac.getLogin() + " disconnect. :(");
                         break;
                     case "load":
                         sendMsg(list.load(pac.getArgument()), address, port);
                         break;
                     case "save":
                         sendMsg(list.save(pac.getArgument()), address, port);
+                        break;
+                    case "help":
+                        sendMsg(list.help(), address, port);
                         break;
                     case "A":
                         if(pac.getAt() == true){
@@ -110,7 +112,6 @@ public class ClientThread  extends Thread {
         msg += "\n";
         DatagramPacket h = new DatagramPacket(msg.getBytes(), msg.getBytes().length, address, port);
         try {
-            System.out.println("sent");
             socket.send(h);
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ShelterList>
+
+	<Shelter>
+		<Name>Hello</Name>
+		<Position>45.0</Position>
+		<Zone>15:16, 02 июн 2019 Europe/Moscow +03:00</Zone>
+		<Creator>egor.goncharov.osia@mail.ru</Creator>
+	</Shelter>
+
+	<Shelter>
+		<Name>All</Name>
+		<Position>30.0</Position>
+		<Zone>15:16, 02 июн 2019 Europe/Moscow +03:00</Zone>
+		<Creator>egor.goncharov.osia@mail.ru</Creator>
+	</Shelter>
 </ShelterList>
