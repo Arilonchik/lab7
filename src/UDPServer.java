@@ -90,7 +90,7 @@ public class UDPServer {
 
 
     public static void main(String[] args) throws Exception {
-        UDPServer server = new UDPServer(1710);
+        UDPServer server = new UDPServer(1703);
         server.work();
     }
 

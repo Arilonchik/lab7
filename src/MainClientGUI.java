@@ -9,6 +9,7 @@ public class MainClientGUI extends JFrame {
     private JPanel userP = new JPanel();
     private JButton logout = new JButton("Log out");
     private JLabel us = new JLabel();
+    private JLabel help = new JLabel();
 
     //Конструктор графического окна запускается все из UDPCLIENT
     public MainClientGUI(String username) {
@@ -37,6 +38,17 @@ public class MainClientGUI extends JFrame {
         Font f = new Font("Arial Black", Font.BOLD, 14);
         us.setFont(f);
         userP.add(us);
+
+        //Вывод help
+        help.setText("Remove - delete chosen shelter\n");/* +
+                "Add - insert new shelter\n" +
+                "Remove_last - delete last shelter\n" +
+                "Remove_first - delete first shelter\n" +
+                "show - refresh collection\n" +
+                "AddIfMax - inset shelter, when it has maximum position\n" +
+                "info - shows collection's information\n")*/
+        help.setFont(f);
+        userP.add(help);
 
 
 
