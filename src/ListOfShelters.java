@@ -71,7 +71,9 @@ class ListOfShelters {
                         "\nType of collection: " + sh.get(0).getClass().getName() +
                         "\nDate of initialization: " + date.toString();
             } else {
-                return "Collection is empty";
+                return "Size of this collection: " + sh.size() +
+                        "\nType of collection: Shelter" +
+                        "\nDate of initialization: " + date.toString();
             }
 
     }
@@ -182,6 +184,17 @@ class ListOfShelters {
         }
 
         return "File is saved.";
+    }
+
+    String help() {
+        return "List of command:" +
+                "\nhelp" +
+                "\nadd {\"name\",\"position\"}" +
+                "\naddIfMax {\"name\",\"position\"}" +
+                "\nremove {\"name\",\"position\"}" +
+                "\ndisconnect" +
+                "\ninfo" +
+                "\nshow";
     }
 
     public void savePost(){
