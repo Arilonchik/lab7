@@ -143,7 +143,7 @@ class UDPClient
     }
     //Создание главного окна
     private void createClientDialog(){
-        MainClientGUI gui = new MainClientGUI("kwkwk");
+        MainClientGUI gui = new MainClientGUI(login);
         gui.pack();
         gui.setSize(1280,720);
         gui.setVisible(true);

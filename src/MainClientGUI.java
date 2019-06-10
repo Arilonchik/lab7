@@ -25,30 +25,38 @@ public class MainClientGUI extends JFrame {
         userP.setBackground(wind);
         setTitle("Не смотри сюда");
         //разбиение Главной области на 3 разных по шаблону (смотри дискорд), расскраска такая пока что чтобы понимать области
-        userP.setLayout(new FlowLayout(5));
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(commandsP,BorderLayout.WEST);
         mainPanel.add(showP,BorderLayout.CENTER);
         mainPanel.add(userP,BorderLayout.EAST);
 
+
+        //Работа с правой панелью
+        userP.setLayout(new GridLayout(4,1));
         //Вывод активного пользователя
         ImageIcon log = new ImageIcon("images/user.png");
         us.setIcon(log);
         us.setText("U are log in as: " + username);
         Font f = new Font("Arial Black", Font.BOLD, 14);
         us.setFont(f);
+        us.setBorder(BorderFactory.createTitledBorder("Active user"));
         userP.add(us);
-
         //Вывод help
-        help.setText("Remove - delete chosen shelter\n");/* +
-                "Add - insert new shelter\n" +
-                "Remove_last - delete last shelter\n" +
-                "Remove_first - delete first shelter\n" +
-                "show - refresh collection\n" +
-                "AddIfMax - inset shelter, when it has maximum position\n" +
-                "info - shows collection's information\n")*/
+        help.setText("<html><p align=\"center\">Remove - delete chosen shelter<br>" +
+                "Add - insert new shelter<br>" +
+                "Remove_last - delete last shelter<br>" +
+                "Remove_first - delete first shelter<br>" +
+                "show - refresh collection<br>" +
+                "AddIfMax - inset shelter, when it has maximum position<br>" +
+                "Info - shows collection's information</html>");
+        help.setBorder(BorderFactory.createTitledBorder("Command description"));
         help.setFont(f);
         userP.add(help);
+
+
+        //Работа с средней панелью
+        showP.setLayout(new GridLayout(2,1));
+        JTable tab = new JTable();
 
 
 
