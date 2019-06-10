@@ -84,6 +84,7 @@ public class AutorisationDialog {
 
         Box login = Box.createHorizontalBox();
         Box pass = Box.createHorizontalBox();
+        Box common = Box.createVerticalBox();
         JTextField log = new JTextField(5);
         log.setPreferredSize(new Dimension(100,18));
         JLabel elog = new JLabel("Enter ur email");
@@ -93,16 +94,26 @@ public class AutorisationDialog {
         JPasswordField pas = new JPasswordField();
         JLabel epas = new JLabel("Enter ur password");
         pass.add(epas);
-        pass.add(Box.createHorizontalStrut(30));
+        pass.add(Box.createHorizontalStrut(4));
         pass.add(pas);
 
-        mainautp.add(login);
-        mainautp.add(pass);
+        common.add(login);
+        common.add(Box.createVerticalStrut(20));
+        common.add(pass);
 
+        mainautp.add(common);
 
+        Box buttons = Box.createHorizontalBox();
+        JButton back = new JButton("Back");
+        JButton aut = new JButton("Log in");
+        buttons.add(aut);
+        buttons.add(Box.createHorizontalStrut(270));
+        buttons.add(back);
+
+        mainautp.add(buttons);
 
         auth.pack();
-        auth.setSize(400,200);
+        auth.setSize(400,245);
         auth.setVisible(true);
 
     }
