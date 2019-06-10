@@ -30,7 +30,8 @@ class UDPClient
             //Работа с визуальной частью регистрации
 
             //authReg();
-            createClientDialog();
+            //createClientDialog();
+            createAutReg();
             while (true) {
                 try {
                     System.out.print("-> ");
@@ -147,6 +148,10 @@ class UDPClient
         gui.pack();
         gui.setSize(1280,720);
         gui.setVisible(true);
+    }
+    private void createAutReg(){
+        AutorisationDialog gui = new AutorisationDialog();
+        gui.firstDialog();
     }
 
     //Метод вызывающий авторизацию и регистрацию
