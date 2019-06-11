@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class UDPServer {
     private DatagramSocket udpSocket;
     private Connection con;
-    private ArrayList<InetAddress> adresses;
+    private ArrayList<InetAddress> adresses = new ArrayList<InetAddress>();
     public UDPServer(int port) throws IOException {
         udpSocket = new DatagramSocket(port);
         System.out.println("-- Running Server at " + InetAddress.getLocalHost() + " --");
@@ -72,7 +72,10 @@ public class UDPServer {
                     try{
                         boolean  check = false;
                         check = Serializer.deserialize(request.getData()).getAt();
-                        if(!adresses.contains(request.getAddress()) && check){adresses.add(request.getAddress());}
+                        if(!adresses.contains(request.getAddress()) && check){
+                            adresses.add(request.getAddress());
+                            System.out.println("keks");
+                        }
                     }catch (ClassNotFoundException e){}
 
                     spam(list.show(),adresses);
@@ -214,7 +217,6 @@ public class UDPServer {
                 udpSocket.send(h);
                 }catch(IOException ex){
                     System.out.println("Something wrong");
-                    ip.remove(i);
                     continue;
                 }
             }
