@@ -23,9 +23,9 @@ class UDPClient
 
 
             //И если захочешь связаться с сервером, тебе нужно закоментить 2 нижнии строчки и раскоментить createAutReg() и наоборот
-            //createAutReg();
-            MainClientGUI test = new MainClientGUI(clientSocket,IPAddress);
-            test.work("kek");
+            createAutReg();
+            //MainClientGUI test = new MainClientGUI(clientSocket,IPAddress);
+            //test.work("kek");
             while (true) {
                 try {
                     System.out.print("-> ");

@@ -69,7 +69,12 @@ public class UDPServer {
                         }
                     }
                     new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
-                    if(!adresses.contains(request.getAddress())){adresses.add(request.getAddress());}
+                    try{
+                        boolean  check = false;
+                        check = Serializer.deserialize(request.getData()).getAt();
+                        if(!adresses.contains(request.getAddress()) && check){adresses.add(request.getAddress());}
+                    }catch (ClassNotFoundException e){}
+
                     spam(list.show(),adresses);
                     list.savePost();
                     if (packet.getArgument() != null) {
