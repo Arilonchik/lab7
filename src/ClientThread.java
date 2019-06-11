@@ -32,11 +32,6 @@ public class ClientThread  extends Thread {
 
     @Override
     public void run() {
-        /*try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         InetAddress address = packet.getAddress();
         int port = packet.getPort();
         AutReg ar = new AutReg();

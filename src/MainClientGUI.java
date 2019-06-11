@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +36,8 @@ public class MainClientGUI{
 
     public MainClientGUI(DatagramSocket d, InetAddress i) {
         clientSocket = d;
-        IPAddress = i;}
+        IPAddress = i;
+    }
 
     public void work(String username){
 
@@ -116,10 +119,18 @@ public class MainClientGUI{
         collection.add(new Shelter());
         collection.add(new Shelter());
         collection.add(new Shelter());
-        collection.add(new Shelter());
-        MyTableModel mTabel = new MyTableModel(collection);
+        collection.add(sdf);
+        MyTableModel mTabel = new MyTableModel();
+        mTabel.setShelter(collection);
         JTable table = new JTable(mTabel);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumnModel tcm = table.getColumnModel();
+        tcm.getColumn(0).setPreferredWidth(200);
+        tcm.getColumn(1).setPreferredWidth(75);
+        tcm.getColumn(2).setPreferredWidth(300);
+        tcm.getColumn(3).setPreferredWidth(203);
         JScrollPane jscrlp = new JScrollPane(table);
+
 
         new Thread(() -> {
             while (true) {
@@ -229,10 +240,8 @@ public class MainClientGUI{
 class MyTableModel extends AbstractTableModel {
 
     CopyOnWriteArrayList<Shelter> shelter;
+    MyTableModel() {
 
-    MyTableModel(CopyOnWriteArrayList<Shelter> shelter) {
-        super();
-        this.shelter = shelter;
     }
 
     @Override
@@ -294,5 +303,9 @@ class MyTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
         fireTableCellUpdated(rowIndex, columnIndex);
+    }
+
+    public void setShelter(CopyOnWriteArrayList<Shelter> shelter) {
+        this.shelter = shelter;
     }
 }

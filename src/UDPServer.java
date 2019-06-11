@@ -43,6 +43,8 @@ public class UDPServer {
         }
         Runtime.getRuntime().addShutdownHook(new Thread(list::saveOnServer));
         AutReg ar = new AutReg();
+        ArrayList<InetAddress> addresses = new ArrayList<>();
+
 
         while (true) {
             try {

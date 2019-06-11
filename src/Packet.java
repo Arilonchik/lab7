@@ -27,6 +27,7 @@ class Packet implements Serializable {
         this.password = pass;
         this.at = at;
     }
+
     public Packet (CopyOnWriteArrayList<Shelter> collection) {
         this.collection = collection;
     }
@@ -56,5 +57,6 @@ class Packet implements Serializable {
     public String getPassword() {
         return password;
     }
+
     public CopyOnWriteArrayList<Shelter> getCollection() { return collection; }
 }
