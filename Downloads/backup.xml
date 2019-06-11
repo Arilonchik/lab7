@@ -2,23 +2,30 @@
 <ShelterList>
 
 	<Shelter>
-		<Name>vjmvmvj</Name>
-		<Position>30.0</Position>
-		<Zone>21:00, 11 июн 2019 Europe/Moscow +03:00</Zone>
-		<Creator>egorreal2011@gmail.com</Creator>
+		<Name>s</Name>
+		<Position>3.0</Position>
+		<Zone>00:15, 12 июн 2019 Europe/Moscow +03:00</Zone>
+		<Creator>w</Creator>
 	</Shelter>
 
 	<Shelter>
-		<Name>vjmvmvj</Name>
-		<Position>30.0</Position>
-		<Zone>21:00, 11 июн 2019 Europe/Moscow +03:00</Zone>
-		<Creator>egorreal2011@gmail.com</Creator>
+		<Name>All</Name>
+		<Position>34.0</Position>
+		<Zone>00:15, 12 июн 2019 Europe/Moscow +03:00</Zone>
+		<Creator>egor</Creator>
 	</Shelter>
 
 	<Shelter>
-		<Name>vjmvmvj</Name>
-		<Position>30.0</Position>
-		<Zone>21:00, 11 июн 2019 Europe/Moscow +03:00</Zone>
-		<Creator>egorreal2011@gmail.com</Creator>
+		<Name>bll</Name>
+		<Position>33.0</Position>
+		<Zone>00:15, 12 июн 2019 Europe/Moscow +03:00</Zone>
+		<Creator>agor</Creator>
+	</Shelter>
+
+	<Shelter>
+		<Name>cll</Name>
+		<Position>32.0</Position>
+		<Zone>00:15, 12 июн 2019 Europe/Moscow +03:00</Zone>
+		<Creator>dgor</Creator>
 	</Shelter>
 </ShelterList>

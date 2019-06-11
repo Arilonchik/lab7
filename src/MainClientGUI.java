@@ -1,7 +1,7 @@
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -120,21 +120,19 @@ public class MainClientGUI{
         MyTableModel mTabel = new MyTableModel();
         mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TableColumnModel tcm = table.getColumnModel();
+        table.setAutoCreateRowSorter(true);
+        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        /*TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(200);
         tcm.getColumn(1).setPreferredWidth(75);
         tcm.getColumn(2).setPreferredWidth(300);
-        tcm.getColumn(3).setPreferredWidth(203);
+        tcm.getColumn(3).setPreferredWidth(203);*/
         JScrollPane jscrlp = new JScrollPane(table);
 
 
         new Thread(() -> {
             while (true) {
-
-
-                    mTabel.fireTableDataChanged();
-
+                mTabel.fireTableDataChanged();
             }
         }).start();
 
@@ -166,16 +164,16 @@ public class MainClientGUI{
                     mainDialog.dispose();
                     AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
                     gui.firstDialog();
-                    return;
+                    break;
                 case"exit":
                     createSureDialog();
-                    return;
+                    break;
                 case"yes":
                     System.exit(0);
-                    return;
+                    break;
                 case "no":
                     sureDialog.dispose();
-                    return;
+                    break;
 
             }
         }
@@ -300,5 +298,51 @@ class MyTableModel extends AbstractTableModel {
 
     public void setShelter(CopyOnWriteArrayList<Shelter> shelter) {
         this.shelter = shelter;
+    }
+}
+
+class RowFilterUtil {
+    public static JTextField createRowFilter(JTable table) {
+        RowSorter<? extends TableModel> rs = table.getRowSorter();
+        if (rs == null) {
+            table.setAutoCreateRowSorter(true);
+            rs = table.getRowSorter();
+        }
+
+        TableRowSorter<? extends TableModel> rowSorter =
+                (rs instanceof TableRowSorter) ? (TableRowSorter<? extends TableModel>) rs : null;
+
+        if (rowSorter == null) {
+            throw new RuntimeException("Cannot find appropriate rowSorter: " + rs);
+        }
+
+        final JTextField tf = new JTextField(15);
+        tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            private void update(DocumentEvent e) {
+                String text = tf.getText();
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+        });
+
+        return tf;
     }
 }
