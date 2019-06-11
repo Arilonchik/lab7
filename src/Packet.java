@@ -1,8 +1,10 @@
 import java.io.Serializable;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 class Packet implements Serializable {
     private String password, command, login, argument, path;
     private boolean at;
+    private CopyOnWriteArrayList<Shelter> collection;
 
     public Packet(String command, String argument, String login, String password) {
         this.command = command;
@@ -24,6 +26,9 @@ class Packet implements Serializable {
         this.login = login;
         this.password = pass;
         this.at = at;
+    }
+    public Packet (CopyOnWriteArrayList<Shelter> collection) {
+        this.collection = collection;
     }
 
 
@@ -51,4 +56,5 @@ class Packet implements Serializable {
     public String getPassword() {
         return password;
     }
+    public CopyOnWriteArrayList<Shelter> getCollection() { return collection; }
 }

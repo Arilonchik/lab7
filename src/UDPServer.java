@@ -4,12 +4,14 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UDPServer {
     private DatagramSocket udpSocket;
     private Connection con;
+    private ArrayList<InetAddress> adresses;
     public UDPServer(int port) throws IOException {
         udpSocket = new DatagramSocket(port);
         System.out.println("-- Running Server at " + InetAddress.getLocalHost() + " --");
@@ -65,6 +67,8 @@ public class UDPServer {
                         }
                     }
                     new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
+                    if(!adresses.contains(request.getAddress())){adresses.add(request.getAddress());}
+                    spam(list.show(),adresses);
                     list.savePost();
                     if (packet.getArgument() != null) {
                         System.out.println("Message from " +
@@ -193,5 +197,22 @@ public class UDPServer {
             ListOfShelters list = new ListOfShelters(sh,c);
             return list;
     }
+    private void spam(CopyOnWriteArrayList<Shelter> sh, ArrayList<InetAddress> ip){
+        Packet pac = new Packet(sh);
+        int port = 1703;
+
+            for (InetAddress i : ip) {
+                try {
+                DatagramPacket h = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, i, port);
+                udpSocket.send(h);
+                }catch(IOException ex){
+                    System.out.println("Something wrong");
+                    ip.remove(i);
+                    continue;
+                }
+            }
+
+    }
+
 
 }

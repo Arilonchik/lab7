@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
@@ -19,12 +21,14 @@ public class MainClientGUI{
     private JLabel us = new JLabel();
     private JLabel help = new JLabel();
     private JFrame mainDialog;
+    private JFrame sureDialog;
 
     private ActionListener buttonListener = new FirstActionListener();
     private String login;
     private String password;
     DatagramSocket clientSocket;
     InetAddress IPAddress;
+    private CopyOnWriteArrayList<Shelter> sh;
 
     //Конструктор графического окна запускается все из UDPCLIENT
 
@@ -33,6 +37,14 @@ public class MainClientGUI{
         IPAddress = i;}
 
     public void work(String username){
+
+        new Thread(() -> {
+
+            while (true) {
+                sh = takeColl();
+            }
+        }).start();
+
         //Первоначальные настройки
         mainDialog = new JFrame();
         mainDialog.setTitle("Work bro!");
@@ -136,7 +148,12 @@ public class MainClientGUI{
 
 
         //Работа с левой панелью
-
+        commandsP.setLayout(new GridLayout(7,1));
+        JLabel descrip = new JLabel("                  Commands                     ");
+        descrip.setHorizontalAlignment(SwingConstants.CENTER);
+        descrip.setBorder(BorderFactory.createRaisedBevelBorder());
+        commandsP.add(descrip);
+        Box add = Box.createVerticalBox();
 
     }
     public class FirstActionListener implements ActionListener {
@@ -150,11 +167,62 @@ public class MainClientGUI{
                     gui.firstDialog();
                     return;
                 case"exit":
+                    createSureDialog();
+                    return;
+                case"yes":
                     System.exit(0);
+                    return;
+                case "no":
+                    sureDialog.dispose();
                     return;
 
             }
         }
+    }
+
+
+    public void createSureDialog(){
+        sureDialog = new JFrame();
+        sureDialog.setLocationRelativeTo(null);
+        sureDialog.setTitle("NO, BRO, PLZ NOOOOO");
+        sureDialog.setResizable(false);
+        JPanel sr = new JPanel(new GridLayout(2, 1));
+        sureDialog.getContentPane().add(sr);
+        JLabel really = new JLabel("Are u sure? :((");
+        really.setHorizontalAlignment(SwingConstants.CENTER);
+        sr.add(really);
+        JButton yes = new JButton("Yes");
+        JButton no = new JButton("Okay, i will stay with u bro");
+        Box buttonbox = Box.createHorizontalBox();
+        yes.setPreferredSize(new Dimension(100, 18));
+        yes.setActionCommand("yes");
+        yes.addActionListener(buttonListener);
+        no.setPreferredSize(new Dimension(100, 18));
+        no.setActionCommand("no");
+        no.addActionListener(buttonListener);
+        buttonbox.add(yes);
+        buttonbox.add(Box.createHorizontalStrut(155));
+        buttonbox.add(no);
+        sr.add(buttonbox);
+
+        sureDialog.pack();
+        sureDialog.setSize(400, 100);
+        sureDialog.setVisible(true);
+
+    }
+    private CopyOnWriteArrayList<Shelter> takeColl(){
+        try {
+            byte[] receiveData = new byte[4098];
+
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            clientSocket.receive(receivePacket);
+            Packet pac = Serializer.deserialize(receivePacket.getData());
+            return pac.getCollection();
+        }catch(IOException | ClassNotFoundException e){
+            System.out.println("dkk");
+            return null;
+        }
+
     }
 }
 

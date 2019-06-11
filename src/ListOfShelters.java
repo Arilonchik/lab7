@@ -54,12 +54,13 @@ class ListOfShelters {
     /**
      * Show all Shelter in collection.
      */
-    String show() {
-        return sh.stream()
+    CopyOnWriteArrayList<Shelter> show() {
+        return sh;
+                /*.stream()
                 .sorted(Shelter::compareTo)
                 .map(Shelter::toString)
                 .reduce((s1, s2) -> s1 + s2)
-                .orElse("Collection is empty");
+                .orElse("Collection is empty");*/
     }
 
     /**
