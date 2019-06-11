@@ -120,19 +120,21 @@ public class MainClientGUI{
         MyTableModel mTabel = new MyTableModel();
         mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
-        table.setAutoCreateRowSorter(true);
-        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        /*TableColumnModel tcm = table.getColumnModel();
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(200);
         tcm.getColumn(1).setPreferredWidth(75);
         tcm.getColumn(2).setPreferredWidth(300);
-        tcm.getColumn(3).setPreferredWidth(203);*/
-        JScrollPane jscrlp = new JScrollPane(table); // dfg
+        tcm.getColumn(3).setPreferredWidth(203);
+        JScrollPane jscrlp = new JScrollPane(table);
 
 
         new Thread(() -> {
             while (true) {
-                mTabel.fireTableDataChanged();
+
+
+                    mTabel.fireTableDataChanged();
+
             }
         }).start();
 
@@ -164,16 +166,16 @@ public class MainClientGUI{
                     mainDialog.dispose();
                     AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
                     gui.firstDialog();
-                    break;
+                    return;
                 case"exit":
                     createSureDialog();
-                    break;
+                    return;
                 case"yes":
                     System.exit(0);
-                    break;
+                    return;
                 case "no":
                     sureDialog.dispose();
-                    break;
+                    return;
 
             }
         }
@@ -226,6 +228,12 @@ public class MainClientGUI{
 
     }
     private void disconect(){
+        try {
+            Packet pac = new Packet("disconnect", login, null);
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
+            clientSocket.send(sendPacket);
+        }catch(Exception e){}
+    }
 
     }
 }

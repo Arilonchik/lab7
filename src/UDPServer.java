@@ -68,6 +68,11 @@ public class UDPServer {
                             users.add(us);
                             System.out.println("keks");
                         }
+                        if( Serializer.deserialize(request.getData()).getCommand().equals("disconnect")){
+                            users.remove(us);
+                            System.out.println("lolololol");
+                            System.out.println(users);
+                        }
                     }catch (ClassNotFoundException e){
                         e.printStackTrace();
                     }
@@ -203,7 +208,6 @@ public class UDPServer {
     }
     private void spam(CopyOnWriteArrayList<Shelter> sh, ArrayList<User> ip){
         Packet pac = new Packet(sh);
-        System.out.println(sh);
         int port;
         InetAddress adr;
             for (User i : ip) {
@@ -214,7 +218,6 @@ public class UDPServer {
                 udpSocket.send(h);
                 System.out.println(i);
                 }catch(IOException ex){
-                    System.out.println("OTSOSI HUI BLEAT");
                     ex.printStackTrace();
                     continue;
                 }
