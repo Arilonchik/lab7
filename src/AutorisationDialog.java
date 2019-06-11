@@ -159,7 +159,7 @@ public class AutorisationDialog {
         if (ans.equals("Success")) {
             this.login = l;
             this.password = p;
-            MainClientGUI gui = new MainClientGUI();
+            MainClientGUI gui = new MainClientGUI(clientSocket,IPAddress);
             gui.work(login);
             auth.dispose();
             //snd.close();

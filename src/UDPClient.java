@@ -17,21 +17,15 @@ class UDPClient
 
 
         try {
-            Scanner scanner = new Scanner(System.in);
             clientSocket = new DatagramSocket();
             IPAddress = InetAddress.getByName("localhost");
             clientSocket.connect(IPAddress, 1703);
 
 
-            System.out.println("\nHello! " +
-                    "It's a console.\n" +
-                    "List of command: remove_last, remove {element}, show, add_if_max {element}, " +
-                    "remove_first, info, add {element}");
-            //Работа с визуальной частью регистрации
-
-            //authReg();
-
+            //И если захочешь связаться с сервером, тебе нужно закоментить 2 нижнии строчки и раскоментить createAutReg() и наоборот
             createAutReg();
+            //MainClientGUI test = new MainClientGUI(clientSocket,IPAddress);
+            //test.work("kek");
             while (true) {
                 try {
                     System.out.print("-> ");
@@ -125,89 +119,11 @@ class UDPClient
         UDPClient client =new UDPClient();
         client.work();
     }
-
-/*
-    //Более удобный варинат отправления и принятия пакета
-    private String sendwait(Packet pac, DatagramSocket clientSocket, InetAddress IPAddress){
-        try {
-            byte[] receiveData = new byte[1024];
-            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
-            clientSocket.send(sendPacket);
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            clientSocket.receive(receivePacket);
-            String modifiedSentence = new String(receivePacket.getData()).trim();
-            return modifiedSentence;
-        }catch(IOException e){
-            System.out.println("Something goes wrong...");
-            return null;
-        }
-    }*/
     // Теперь работа только через авторизацию
     private void createAutReg(){
         AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
         gui.firstDialog();
     }
 
-    //Метод вызывающий авторизацию и регистрацию
-    private void authReg() {
-        try {
-            boolean check = true;
-            System.out.println("Hello, u need to auth or register, CHOOSE YOUR DESTINY: A/R?");
-            //Вкинуть сюда музяку из морты
-            snd = new SoundPlayer("mk11.mp3");
-            while (check) {
-                System.out.println("A/R?");
-                String ar = inFromUser.readLine().trim();
 
-                try {
-                    switch (ar) {
-                        case "A":
-                            System.out.println("Enter login: ");
-                            String log = inFromUser.readLine();
-                            System.out.println("Enter password: ");
-                            String pas = inFromUser.readLine();
-                            Packet pac = new Packet("A", log, pas, true);
-                            String ans = "s";//sendwait(pac, clientSocket, IPAddress);
-                            if (ans.equals("Success")) {
-                                System.out.println("U have logged in with " + log);
-                                this.login = log;
-                                this.password = pas;
-                                //snd.close();
-                                //snd.stopPlay();
-                                check = false;
-                                snd.close();
-                            } else {
-                                System.out.println(ans + " Try again");
-                            }
-                            break;
-                        case "R":
-                            System.out.println("Enter ur email: ");
-                            String em = inFromUser.readLine();
-                            Packet pacs = new Packet("R", em, null, true);
-                            ans = "0";//sendwait(pacs, clientSocket, IPAddress);
-                            if (ans.equals("Success")) {
-                                System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
-                            } else {
-                                System.out.println(ans + " Try again");
-                                //snd.startPlay("yesterday.mp3");
-                            }
-                            break;
-                        default:
-                            System.out.println("Invalid message");
-                            break;
-
-                    }
-                } catch (NullPointerException e) {
-                    System.out.println("Сервер временно недоступен, подождите...\n" + secret.getsos());
-
-
-                    continue;
-                }
-            }
-
-        } catch (IOException e){
-            System.out.println("Ошибка ввода");
-        }
     }
-
-}
