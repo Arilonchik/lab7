@@ -88,7 +88,17 @@ public class MainClientGUI{
 
         new Thread(() -> {
             while (true) {
-                mTabel.fireTableDataChanged(); //fgj
+                if (collection.size() < 30) {
+                    try {
+                        Thread.sleep(10*100);
+                        collection.add(new Shelter());
+                        mTabel.fireTableDataChanged();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    mTabel.fireTableDataChanged();
+                }
             }
         }).start();
 
@@ -156,5 +166,20 @@ class MyTableModel extends AbstractTableModel {
                 break;
         }
         return result;
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if(columnIndex == 3) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+
+        fireTableCellUpdated(rowIndex, columnIndex);
     }
 }
