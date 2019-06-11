@@ -81,7 +81,7 @@ public class MainClientGUI{
 
         new Thread(() -> {
             while (true) {
-                mTabel.fireTableDataChanged();
+                mTabel.fireTableDataChanged(); //fgj
             }
         }).start();
 
