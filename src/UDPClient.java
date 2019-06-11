@@ -30,8 +30,9 @@ class UDPClient
             //Работа с визуальной частью регистрации
 
             //authReg();
-            createClientDialog();
+
             //createAutReg();
+            createClientDialog();
             while (true) {
                 try {
                     System.out.print("-> ");
@@ -100,7 +101,7 @@ class UDPClient
                         }else{
                             pacs = new Packet(command, login, password);
                         }
-                        String modifiedSentence = sendwait(pacs, clientSocket, IPAddress);
+                        String modifiedSentence = "0";// sendwait(pacs, clientSocket, IPAddress);
                         System.out.println("FROM SERVER:\n" + modifiedSentence);
                         if (modifiedSentence.equals("Enter is wrong.")){new SoundPlayer("loose.mp3",200);
                         }
@@ -126,7 +127,7 @@ class UDPClient
         client.work();
     }
 
-
+/*
     //Более удобный варинат отправления и принятия пакета
     private String sendwait(Packet pac, DatagramSocket clientSocket, InetAddress IPAddress){
         try {
@@ -141,16 +142,15 @@ class UDPClient
             System.out.println("Something goes wrong...");
             return null;
         }
-    }
+    }*/
     //Создание главного окна
     private void createClientDialog(){
-        MainClientGUI gui = new MainClientGUI(login);
-        gui.pack();
-        gui.setSize(1280,720);
-        gui.setVisible(true);
+        MainClientGUI gui = new MainClientGUI();
+        gui.work(login);
+
     }
     private void createAutReg(){
-        AutorisationDialog gui = new AutorisationDialog();
+        AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
         gui.firstDialog();
     }
 
@@ -173,7 +173,7 @@ class UDPClient
                             System.out.println("Enter password: ");
                             String pas = inFromUser.readLine();
                             Packet pac = new Packet("A", log, pas, true);
-                            String ans = sendwait(pac, clientSocket, IPAddress);
+                            String ans = "s";//sendwait(pac, clientSocket, IPAddress);
                             if (ans.equals("Success")) {
                                 System.out.println("U have logged in with " + log);
                                 this.login = log;
@@ -190,7 +190,7 @@ class UDPClient
                             System.out.println("Enter ur email: ");
                             String em = inFromUser.readLine();
                             Packet pacs = new Packet("R", em, null, true);
-                            ans = sendwait(pacs, clientSocket, IPAddress);
+                            ans = "0";//sendwait(pacs, clientSocket, IPAddress);
                             if (ans.equals("Success")) {
                                 System.out.println("U have registered with " + em + " Ur password has been sent to ur email");
                             } else {
