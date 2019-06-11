@@ -127,7 +127,7 @@ public class MainClientGUI{
         tcm.getColumn(1).setPreferredWidth(75);
         tcm.getColumn(2).setPreferredWidth(300);
         tcm.getColumn(3).setPreferredWidth(203);*/
-        JScrollPane jscrlp = new JScrollPane(table);
+        JScrollPane jscrlp = new JScrollPane(table); // dfg
 
 
         new Thread(() -> {
