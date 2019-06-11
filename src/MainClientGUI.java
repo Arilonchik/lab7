@@ -24,6 +24,12 @@ public class MainClientGUI{
     private JLabel help = new JLabel();
     private JFrame mainDialog;
     private JFrame sureDialog;
+    private JTextField ps;
+    private JTextField nm;
+    private JTextField ps2;
+    private JTextField nm2;
+    private String answer;
+    private JFrame not;
 
     private ActionListener buttonListener = new FirstActionListener();
     private String login;
@@ -31,29 +37,42 @@ public class MainClientGUI{
     DatagramSocket clientSocket;
     InetAddress IPAddress;
     private CopyOnWriteArrayList<Shelter> sh;
+    private boolean onRun;
+    private boolean onRun2 = false;
 
     //Конструктор графического окна запускается все из UDPCLIENT
 
     public MainClientGUI(DatagramSocket d, InetAddress i) {
         clientSocket = d;
         IPAddress = i;
+        onRun = true;
     }
 
     public void work(String username){
 
 
         new Thread(() -> {
-            try{
-                Packet pac = new Packet("show",username,"lfCg1");
-                DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
-                clientSocket.send(sendPacket);}catch (Exception e){
-                System.out.println("Loook back");
-            }
-            while (true) {
-                sh = takeColl();
+
+            while (onRun) {
+                Packet p = takeColl();
+                if (p.getCollection() != null){
+                    sh = p.getCollection();
+                    onRun2 =true;
+                }else{
+                    answer = p.getAns();
+                }
+
             }
         }).start();
-
+        login = username;
+        try{
+            Packet pac = new Packet("show",username,null);
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
+            clientSocket.send(sendPacket);
+        }
+        catch (Exception e){
+            System.out.println("Loook back");
+        }
         //Первоначальные настройки
         mainDialog = new JFrame();
         mainDialog.setTitle("Work bro!");
@@ -63,7 +82,7 @@ public class MainClientGUI{
         Color w = new Color(0,5,187);
         Color w2 = new Color(140,165,0);
         mainPanel.setBackground(wind);
-        commandsP.setBackground(w);
+        commandsP.setBackground(wind);
         showP.setBackground(w2);
         userP.setBackground(wind);
         mainDialog.setTitle("Не смотри сюда");
@@ -120,8 +139,8 @@ public class MainClientGUI{
         MyTableModel mTabel = new MyTableModel();
         mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
-        table.setAutoCreateRowSorter(true);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //table.setAutoCreateRowSorter(true);
+        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(200);
         tcm.getColumn(1).setPreferredWidth(75);
@@ -131,7 +150,7 @@ public class MainClientGUI{
 
 
         new Thread(() -> {
-            while (true) {
+            while (onRun2) {
 
 
                     mTabel.fireTableDataChanged();
@@ -141,9 +160,7 @@ public class MainClientGUI{
 
         showP.add(jscrlp);
 
-        mainDialog.pack();
-        mainDialog.setSize(1280,720);
-        mainDialog.setVisible(true);
+
 
 
 
@@ -151,11 +168,69 @@ public class MainClientGUI{
 
         //Работа с левой панелью
         commandsP.setLayout(new GridLayout(7,1));
-        JLabel descrip = new JLabel("                  Commands                     ");
+        JLabel descrip = new JLabel("Commands");
         descrip.setHorizontalAlignment(SwingConstants.CENTER);
         descrip.setBorder(BorderFactory.createRaisedBevelBorder());
         commandsP.add(descrip);
+
         Box add = Box.createVerticalBox();
+        JLabel addt = new JLabel("Add shelter");
+        addt.setHorizontalAlignment(SwingConstants.CENTER);
+        add.add(addt);
+        Box np = Box.createHorizontalBox();
+        JLabel name = new JLabel("Name:");
+        nm = new JTextField();
+        nm.setColumns(10);
+        JLabel pos = new JLabel("Position");
+        ps = new JTextField();
+        ps.setColumns(10);
+        np.add(name);
+        np.add(Box.createHorizontalStrut(10));
+        np.add(nm);
+        np.add(Box.createHorizontalStrut(10));
+        np.add(pos);
+        np.add(Box.createHorizontalStrut(10));
+        np.add(ps);
+        JButton addb = new JButton("Add");
+        addb.setActionCommand("add");
+        addb.addActionListener(buttonListener);
+        add.add(Box.createVerticalStrut(10));
+        add.add(np);
+        add.add(Box.createVerticalStrut(10));
+        add.add(addb);
+        commandsP.add(add);
+
+        Box rem = Box.createVerticalBox();
+        JLabel remt = new JLabel("Remove Shelter");
+        remt.setHorizontalAlignment(SwingConstants.CENTER);
+        rem.add(remt);
+        Box npr = Box.createHorizontalBox();
+        JLabel namer = new JLabel("Name:");
+        nm2 = new JTextField();
+        nm2.setColumns(10);
+        JLabel posr = new JLabel("Position");
+        ps2 = new JTextField();
+        ps2.setColumns(10);
+        npr.add(namer);
+        npr.add(Box.createHorizontalStrut(10));
+        npr.add(nm2);
+        npr.add(Box.createHorizontalStrut(10));
+        npr.add(posr);
+        npr.add(Box.createHorizontalStrut(10));
+        npr.add(ps2);
+        JButton addbr = new JButton("Remove");
+        addb.setActionCommand("rem");
+        addb.addActionListener(buttonListener);
+        rem.add(Box.createVerticalStrut(10));
+        rem.add(npr);
+        rem.add(Box.createVerticalStrut(10));
+        rem.add(addbr);
+        commandsP.add(rem);
+
+
+        //mainDialog.pack();
+        mainDialog.setSize(1280,720);
+        mainDialog.setVisible(true);
 
     }
     public class FirstActionListener implements ActionListener {
@@ -164,19 +239,31 @@ public class MainClientGUI{
             String s = e.getActionCommand();
             switch (s) {
                 case"logout":
+                    onRun = false;
+                    disconect();
                     mainDialog.dispose();
                     AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
                     gui.firstDialog();
-                    return;
+                    break;
                 case"exit":
                     createSureDialog();
-                    return;
+                    break;
                 case"yes":
+                    disconect();
                     System.exit(0);
-                    return;
+                    break;
                 case "no":
                     sureDialog.dispose();
-                    return;
+                    break;
+                case "add":
+                    String args = "{\"name\":\"" + nm.getText() + "\",\"position\":\"" + ps.getText() + "\"}";
+                    Packet p = new Packet("add" , args , login , "kek");
+                    sendmsg(p);
+                    createNotDialog(answer);
+                    break;
+                case "ok":
+                    not.dispose();
+                    break;
 
             }
         }
@@ -212,15 +299,14 @@ public class MainClientGUI{
         sureDialog.setVisible(true);
 
     }
-    private CopyOnWriteArrayList<Shelter> takeColl(){
+    private Packet takeColl(){
         try {
             byte[] receiveData = new byte[4098];
 
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             clientSocket.receive(receivePacket);
             Packet pac = Serializer.deserialize(receivePacket.getData());
-            System.out.println(pac.getCollection());
-            return pac.getCollection();
+            return pac;
         }catch(IOException | ClassNotFoundException e){
             System.out.println("dkk");
             e.printStackTrace();
@@ -234,9 +320,41 @@ public class MainClientGUI{
             DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
             clientSocket.send(sendPacket);
         }catch(Exception e){}
+    }
 
+    private void sendmsg(Packet p){
+        try{
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(p), Serializer.serialize(p).length, IPAddress, 1703);
+            clientSocket.send(sendPacket);
+        }
+        catch (Exception e){
+            System.out.println("Loook back");
+        }
+    }
+
+    private void createNotDialog(String ans){
+
+        not = new JFrame();
+        not.setLocationRelativeTo(null);
+        not.setTitle("What u can?");
+        JPanel max = new JPanel(new GridLayout(2,1));
+        JPanel wr = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        max.add(wr);
+        not.add(max);
+        JLabel an = new JLabel(ans);
+        JButton ok = new JButton("Ok");
+        ok.setActionCommand("ok");
+        ok.addActionListener(buttonListener);
+        max.add(ok);
+
+        wr.add(an);
+
+        not.pack();
+        not.setResizable(false);
+        not.setVisible(true);
 
     }
+
 }
 
 class MyTableModel extends AbstractTableModel {

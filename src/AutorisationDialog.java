@@ -238,8 +238,10 @@ public class AutorisationDialog {
             clientSocket.send(sendPacket);
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             clientSocket.receive(receivePacket);
-            String modifiedSentence = new String(receivePacket.getData()).trim();
-            return modifiedSentence;
+            try {
+                String modifiedSentence = Serializer.deserialize(receivePacket.getData()).getAns();
+                return modifiedSentence;
+            }catch (IOException e){return null;}
         } catch (Exception e) {
             System.out.println("Something goes wrong...");
             createAllert("<html>RIP SERVER((((((((((" + secret.sos,"RIP SERVER...");

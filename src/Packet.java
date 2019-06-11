@@ -5,6 +5,7 @@ class Packet implements Serializable {
     private String password, command, login, argument, path;
     private boolean at;
     private CopyOnWriteArrayList<Shelter> collection;
+    private String ans;
 
     public Packet(String command, String argument, String login, String password) {
         this.command = command;
@@ -32,7 +33,12 @@ class Packet implements Serializable {
         this.collection = collection;
     }
 
+    public Packet(String a){
+        this.ans = a;
+    }
 
+
+    public String getAns(){return this.ans;}
 
     public String getCommand() {
         return command;
