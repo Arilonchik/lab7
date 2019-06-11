@@ -26,7 +26,7 @@ public class AutorisationDialog {
     protected JFrame sure;
     private JFrame mainWin;
     private JFrame auth;
-    //private ActionListener listenButton = new FirstActionListener();
+    private ActionListener listenButton = new FirstActionListener();
     JPasswordField pas;
     JTextField log;
 
@@ -35,8 +35,8 @@ public class AutorisationDialog {
         clientSocket = d;
         IPAddress = i;
     }
-}
-    /*public void firstDialog() {
+
+    public void firstDialog() {
         mainWin = new JFrame();
         mainWin.setTitle("Hello brotishka!");
         mainWin.setResizable(false);
