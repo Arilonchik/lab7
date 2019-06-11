@@ -25,10 +25,13 @@ public class AutorisationDialog {
     private JButton exit = new JButton("Exit");
     protected JFrame sure;
     private JFrame mainWin;
-    private JFrame auth;
+    private JFrame auth = new JFrame();
+    JFrame wrong;
+    JFrame reg = new JFrame();
     private ActionListener listenButton = new FirstActionListener();
     JPasswordField pas;
     JTextField log;
+    JTextField sentem;
 
 
     public AutorisationDialog(DatagramSocket d, InetAddress i) {
@@ -74,6 +77,8 @@ public class AutorisationDialog {
         autb.setActionCommand("Aut");
         autb.addActionListener(listenButton);
         regb.setPreferredSize(new Dimension(100, 18));
+        regb.setActionCommand("reg");
+        regb.addActionListener(listenButton);
         choose.add(autb);
         choose.add(regb);
         mainPanel2.add(choose, BorderLayout.CENTER);
@@ -141,6 +146,107 @@ public class AutorisationDialog {
 
     }
 
+
+
+    private boolean authorization() {
+        String l = log.getText();
+
+        char[] p1 = pas.getPassword();
+        String p = String.valueOf(p1);
+
+        Packet pac = new Packet("A", l, p, true);
+        String ans = sendwait(pac, clientSocket, IPAddress);
+        if (ans.equals("Success")) {
+            this.login = l;
+            this.password = p;
+            MainClientGUI gui = new MainClientGUI();
+            gui.work(login);
+            auth.dispose();
+            //snd.close();
+            //snd.stopPlay();
+        } else {
+            //System.out.println(ans);
+            createAllert(ans,"Something wrong bro!");
+            return false;
+        }
+        return true;
+
+    }
+
+    public boolean registration(){
+        mainWin.setVisible(false);
+        reg = new JFrame();
+        reg.setLocationRelativeTo(null);
+        reg.setTitle("Hmm, who're u?");
+        reg.setResizable(false);
+        JPanel regpan = new JPanel(new GridLayout(2, 1));
+        reg.getContentPane().add(regpan);
+        reg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JLabel who = new JLabel("We didn't see u before...");
+        who.setHorizontalAlignment(SwingConstants.CENTER);
+        regpan.add(who);
+        Box com = Box.createVerticalBox();
+        Box text = Box.createHorizontalBox();
+        Box but = Box.createHorizontalBox();
+
+        JLabel em = new JLabel("Enter ur Email");
+        sentem = new JTextField();
+        text.add(em);
+        text.add(Box.createHorizontalStrut(15));
+        text.add(sentem);
+
+        JButton back = new JButton("Back");
+        JButton register = new JButton("Register");
+        back.setActionCommand("back");
+        back.addActionListener(listenButton);
+        register.setActionCommand("register");
+        register.addActionListener(listenButton);
+        but.add(back);
+        but.add(Box.createHorizontalStrut(244));
+        but.add(register);
+        com.add(text);
+        com.add(Box.createVerticalStrut(15));
+        com.add(but);
+        regpan.add(com);
+
+        reg.pack();
+        reg.setSize(400, 150);
+        reg.setVisible(true);
+
+        return true;
+    }
+
+    private void singUp(){
+        String em = sentem.getText();
+        Packet pacs = new Packet("R", em, null, true);
+        String ans = sendwait(pacs, clientSocket, IPAddress);
+        if (ans.equals("Success")) {
+            reg.dispose();
+            auth();
+            createAllert(ans,"It's okay, bro");
+
+        } else {
+            createAllert(ans,"Something wrong bro");
+            //snd.startPlay("yesterday.mp3");
+        }
+    }
+
+    private String sendwait(Packet pac, DatagramSocket clientSocket, InetAddress IPAddress) {
+        try {
+            byte[] receiveData = new byte[1024];
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
+            clientSocket.send(sendPacket);
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            clientSocket.receive(receivePacket);
+            String modifiedSentence = new String(receivePacket.getData()).trim();
+            return modifiedSentence;
+        } catch (IOException e) {
+            System.out.println("Something goes wrong...");
+            return null;
+        }
+    }
+
+
     public class FirstActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             //Код, который нужно выполнить при нажатии
@@ -179,12 +285,21 @@ public class AutorisationDialog {
                     auth();
                     return;
                 case "back":
-                    auth.dispose();
+                    reg.setVisible(false);
+                    auth.setVisible(false);
                     mainWin.setVisible(true);
                     return;
                 case "log in":
                     authorization();
                     return;
+                case "ok":
+                    wrong.dispose();
+                    return;
+                case "reg":
+                    registration();
+                    return;
+                case "register":
+                    singUp();
             }
         }
     }
@@ -202,40 +317,27 @@ public class AutorisationDialog {
             }
         }
     }
+    private void createAllert(String ans, String body){
 
-    private String authorization() {
-        String l = log.getText();
+        wrong = new JFrame();
+        wrong.setLocationRelativeTo(null);
+        wrong.setTitle(body);
+        JPanel max = new JPanel(new GridLayout(2,1));
+        JPanel wr = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        max.add(wr);
+        wrong.add(max);
+        JLabel an = new JLabel(ans);
+        JButton ok = new JButton("Ok");
+        ok.setActionCommand("ok");
+        ok.addActionListener(listenButton);
+        max.add(ok);
 
-        char[] p1 = pas.getPassword();
-        String p = String.valueOf(p1);
+        wr.add(an);
 
-        Packet pac = new Packet("A", l, p, true);
-        String ans = sendwait(pac, clientSocket, IPAddress);
-        if (ans.equals("Success")) {
-            this.login = l;
-            this.password = p;
+        wrong.pack();
+        //wrong.setSize(300, 100);
+        wrong.setResizable(false);
+        wrong.setVisible(true);
 
-            //snd.close();
-            //snd.stopPlay();
-        } else {
-            System.out.println(ans + " Try again");
-        }
-        return null;
-
-    }
-
-    private String sendwait(Packet pac, DatagramSocket clientSocket, InetAddress IPAddress) {
-        try {
-            byte[] receiveData = new byte[1024];
-            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
-            clientSocket.send(sendPacket);
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            clientSocket.receive(receivePacket);
-            String modifiedSentence = new String(receivePacket.getData()).trim();
-            return modifiedSentence;
-        } catch (IOException e) {
-            System.out.println("Something goes wrong...");
-            return null;
-        }
     }
 }

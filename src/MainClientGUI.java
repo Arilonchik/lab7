@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,6 +19,11 @@ public class MainClientGUI{
     private JLabel us = new JLabel();
     private JLabel help = new JLabel();
     private JFrame mainDialog;
+
+    private String login;
+    private String password;
+    DatagramSocket clientSocket;
+    InetAddress IPAddress;
 
     //Конструктор графического окна запускается все из UDPCLIENT
 

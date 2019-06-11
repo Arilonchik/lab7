@@ -31,8 +31,7 @@ class UDPClient
 
             //authReg();
 
-            //createAutReg();
-            createClientDialog();
+            createAutReg();
             while (true) {
                 try {
                     System.out.print("-> ");
@@ -143,12 +142,7 @@ class UDPClient
             return null;
         }
     }*/
-    //Создание главного окна
-    private void createClientDialog(){
-        MainClientGUI gui = new MainClientGUI();
-        gui.work(login);
-
-    }
+    // Теперь работа только через авторизацию
     private void createAutReg(){
         AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
         gui.firstDialog();

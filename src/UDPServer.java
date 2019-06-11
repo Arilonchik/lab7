@@ -101,12 +101,13 @@ public class UDPServer {
             BufferedReader inr = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("Enter database: ");
-            String data =inr.readLine();
-            //String data ="Collectionslab";
+            //String data =inr.readLine();
+            String data ="Collectionslab";
             System.out.print("Connecting to " + data + "...\nEnter SQL login: ");
-            String login = inr.readLine(); // inr.readLine() "postgres"; //
+            String login =  "postgres"; //
+            inr.readLine();
             System.out.print("Password: ");
-            String pas = inr.readLine(); // "postgres";
+            String pas = "postgres";
             DataConnection Dcon = new DataConnection(data, login, pas);
             Connection con = Dcon.connect();
             if (!con.equals(null)) {
