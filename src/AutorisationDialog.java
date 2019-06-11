@@ -240,8 +240,9 @@ public class AutorisationDialog {
             clientSocket.receive(receivePacket);
             String modifiedSentence = new String(receivePacket.getData()).trim();
             return modifiedSentence;
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Something goes wrong...");
+            createAllert("<html>RIP SERVER((((((((((" + secret.sos,"RIP SERVER...");
             return null;
         }
     }
