@@ -55,6 +55,7 @@ public class MainClientGUI{
         }).start();
 
         //Первоначальные настройки
+        login = username;
         mainDialog = new JFrame();
         mainDialog.setTitle("Work bro!");
         mainDialog.getContentPane().add(mainPanel);
@@ -163,19 +164,22 @@ public class MainClientGUI{
             String s = e.getActionCommand();
             switch (s) {
                 case"logout":
+                    disconect();
                     mainDialog.dispose();
                     AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
                     gui.firstDialog();
-                    return;
+                    break;
                 case"exit":
                     createSureDialog();
-                    return;
+                    break;
                 case"yes":
+                    disconect();
                     System.exit(0);
-                    return;
+                    break;
                 case "no":
                     sureDialog.dispose();
-                    return;
+                    break;
+
 
             }
         }
@@ -228,8 +232,14 @@ public class MainClientGUI{
 
     }
     private void disconect(){
-
+        try {
+            Packet pac = new Packet("disconnect", login, null);
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
+            clientSocket.send(sendPacket);
+        }catch(Exception e){}
     }
+
+
 }
 
 class MyTableModel extends AbstractTableModel {

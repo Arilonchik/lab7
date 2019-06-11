@@ -281,24 +281,24 @@ public class AutorisationDialog {
                     sure.pack();
                     sure.setSize(400, 100);
                     sure.setVisible(true);
-                    return;
+                    break;
                 case "Aut":
                     auth();
-                    return;
+                    break;
                 case "back":
                     reg.setVisible(false);
                     auth.setVisible(false);
                     mainWin.setVisible(true);
-                    return;
+                    break;
                 case "log in":
                     authorization();
-                    return;
+                    break;
                 case "ok":
                     wrong.dispose();
-                    return;
+                    break;
                 case "reg":
                     registration();
-                    return;
+                    break;
                 case "register":
                     singUp();
             }
@@ -312,9 +312,10 @@ public class AutorisationDialog {
             switch (s) {
                 case "yes":
                     System.exit(0);
-                    return;
+                    break;
                 case "no":
                     sure.dispose();
+                    break;
             }
         }
     }
