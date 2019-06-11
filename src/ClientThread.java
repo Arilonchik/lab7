@@ -43,6 +43,9 @@ public class ClientThread  extends Thread {
             String command = pac.getCommand();
             try {
                 switch (command) {
+                    case "show":
+                        System.out.println("kek");
+                        break;
                     case "remove_last":
                         sendMsg(list.remove_last(pac.getLogin()), address, port);
                         break;

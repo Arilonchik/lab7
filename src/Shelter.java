@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class Shelter extends RealObject implements Comparable<Shelter>{
+public class Shelter extends RealObject implements Comparable<Shelter>, Serializable {
     //private Date date;
     private String zone;
     private String creator;

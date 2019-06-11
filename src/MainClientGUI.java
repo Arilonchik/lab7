@@ -41,7 +41,14 @@ public class MainClientGUI{
 
     public void work(String username){
 
+
         new Thread(() -> {
+            try{
+                Packet pac = new Packet("show",username,"lfCg1");
+                DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
+                clientSocket.send(sendPacket);}catch (Exception e){
+                System.out.println("Loook back");
+            }
             while (true) {
                 sh = takeColl();
             }
@@ -124,17 +131,10 @@ public class MainClientGUI{
 
         new Thread(() -> {
             while (true) {
-                if (sh.size() < 30) {
-                    try {
-                        Thread.sleep(10*100);
-                        sh.add(new Shelter());
-                        mTabel.fireTableDataChanged();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else {
+
+
                     mTabel.fireTableDataChanged();
-                }
+
             }
         }).start();
 
@@ -218,9 +218,11 @@ public class MainClientGUI{
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             clientSocket.receive(receivePacket);
             Packet pac = Serializer.deserialize(receivePacket.getData());
+            System.out.println(pac.getCollection());
             return pac.getCollection();
         }catch(IOException | ClassNotFoundException e){
             System.out.println("dkk");
+            e.printStackTrace();
             return null;
         }
 
@@ -230,9 +232,7 @@ public class MainClientGUI{
 class MyTableModel extends AbstractTableModel {
 
     CopyOnWriteArrayList<Shelter> shelter;
-    MyTableModel() {
 
-    }
 
     @Override
     public int getRowCount() {

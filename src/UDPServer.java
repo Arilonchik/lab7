@@ -70,13 +70,13 @@ public class UDPServer {
                     }
                     new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
                     try{
-                        boolean  check = false;
-                        check = Serializer.deserialize(request.getData()).getAt();
-                        if(!adresses.contains(request.getAddress()) && check){
+
+                        boolean check = Serializer.deserialize(request.getData()).getAt();
+                        if(!adresses.contains(request.getAddress()) && !check){
                             adresses.add(request.getAddress());
                             System.out.println("keks");
                         }
-                    }catch (ClassNotFoundException e){}
+                    }catch (ClassNotFoundException e){e.printStackTrace();}
 
                     spam(list.show(),adresses);
                     list.savePost();
@@ -216,7 +216,8 @@ public class UDPServer {
                 DatagramPacket h = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, i, port);
                 udpSocket.send(h);
                 }catch(IOException ex){
-                    System.out.println("Something wrong");
+                    System.out.println("OTSOSI HUI BLEAT");
+                    ex.printStackTrace();
                     continue;
                 }
             }
