@@ -42,7 +42,6 @@ public class MainClientGUI{
     public void work(String username){
 
         new Thread(() -> {
-
             while (true) {
                 sh = takeColl();
             }
@@ -111,17 +110,8 @@ public class MainClientGUI{
 
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
-
-        CopyOnWriteArrayList<Shelter> collection = new CopyOnWriteArrayList<>();
-        Shelter sdf = new Shelter();
-        sdf.setCreator("alsdjfl");
-        collection.add(sdf);
-        collection.add(new Shelter());
-        collection.add(new Shelter());
-        collection.add(new Shelter());
-        collection.add(sdf);
         MyTableModel mTabel = new MyTableModel();
-        mTabel.setShelter(collection);
+        mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel tcm = table.getColumnModel();
@@ -134,10 +124,10 @@ public class MainClientGUI{
 
         new Thread(() -> {
             while (true) {
-                if (collection.size() < 30) {
+                if (sh.size() < 30) {
                     try {
                         Thread.sleep(10*100);
-                        collection.add(new Shelter());
+                        sh.add(new Shelter());
                         mTabel.fireTableDataChanged();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -246,7 +236,7 @@ class MyTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return shelter.size();
+        return shelter.size()+1;
     }
 
     @Override
