@@ -1,11 +1,16 @@
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainClientGUI extends JFrame {
     private JButton exit = new JButton("EXIT");
     private JPanel mainPanel = new JPanel();
     private JPanel commandsP = new JPanel();
-    private JPanel showP = new JPanel();
+    private JPanel showP = new JPanel(); // вставить таблицу
     private JPanel userP = new JPanel();
     private JButton logout = new JButton("Log out");
     private JLabel us = new JLabel();
@@ -56,9 +61,81 @@ public class MainClientGUI extends JFrame {
 
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
-        JTable tab = new JTable();
+        
+        CopyOnWriteArrayList<Shelter> collection = new CopyOnWriteArrayList<>();
+        Shelter sdf = new Shelter();
+        sdf.setCreator("alsdjfl");
+        collection.add(sdf);
+        collection.add(new Shelter());
+        collection.add(new Shelter());
+        collection.add(new Shelter());
+        collection.add(new Shelter());
 
+        JTable table = new JTable(new MyTableModel(collection));
+        JScrollPane jscrlp = new JScrollPane(table);
+        JButton btnPress = new JButton("Click!");
+        btnPress.addActionListener(ae -> {
+            collection.add(new Shelter());
+            collection.add(new Shelter());
 
+        });
+        showP.add(jscrlp);
+        showP.add(btnPress);
+    }
+}
 
+class MyTableModel extends AbstractTableModel {
+
+    CopyOnWriteArrayList<Shelter> shelter;
+
+    MyTableModel(CopyOnWriteArrayList<Shelter> shelter) {
+        super();
+        this.shelter = shelter;
+    }
+
+    @Override
+    public int getRowCount() {
+        return shelter.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return 4;
+    }
+
+    @Override
+    public Object getValueAt(int r, int c) {
+        switch (c) {
+            case 0:
+                return shelter.get(r).getName();
+            case 1:
+                return shelter.get(r).getPos();
+            case 2:
+                return shelter.get(r).getDate();
+            case 3:
+                return shelter.get(r).getCreator();
+            default:
+                return "";
+        }
+    }
+
+    @Override
+    public String getColumnName(int c) {
+        String result = "";
+        switch (c) {
+            case 0:
+                result = "Name";
+                break;
+            case 1:
+                result = "Position";
+                break;
+            case 2:
+                result = "ZoneData";
+                break;
+            case 3:
+                result = "Creator";
+                break;
+        }
+        return result;
     }
 }

@@ -18,7 +18,8 @@ public class Shelter extends RealObject implements Comparable<Shelter>{
         super(x, name);
         //date = new Date();
         zone = date;
-        this.creator = log;}
+        this.creator = log;
+    }
 
     Shelter() {
         super();
@@ -49,7 +50,8 @@ public class Shelter extends RealObject implements Comparable<Shelter>{
 
     public String getCreator(){return this.creator;}
 
-    public void setCreator(String creator){this.creator = creator;}
+    public void setCreator(String creator) {this.creator = creator;}
+
     @Override
     public String toString() {
         return "Object: " + getClass().getName()

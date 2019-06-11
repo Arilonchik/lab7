@@ -30,8 +30,8 @@ class UDPClient
             //Работа с визуальной частью регистрации
 
             //authReg();
-            //createClientDialog();
-            createAutReg();
+            createClientDialog();
+            //createAutReg();
             while (true) {
                 try {
                     System.out.print("-> ");
