@@ -120,6 +120,7 @@ public class MainClientGUI{
         MyTableModel mTabel = new MyTableModel();
         mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
+        table.setAutoCreateRowSorter(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(200);
@@ -233,7 +234,7 @@ public class MainClientGUI{
             DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
             clientSocket.send(sendPacket);
         }catch(Exception e){}
-    }
+
 
     }
 }
