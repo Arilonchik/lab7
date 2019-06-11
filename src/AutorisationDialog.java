@@ -14,7 +14,7 @@ public class AutorisationDialog {
     InetAddress IPAddress;
 
 
-    private JPanel mainPanel = new JPanel();
+    private JPanel mainPanel2 = new JPanel();
     private JPanel ap = new JPanel();
     private JButton regb = new JButton("Registration");
     private JButton autb = new JButton("Authorization");
@@ -26,7 +26,7 @@ public class AutorisationDialog {
     protected JFrame sure;
     private JFrame mainWin;
     private JFrame auth;
-    private ActionListener listenButton = new FirstActionListener();
+    //private ActionListener listenButton = new FirstActionListener();
     JPasswordField pas;
     JTextField log;
 
@@ -35,12 +35,12 @@ public class AutorisationDialog {
         clientSocket = d;
         IPAddress = i;
     }
-
-    public void firstDialog() {
+}
+    /*public void firstDialog() {
         mainWin = new JFrame();
         mainWin.setTitle("Hello brotishka!");
         mainWin.setResizable(false);
-        mainWin.getContentPane().add(mainPanel);
+        mainWin.getContentPane().add(mainPanel2);
         mainWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -48,7 +48,7 @@ public class AutorisationDialog {
 
         mainWin.setLocation((int) width / 2, (int) height / 2);
 
-        mainPanel.setLayout(new BorderLayout());
+        mainPanel2.setLayout(new BorderLayout());
 
 
         eng.setIcon(new ImageIcon("images/nz.jpg"));
@@ -66,7 +66,7 @@ public class AutorisationDialog {
         buttonbox.add(est);
         JPanel treat = new JPanel(new FlowLayout(FlowLayout.CENTER));
         treat.add(buttonbox, JPanel.CENTER_ALIGNMENT);
-        mainPanel.add(treat, BorderLayout.NORTH);
+        mainPanel2.add(treat, BorderLayout.NORTH);
 
         JPanel choose = new JPanel();
         choose.setLayout(new GridLayout(1, 2));
@@ -76,10 +76,10 @@ public class AutorisationDialog {
         regb.setPreferredSize(new Dimension(100, 18));
         choose.add(autb);
         choose.add(regb);
-        mainPanel.add(choose, BorderLayout.CENTER);
+        mainPanel2.add(choose, BorderLayout.CENTER);
         exit.setActionCommand("exit");
         exit.addActionListener(listenButton);
-        mainPanel.add(exit, BorderLayout.AFTER_LAST_LINE);
+        mainPanel2.add(exit, BorderLayout.AFTER_LAST_LINE);
 
 
         mainWin.pack();
