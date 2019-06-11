@@ -1,9 +1,10 @@
-public class RealObject extends AbstractObject implements Map, Sound {
+import java.io.Serializable;
+
+public class RealObject extends AbstractObject implements Map, Sound, Serializable {
     double x;
     double hearVolume = 0;
     double speakVolume = 0;
     boolean isXSetted=true;
-
     RealObject() {
         name = "Unknown Object";
         x = 0;

@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class UDPServer {
     private DatagramSocket udpSocket;
     private Connection con;
-    private ArrayList<InetAddress> adresses = new ArrayList<InetAddress>();
+    private ArrayList<User> users = new ArrayList<>();
     public UDPServer(int port) throws IOException {
         udpSocket = new DatagramSocket(port);
         System.out.println("-- Running Server at " + InetAddress.getLocalHost() + " --");
@@ -59,26 +59,20 @@ public class UDPServer {
                     e.printStackTrace();
                 }
 
-                    if (packet.getCommand().equals("import")) {
-                        File file = new File("imp_data.xml");
-                        System.out.println("Прием данных…");
-                        try { // прием файла
-                            acceptFile(file, udpSocket, 1000);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
                     new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
                     try{
 
                         boolean check = Serializer.deserialize(request.getData()).getAt();
-                        if(!adresses.contains(request.getAddress()) && !check){
-                            adresses.add(request.getAddress());
+                        User us = new User(request.getAddress(),request.getPort());
+                        if(!users.contains(us) && !check){
+                            users.add(us);
                             System.out.println("keks");
                         }
-                    }catch (ClassNotFoundException e){e.printStackTrace();}
+                    }catch (ClassNotFoundException e){
+                        e.printStackTrace();
+                    }
 
-                    spam(list.show(),adresses);
+                    spam(list.show(),users);
                     list.savePost();
                     if (packet.getArgument() != null) {
                         System.out.println("Message from " +
@@ -207,14 +201,18 @@ public class UDPServer {
             ListOfShelters list = new ListOfShelters(sh,c);
             return list;
     }
-    private void spam(CopyOnWriteArrayList<Shelter> sh, ArrayList<InetAddress> ip){
+    private void spam(CopyOnWriteArrayList<Shelter> sh, ArrayList<User> ip){
         Packet pac = new Packet(sh);
-        int port = 1703;
-
-            for (InetAddress i : ip) {
+        System.out.println(sh);
+        int port;
+        InetAddress adr;
+            for (User i : ip) {
                 try {
-                DatagramPacket h = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, i, port);
+                port = i.getPort();
+                adr = i.getIPadress();
+                DatagramPacket h = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, adr, port);
                 udpSocket.send(h);
+                System.out.println(i);
                 }catch(IOException ex){
                     System.out.println("OTSOSI HUI BLEAT");
                     ex.printStackTrace();

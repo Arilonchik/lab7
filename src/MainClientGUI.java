@@ -227,6 +227,9 @@ public class MainClientGUI{
         }
 
     }
+    private void disconect(){
+
+    }
 }
 
 class MyTableModel extends AbstractTableModel {
@@ -236,7 +239,7 @@ class MyTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return shelter.size()+1;
+        return shelter.size();
     }
 
     @Override
