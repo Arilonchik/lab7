@@ -20,12 +20,17 @@ public class MainClientGUI{
     private JLabel help = new JLabel();
     private JFrame mainDialog;
 
+    private ActionListener buttonListener = new FirstActionListener();
     private String login;
     private String password;
     DatagramSocket clientSocket;
     InetAddress IPAddress;
 
     //Конструктор графического окна запускается все из UDPCLIENT
+
+    public MainClientGUI(DatagramSocket d, InetAddress i) {
+        clientSocket = d;
+        IPAddress = i;}
 
     public void work(String username){
         //Первоначальные настройки
@@ -71,6 +76,24 @@ public class MainClientGUI{
         userP.add(help);
 
 
+        //Работа с кнопаками выхода
+        JPanel d = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        Box out = Box.createHorizontalBox();
+        logout.setActionCommand("logout");
+        exit.setActionCommand("exit");
+        logout.addActionListener(buttonListener);
+        exit.addActionListener(buttonListener);
+        out.add(logout);
+        out.add(Box.createHorizontalStrut(50));
+        out.add(exit);
+        d.add(out);
+        mainPanel.add(d,BorderLayout.AFTER_LAST_LINE);
+
+
+
+
+
+
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
 
@@ -108,9 +131,31 @@ public class MainClientGUI{
         mainDialog.setSize(1280,720);
         mainDialog.setVisible(true);
 
+
+
+
+
+        //Работа с левой панелью
+
+
     }
+    public class FirstActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            //Код, который нужно выполнить при нажатии
+            String s = e.getActionCommand();
+            switch (s) {
+                case"logout":
+                    mainDialog.dispose();
+                    AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
+                    gui.firstDialog();
+                    return;
+                case"exit":
+                    System.exit(0);
+                    return;
 
-
+            }
+        }
+    }
 }
 
 class MyTableModel extends AbstractTableModel {
