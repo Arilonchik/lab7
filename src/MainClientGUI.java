@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
+import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainClientGUI{
@@ -74,17 +75,17 @@ public class MainClientGUI{
         collection.add(new Shelter());
         collection.add(new Shelter());
         collection.add(new Shelter());
-
-        JTable table = new JTable(new MyTableModel(collection));
+        MyTableModel mTabel = new MyTableModel(collection);
+        JTable table = new JTable(mTabel);
         JScrollPane jscrlp = new JScrollPane(table);
-        JButton btnPress = new JButton("Click!");
-        btnPress.addActionListener(ae -> {
-            collection.add(new Shelter());
-            collection.add(new Shelter());
 
-        });
+        new Thread(() -> {
+            while (true) {
+                mTabel.fireTableDataChanged();
+            }
+        }).start();
+
         showP.add(jscrlp);
-        showP.add(btnPress);
 
         mainDialog.pack();
         mainDialog.setSize(1280,720);
