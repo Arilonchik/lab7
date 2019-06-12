@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -123,15 +124,9 @@ public class MainClientGUI{
         showP.setLayout(new GridLayout(2,1));
         JPanel tr = new JPanel(new BorderLayout());
         mTabel = new MyTableModel(sh);
-        mTabel.setShelter(sh);
+        //mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
         table.setAutoCreateRowSorter(true);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TableColumnModel tcm = table.getColumnModel();
-        tcm.getColumn(0).setPreferredWidth(200);
-        tcm.getColumn(1).setPreferredWidth(75);
-        tcm.getColumn(2).setPreferredWidth(300);
-        tcm.getColumn(3).setPreferredWidth(203);
         JScrollPane jscrlp = new JScrollPane(table);
         JTextField search = new JTextField();
 
@@ -420,7 +415,7 @@ class MyTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(columnIndex == 3) {
+        if(columnIndex >= 2) {
             return false;
         } else {
             return true;
@@ -429,8 +424,21 @@ class MyTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-
+        Shelter sh = shelter.get(rowIndex);
+        switch (columnIndex) {
+            case 0:
+                sh.setName((String) aValue);
+                break;
+            case 1:
+                sh.setX((double) aValue);
+                break;
+        }
         fireTableCellUpdated(rowIndex, columnIndex);
+    }
+
+    @Override
+    public Class getColumnClass(int c) {
+        return getValueAt(0, c).getClass();
     }
 
     public void setShelter(CopyOnWriteArrayList<Shelter> shelter) {

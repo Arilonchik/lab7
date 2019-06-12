@@ -53,6 +53,8 @@ public class Shelter extends RealObject implements Comparable<Shelter>, Serializ
 
     public void setCreator(String creator) {this.creator = creator;}
 
+
+
     @Override
     public String toString() {
         return "Object: " + getClass().getName()
