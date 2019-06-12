@@ -245,8 +245,10 @@ public class MainClientGUI{
 
 
 
-        Box addif = Box.createVerticalBox();
+        JPanel addif = new JPanel();
+        addif.setLayout(new BoxLayout(addif,BoxLayout.Y_AXIS));
         addif.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
         JLabel addtif = new JLabel("Add shelter, is max");
         addtif.setFont(f);
         addtif.setHorizontalAlignment(SwingConstants.CENTER);
@@ -267,6 +269,7 @@ public class MainClientGUI{
         npif.add(posif);
         npif.add(Box.createHorizontalStrut(10));
         npif.add(psif);
+        JPanel kek = new JPanel();
         JButton addbif = new JButton("Add");
         addbif.setActionCommand("addif");
         addbif.setFont(f);
@@ -274,9 +277,35 @@ public class MainClientGUI{
         addif.add(Box.createVerticalStrut(10));
         addif.add(npif);
         addif.add(Box.createVerticalStrut(6));
-        addif.add(addbif);
+        kek.add(addbif);
+        addif.add(kek);
         addif.setBorder(BorderFactory.createLineBorder(w));
         commandsP.add(addif);
+
+
+
+        Box lol = Box.createHorizontalBox();
+        lol.setBackground(wind);
+        lol.setBorder(BorderFactory.createLineBorder(w));
+        lol.add(Box.createHorizontalStrut(140));
+        JPanel removelast = new JPanel();
+        removelast.setLayout(new BoxLayout(removelast,BoxLayout.Y_AXIS));
+        removelast.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel removl = new JLabel("Remove last");
+        removl.setFont(f);
+        removl.setHorizontalAlignment(SwingConstants.CENTER);
+        JButton rl = new JButton("Remove");
+        rl.setFont(f);
+        rl.setActionCommand("rl");
+        rl.addActionListener(buttonListener);
+        removelast.add(removl);
+        removelast.add(Box.createVerticalStrut(10));
+        removelast.add(rl);
+        lol.add(removelast);
+        commandsP.add(lol);
+
+
+
 
 
 
