@@ -83,6 +83,7 @@ public class ClientThread  extends Thread {
                         break;
                     case "disconnect":
                         System.out.println("User with Port: " + port + ", IpAddress: " + pac.getLogin() + " disconnect. :(");
+                        sendMsg("disconnected", address, port);
                         break;
                     case "load":
                         sendMsg(list.load(pac.getArgument()), address, port);

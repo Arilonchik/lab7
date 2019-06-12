@@ -143,9 +143,12 @@ public class MainClientGUI{
                         sh = p.getCollection();
                         mTabel.setShelter(sh);
                         mTabel.fireTableDataChanged();
-                        onRun2 =true;
+
                     }else{
                         answer = p.getAns();
+                        if (answer.equals("disconnected")){
+                            Thread.currentThread().interrupt();
+                        }
                         createNotDialog(answer);
                     }
 
@@ -366,10 +369,12 @@ public class MainClientGUI{
             switch (s) {
                 case"logout":
                     onRun = false;
+                    try{
+                    Thread.sleep(10);}catch (InterruptedException ex){}
                     disconect();
-                    mainDialog.dispose();
                     AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
                     gui.firstDialog();
+                    mainDialog.dispose();
                     break;
                 case"exit":
                     createSureDialog();

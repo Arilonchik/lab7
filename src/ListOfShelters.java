@@ -70,13 +70,13 @@ class ListOfShelters {
      */
     String info() {
             if (sh.size() != 0) {
-                return "Size of this collection: " + sh.size() +
-                        "\nType of collection: " + sh.get(0).getClass().getName() +
-                        "\nDate of initialization: " + date.toString();
+                return "<html>Size of this collection: " + sh.size() +
+                        "<br>Type of collection: " + sh.get(0).getClass().getName() +
+                        "<br>Date of initialization: " + date.toString() + "</html>";
             } else {
-                return "Size of this collection: " + sh.size() +
-                        "\nType of collection: Shelter" +
-                        "\nDate of initialization: " + date.toString();
+                return "<html>Size of this collection: " + sh.size() +
+                        "<br>Type of collection: Shelter" +
+                        "<br>Date of initialization: " + date.toString() + "</html>";
             }
 
     }
