@@ -7,6 +7,8 @@ import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -39,6 +41,11 @@ public class MainClientGUI{
     private String answer;
     private JFrame not;
     private MyTableModel mTabel;
+    private JButton eng = new JButton();
+    private JButton rus = new JButton();
+    private JButton hor = new JButton();
+    private JButton est = new JButton();
+
     Font f = new Font("Arial Black", Font.BOLD, 14);
 
     private ActionListener buttonListener = new FirstActionListener();
@@ -86,7 +93,34 @@ public class MainClientGUI{
         mainPanel.add(userP,BorderLayout.EAST);
 
 
-        Canvas can = new Canvas(sh);
+
+        eng.setIcon(new ImageIcon("images/nz.jpg"));
+        rus.setIcon(new ImageIcon("images/rus.jpg"));
+        hor.setIcon(new ImageIcon("images/horvat.png"));
+        est.setIcon(new ImageIcon("images/Est.jpg"));
+        est.setPreferredSize(new Dimension(50, 18));
+        hor.setPreferredSize(new Dimension(50, 18));
+        rus.setPreferredSize(new Dimension(50, 18));
+        eng.setPreferredSize(new Dimension(50, 18));
+        Box buttonbox = Box.createHorizontalBox();
+        rus.setActionCommand("rus");
+        eng.setActionCommand("eng");
+        hor.setActionCommand("hor");
+        est.setActionCommand("est");
+
+        rus.addActionListener(buttonListener);
+        eng.addActionListener(buttonListener);
+        hor.addActionListener(buttonListener);
+        est.addActionListener(buttonListener);
+        buttonbox.add(rus);
+        buttonbox.add(eng);
+        buttonbox.add(hor);
+        buttonbox.add(est);
+
+
+
+
+        //Canvas can = new Canvas(sh);
 
         //Работа с правой панелью
         userP.setLayout(new GridLayout(4,1));
@@ -123,7 +157,7 @@ public class MainClientGUI{
         out.add(exit);
         d.add(out);
         mainPanel.add(d,BorderLayout.AFTER_LAST_LINE);
-
+        mainPanel.add(buttonbox,BorderLayout.NORTH);
 
 
 
@@ -146,10 +180,13 @@ public class MainClientGUI{
                 while (onRun) {
                     Packet p = takeColl();
                     if (p.getCollection() != null){
+                        CopyOnWriteArrayList<Shelter> pr = sh;
                         sh = p.getCollection();
                         mTabel.setShelter(sh);
                         mTabel.fireTableDataChanged();
-                        can.getColl(sh);
+
+                        //can.getColl(sh);
+
 
 
                     }else{
@@ -364,8 +401,20 @@ public class MainClientGUI{
 
 
         //Работа с графикой
-
-        showP.add(can);
+        Shelter su = new Shelter();
+        su.setX(28);
+        su.setCreator("kjd");
+        sh.add(su);
+        Rect r = new Rect(sh.get(0),new Color(100,100,100));
+        r.addMouseListener(new CustomListener());
+        JPanel po = new JPanel();
+        po.setLayout(null);
+        Insets insets = po.getInsets();
+        Dimension size = po.getPreferredSize();
+        r.setBounds(25 + insets.left, 5 + insets.top,
+                size.width, size.height);
+        po.add(r);
+        showP.add(po);
 
 
 
@@ -377,6 +426,31 @@ public class MainClientGUI{
         mainDialog.setVisible(true);
 
     }
+
+    public class CustomListener implements MouseListener {
+
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            System.out.println("m");
+        }
+
+        public void mouseExited(MouseEvent e) {
+            //System.out.println("kekekek");
+
+        }
+
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        public void mouseReleased(MouseEvent e) {
+
+        }
+    }
+
     public class FirstActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             //Код, который нужно выполнить при нажатии

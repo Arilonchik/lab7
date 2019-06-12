@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
 
 public class Canvas extends JComponent {
 
@@ -30,7 +33,13 @@ public class Canvas extends JComponent {
             pos = (int)s.getPos();
             high = s.getName().length();
             g2d.setPaint(logs.get(s.getCreator()));
-            g2d.fillRect(pos,312-high*10,15,high*10);
+            Rect tr = new Rect(s,logs.get(s.getCreator()));
+            tr.paintComponent(g);
+
+            //System.out.println("erfuihefhu");
+            //tr.addMouseListener(new CustomListener());
+
+
         }
         g2d.setPaint(Color.RED);
         g2d.drawLine(1,312,1000,312);
@@ -40,21 +49,6 @@ public class Canvas extends JComponent {
 
 
 
-        /* 	Устанавливает цвет рисования в зелёный*/
-        g2d.setPaint(Color.GREEN);
-
-        /* 	Рисует текущим цветом прямоугольник	*/
-        g2d.drawRect(100, 100, 80, 20);
-
-        g2d.setPaint(Color.RED);
-        /* 	Рисует текущим цветом в координатах (150,150) строку "привет мир"*/
-        g2d.drawString("Привет мир", 150, 150);
-
-        g2d.setColor(Color.blue);
-        /*	Рисует текущим цветом овал в координатах (200,50)*/
-        g2d.fillOval(200, 50, 50, 20);
-
-        /* 	Вызывает обновление себя после завершения рисования	*/
         super.repaint();
     }
 
@@ -62,4 +56,6 @@ public class Canvas extends JComponent {
         this.sh = c;
         super.repaint();
     }
+
+
 }
