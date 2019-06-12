@@ -15,7 +15,7 @@ public class DataConnection {
     public Connection connect(){
         try {
             Class.forName("org.postgresql.Driver");
-            String url = ("jdbc:postgresql://localhost:5433/" + data);
+            String url = ("jdbc:postgresql://localhost:5432/" + data);
             //String log = "postgres";
             //String pas = "postgres";
             Connection con = DriverManager.getConnection(url, log, pas);
