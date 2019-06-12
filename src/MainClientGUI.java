@@ -127,7 +127,7 @@ public class MainClientGUI{
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
         JPanel tr = new JPanel(new BorderLayout());
-        mTabel = new MyTableModel(sh, clientSocket, IPAddress);
+        mTabel = new MyTableModel(sh, clientSocket, IPAddress, login);
         //mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
         table.setAutoCreateRowSorter(true);
@@ -514,11 +514,13 @@ class MyTableModel extends AbstractTableModel {
     CopyOnWriteArrayList<Shelter> shelter;
     DatagramSocket socket;
     InetAddress IP;
+    String log;
 
-    public MyTableModel(CopyOnWriteArrayList<Shelter> d, DatagramSocket socket, InetAddress IP){
+    public MyTableModel(CopyOnWriteArrayList<Shelter> d, DatagramSocket socket, InetAddress IP, String log){
         this.shelter = d;
         this.socket = socket;
         this.IP = IP;
+        this.log = log;
     }
 
     @Override
@@ -579,13 +581,28 @@ class MyTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Shelter shg = shelter.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                shg.setName((String) aValue);
-                break;
-            case 1:
-                shg.setX((double) aValue);
-                break;
+        if (shg.getCreator().equals(log)) {
+            switch (columnIndex) {
+                case 0:
+                    shg.setName((String) aValue);
+                    break;
+                case 1:
+                    shg.setX((double) aValue);
+                    break;
+            }
+        } else {
+            JFrame not = new JFrame();
+            not.setLocationRelativeTo(null);
+            not.setTitle("What u can?");
+            JPanel max = new JPanel(new GridLayout(2,1));
+            JPanel wr = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            max.add(wr);
+            not.add(max);
+            JLabel an = new JLabel("You can't edit this filed.");
+            wr.add(an);
+            not.pack();
+            not.setResizable(false);
+            not.setVisible(true);
         }
         fireTableCellUpdated(rowIndex, columnIndex);
         try{
