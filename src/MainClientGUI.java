@@ -73,7 +73,6 @@ public class MainClientGUI{
         Color w2 = new Color(140,165,0);
         mainPanel.setBackground(wind);
         commandsP.setBackground(wind);
-        showP.setBackground(w2);
         userP.setBackground(wind);
         mainDialog.setTitle("Не смотри сюда");
         //разбиение Главной области на 3 разных по шаблону (смотри дискорд), расскраска такая пока что чтобы понимать области
@@ -82,6 +81,8 @@ public class MainClientGUI{
         mainPanel.add(showP,BorderLayout.CENTER);
         mainPanel.add(userP,BorderLayout.EAST);
 
+
+        Canvas can = new Canvas(sh);
 
         //Работа с правой панелью
         userP.setLayout(new GridLayout(4,1));
@@ -136,6 +137,7 @@ public class MainClientGUI{
         JTextField search = RowFilterUtil.createRowFilter(table);
 
 
+
         new Thread(() -> {
                 while (onRun) {
                     Packet p = takeColl();
@@ -143,6 +145,8 @@ public class MainClientGUI{
                         sh = p.getCollection();
                         mTabel.setShelter(sh);
                         mTabel.fireTableDataChanged();
+                        can.getColl(sh);
+
 
                     }else{
                         answer = p.getAns();
@@ -355,10 +359,17 @@ public class MainClientGUI{
 
 
 
+        //Работа с графикой
+
+        showP.add(can);
+
+
+
+
 
 
         //mainDialog.pack();
-        mainDialog.setSize(1600,720);
+        mainDialog.setSize(1900,720);
         mainDialog.setVisible(true);
 
     }
@@ -369,8 +380,7 @@ public class MainClientGUI{
             switch (s) {
                 case"logout":
                     onRun = false;
-                    try{
-                    Thread.sleep(10);}catch (InterruptedException ex){}
+
                     disconect();
                     AutorisationDialog gui = new AutorisationDialog(clientSocket,IPAddress);
                     gui.firstDialog();
@@ -506,6 +516,7 @@ public class MainClientGUI{
         not.setVisible(true);
 
     }
+
 
 }
 

@@ -68,6 +68,15 @@ public class AutorisationDialog {
         rus.setPreferredSize(new Dimension(50, 18));
         eng.setPreferredSize(new Dimension(50, 18));
         Box buttonbox = Box.createHorizontalBox();
+        rus.setActionCommand("rus");
+        eng.setActionCommand("eng");
+        hor.setActionCommand("hor");
+        est.setActionCommand("est");
+
+        rus.addActionListener(listenButton);
+        eng.addActionListener(listenButton);
+        hor.addActionListener(listenButton);
+        est.addActionListener(listenButton);
         buttonbox.add(rus);
         buttonbox.add(eng);
         buttonbox.add(hor);
@@ -308,6 +317,20 @@ public class AutorisationDialog {
                     break;
                 case "register":
                     singUp();
+                    break;
+                case"rus":
+
+                    break;
+                case "hor":
+
+                    break;
+                case "eng":
+
+                    break;
+                case "est":
+
+                    break;
+
             }
         }
     }
