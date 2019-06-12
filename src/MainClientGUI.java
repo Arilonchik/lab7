@@ -120,7 +120,7 @@ public class MainClientGUI{
 
 
 
-        //Canvas can = new Canvas(sh);
+        Canvas can = new Canvas(sh);
 
         //Работа с правой панелью
         userP.setLayout(new GridLayout(4,1));
@@ -180,12 +180,12 @@ public class MainClientGUI{
                 while (onRun) {
                     Packet p = takeColl();
                     if (p.getCollection() != null){
-                        CopyOnWriteArrayList<Shelter> pr = sh;
+                        System.out.println("lol");
                         sh = p.getCollection();
                         mTabel.setShelter(sh);
                         mTabel.fireTableDataChanged();
 
-                        //can.getColl(sh);
+                        can.getColl(sh);
 
 
 
@@ -401,21 +401,7 @@ public class MainClientGUI{
 
 
         //Работа с графикой
-        Shelter su = new Shelter();
-        su.setX(28);
-        su.setCreator("kjd");
-        sh.add(su);
-        Rect r = new Rect(sh.get(0),new Color(100,100,100));
-        r.addMouseListener(new CustomListener());
-        JPanel po = new JPanel();
-        po.setLayout(null);
-        Insets insets = po.getInsets();
-        Dimension size = po.getPreferredSize();
-        r.setBounds(25 + insets.left, 5 + insets.top,
-                size.width, size.height);
-        po.add(r);
-        showP.add(po);
-
+        showP.add(can);
 
 
 
@@ -427,29 +413,7 @@ public class MainClientGUI{
 
     }
 
-    public class CustomListener implements MouseListener {
 
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        public void mouseEntered(MouseEvent e) {
-            System.out.println("m");
-        }
-
-        public void mouseExited(MouseEvent e) {
-            //System.out.println("kekekek");
-
-        }
-
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        public void mouseReleased(MouseEvent e) {
-
-        }
-    }
 
     public class FirstActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
