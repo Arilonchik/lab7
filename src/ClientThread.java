@@ -7,8 +7,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ClientThread  extends Thread {
     private DatagramSocket socket;
@@ -18,14 +20,16 @@ public class ClientThread  extends Thread {
     private InetAddress adress;
     ListOfShelters list;
     private Packet pac;
+    private ArrayList<User> us;
 
-    public ClientThread(DatagramSocket socket, ListOfShelters list, DatagramPacket packet, Connection con, InetAddress adress, Packet pac) {
+    public ClientThread(DatagramSocket socket, ListOfShelters list, DatagramPacket packet, Connection con, InetAddress adress, Packet pac, ArrayList<User> us) {
         this.socket = socket;
         this.list = list;
         this.packet = packet;
         this.con = con;
         this.adress = adress;
         this.pac=pac;
+        this.us = us;
         start();
 
     }
@@ -45,15 +49,19 @@ public class ClientThread  extends Thread {
                 switch (command) {
                     case "show":
                         System.out.println("kek");
+                        spam(list.show(),us,packet);
                         break;
                     case "remove_last":
                         sendMsg(list.remove_last(pac.getLogin()), address, port);
+                        spam(list.show(),us,packet);
                         break;
                     case "remove_first":
                         sendMsg(list.remove_first(pac.getLogin()), address, port);
+                        spam(list.show(),us,packet);
                         break;
                     case "add":
                         sendMsg(list.add(pac.getArgument(),pac.getLogin()), address, port);
+                        spam(list.show(),us,packet);
                         break;
                     case "info":
                         sendMsg(list.info(), address, port);
@@ -63,9 +71,11 @@ public class ClientThread  extends Thread {
                         break;
                     case "add_if_max":
                         sendMsg(list.addIfMax(pac.getArgument(),pac.getLogin()), address, port);
+                        spam(list.show(),us,packet);
                         break;
                     case "remove":
                         sendMsg(list.remove(pac.getArgument(), pac.getLogin()), address, port);
+                        spam(list.show(),us,packet);
                         break;
                     case "disconnect":
                         System.out.println("User with Port: " + port + ", IpAddress: " + pac.getLogin() + " disconnect. :(");
@@ -110,6 +120,45 @@ public class ClientThread  extends Thread {
             socket.send(h);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    private void spam(CopyOnWriteArrayList<Shelter> sh, ArrayList<User> ip, DatagramPacket request){
+
+        try{
+
+            boolean check = Serializer.deserialize(request.getData()).getAt();
+            User us = new User(request.getAddress(),request.getPort());
+            if(!ip.contains(us) && !check){
+                ip.add(us);
+                System.out.println("keks");
+            }
+            if( Serializer.deserialize(request.getData()).getCommand().equals("disconnect")){
+                ip.remove(us);
+                System.out.println("lolololol");
+                System.out.println(ip);
+            }
+        }catch (ClassNotFoundException| IOException e){
+            e.printStackTrace();
+        }
+
+
+        Packet pac = new Packet(sh);
+        System.out.println(sh);
+        int port;
+        InetAddress adr;
+        for (User i : ip) {
+            try {
+                port = i.getPort();
+                adr = i.getIPadress();
+                DatagramPacket h = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, adr, port);
+                socket.send(h);
+                System.out.println(i);
+            }catch(IOException ex){
+                ex.printStackTrace();
+                continue;
+            }
         }
 
     }

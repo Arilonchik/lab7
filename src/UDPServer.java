@@ -59,25 +59,10 @@ public class UDPServer {
                     e.printStackTrace();
                 }
 
-                    new ClientThread(udpSocket, list, request, con, request.getAddress(),packet);
-                    try{
+                    new ClientThread(udpSocket, list, request, con, request.getAddress(),packet,users);
 
-                        boolean check = Serializer.deserialize(request.getData()).getAt();
-                        User us = new User(request.getAddress(),request.getPort());
-                        if(!users.contains(us) && !check){
-                            users.add(us);
-                            System.out.println("keks");
-                        }
-                        if( Serializer.deserialize(request.getData()).getCommand().equals("disconnect")){
-                            users.remove(us);
-                            System.out.println("lolololol");
-                            System.out.println(users);
-                        }
-                    }catch (ClassNotFoundException e){
-                        e.printStackTrace();
-                    }
 
-                    spam(list.show(),users);
+
                     list.savePost();
                     if (packet.getArgument() != null) {
                         System.out.println("Message from " +
@@ -206,25 +191,7 @@ public class UDPServer {
             ListOfShelters list = new ListOfShelters(sh,c);
             return list;
     }
-    private void spam(CopyOnWriteArrayList<Shelter> sh, ArrayList<User> ip){
-        Packet pac = new Packet(sh);
-        System.out.println(sh);
-        int port;
-        InetAddress adr;
-            for (User i : ip) {
-                try {
-                port = i.getPort();
-                adr = i.getIPadress();
-                DatagramPacket h = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, adr, port);
-                udpSocket.send(h);
-                System.out.println(i);
-                }catch(IOException ex){
-                    ex.printStackTrace();
-                    continue;
-                }
-            }
 
-    }
 
 
 }
