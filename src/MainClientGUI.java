@@ -669,7 +669,6 @@ class RowFilterUtil {
                 }
             }
         });
-
         return tf;
     }
 }

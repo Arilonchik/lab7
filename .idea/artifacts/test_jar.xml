@@ -11,6 +11,14 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/javax.mail.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/postgresql-9.4.1208.jre7.jar" path-in-jar="/" />
       <element id="file-copy" path="$PROJECT_DIR$/mail.properties" />
+      <element id="directory" name="img">
+        <element id="file-copy" path="$PROJECT_DIR$/images/Est.jpg" />
+        <element id="file-copy" path="$PROJECT_DIR$/images/horvat.png" />
+        <element id="file-copy" path="$PROJECT_DIR$/images/nz.jpg" />
+        <element id="file-copy" path="$PROJECT_DIR$/images/rus.jpg" />
+        <element id="file-copy" path="$PROJECT_DIR$/images/pismak.png" />
+        <element id="file-copy" path="$PROJECT_DIR$/images/user.png" />
+      </element>
     </root>
   </artifact>
 </component>

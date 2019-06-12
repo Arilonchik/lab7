@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class AutorisationDialog {
     private String login;
@@ -32,6 +34,9 @@ public class AutorisationDialog {
     JPasswordField pas;
     JTextField log;
     JTextField sentem;
+    public static Locale currentLocale = new Locale("ru", "RU");
+    public static ResourceBundle rb = ResourceBundle.getBundle("bundel.Lang", currentLocale);
+    //rb = ResourceBundle.getBundle("client.bundle.Client", currentLocale); После
 
 
     public AutorisationDialog(DatagramSocket d, InetAddress i) {
