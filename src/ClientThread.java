@@ -43,7 +43,10 @@ public class ClientThread  extends Thread {
         //String msg = new String(packet.getData()).trim();
         //String req[] = msg.split(" ");
 
-
+        if (pac.getCollection() != null) {
+            list.setCollectin(pac.getCollection());
+            spam(list.show(),us,packet);
+        }
             String command = pac.getCommand();
             try {
                 switch (command) {

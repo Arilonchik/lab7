@@ -3,6 +3,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -126,7 +127,7 @@ public class MainClientGUI{
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
         JPanel tr = new JPanel(new BorderLayout());
-        mTabel = new MyTableModel(sh);
+        mTabel = new MyTableModel(sh, clientSocket, IPAddress);
         //mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
         table.setAutoCreateRowSorter(true);
@@ -451,9 +452,13 @@ public class MainClientGUI{
 class MyTableModel extends AbstractTableModel {
 
     CopyOnWriteArrayList<Shelter> shelter;
+    DatagramSocket socket;
+    InetAddress IP;
 
-    public MyTableModel(CopyOnWriteArrayList<Shelter> d){
+    public MyTableModel(CopyOnWriteArrayList<Shelter> d, DatagramSocket socket, InetAddress IP){
         this.shelter = d;
+        this.socket = socket;
+        this.IP = IP;
     }
 
     @Override
@@ -523,6 +528,14 @@ class MyTableModel extends AbstractTableModel {
                 break;
         }
         fireTableCellUpdated(rowIndex, columnIndex);
+        try{
+            Packet p = new Packet (shelter);
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(p), Serializer.serialize(p).length, IP, 1703);
+            socket.send(sendPacket);
+        }
+        catch (Exception e){
+            System.out.println("Loook back");
+        }
     }
 
     @Override

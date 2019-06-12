@@ -34,6 +34,8 @@ class ListOfShelters {
         this.con = con;
     }
 
+    void setCollectin(CopyOnWriteArrayList<Shelter> sh) { this.sh = sh; }
+
     /**
      * Add new item in collection
      * You enter command 'add' after that the next line is the name and position of item which you want to add.
