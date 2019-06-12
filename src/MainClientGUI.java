@@ -12,16 +12,20 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainClientGUI{
-    private JButton exit = new JButton("EXIT");
+    public static Locale currentLocale = new Locale("ru", "RU");
+    public static ResourceBundle rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+    private JButton exit = new JButton(rb.getString("EXIT"));
     private JPanel mainPanel = new JPanel();
     private JPanel commandsP = new JPanel();
     private JPanel showP = new JPanel(); // вставить таблицу
     private JPanel userP = new JPanel();
-    private JButton logout = new JButton("Log out");
+    private JButton logout = new JButton(rb.getString("Log out"));
     private JLabel us = new JLabel();
     private JLabel help = new JLabel();
     private JFrame mainDialog;
@@ -65,7 +69,7 @@ public class MainClientGUI{
 
         //Первоначальные настройки
         mainDialog = new JFrame();
-        mainDialog.setTitle("Work bro!");
+        mainDialog.setTitle(rb.getString("Work bro!"));
         mainDialog.getContentPane().add(mainPanel);
         mainDialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Color wind = new Color(140,165,187);
@@ -95,14 +99,14 @@ public class MainClientGUI{
         us.setBorder(BorderFactory.createTitledBorder("Active user"));
         userP.add(us);
         //Вывод help
-        help.setText("<html><p align=\"center\">Remove - delete chosen shelter<br>" +
-                "Add - insert new shelter<br>" +
-                "Remove_last - delete last shelter<br>" +
-                "Remove_first - delete first shelter<br>" +
-                "show - refresh collection<br>" +
-                "AddIfMax - inset shelter, when it has maximum position<br>" +
-                "Info - shows collection's information</html>");
-        help.setBorder(BorderFactory.createTitledBorder("Command description"));
+        help.setText("<html><p align=\"center\">Remove - " + rb.getString("delete chosen shelter") + "<br>" +
+                "Add - " + rb.getString("insert new shelter") + "<br>" +
+                "Remove_last - " + rb.getString("delete last shelter") + "<br>" +
+                "Remove_first - " + rb.getString("delete first shelter") + "<br>" +
+                /*"show - refresh collection<br>" +*/
+                "AddIfMax - " + rb.getString("insert shelter, when it has maximum position") + "<br>" +
+                "Info - " + rb.getString("shows collection's information") + "</html>");
+        help.setBorder(BorderFactory.createTitledBorder(rb.getString("Command description")));
         help.setFont(f);
         userP.add(help);
 
@@ -178,7 +182,7 @@ public class MainClientGUI{
 
         //Работа с левой панелью
         commandsP.setLayout(new GridLayout(7,1));
-        JLabel descrip = new JLabel("Commands");
+        JLabel descrip = new JLabel(rb.getString("Commands"));
         descrip.setFont(f);
         descrip.setHorizontalAlignment(SwingConstants.CENTER);
         descrip.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -187,16 +191,16 @@ public class MainClientGUI{
         JPanel add = new JPanel();
         add.setLayout(new BoxLayout(add,BoxLayout.Y_AXIS));
         add.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        JLabel addt = new JLabel("Add shelter");
+        JLabel addt = new JLabel(rb.getString("Add shelter"));
         addt.setFont(f);
         addt.setHorizontalAlignment(SwingConstants.CENTER);
         add.add(addt);
         Box np = Box.createHorizontalBox();
-        JLabel name = new JLabel("Name:");
+        JLabel name = new JLabel(rb.getString("Name: "));
         name.setFont(f);
         nm = new JTextField();
         nm.setColumns(10);
-        JLabel pos = new JLabel("Position");
+        JLabel pos = new JLabel(rb.getString("Position: "));
         pos.setFont(f);
         ps = new JTextField();
         ps.setColumns(10);
@@ -207,7 +211,7 @@ public class MainClientGUI{
         np.add(pos);
         np.add(Box.createHorizontalStrut(10));
         np.add(ps);
-        JButton addb = new JButton("Add");
+        JButton addb = new JButton(rb.getString("Add"));
         addb.setActionCommand("add");
         addb.setFont(f);
         addb.addActionListener(buttonListener);
@@ -221,16 +225,16 @@ public class MainClientGUI{
         JPanel rem = new JPanel();
         rem.setLayout(new BoxLayout(rem,BoxLayout.Y_AXIS));
         rem.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        JLabel remt = new JLabel("Remove Shelter");
+        JLabel remt = new JLabel(rb.getString("Remove Shelter"));
         remt.setFont(f);
         remt.setHorizontalAlignment(SwingConstants.CENTER);
         rem.add(remt);
         Box npr = Box.createHorizontalBox();
-        JLabel namer = new JLabel("Name:");
+        JLabel namer = new JLabel(rb.getString("Name: "));
         namer.setFont(f);
         nm2 = new JTextField();
         nm2.setColumns(10);
-        JLabel posr = new JLabel("Position");
+        JLabel posr = new JLabel(rb.getString("Position: "));
         posr.setFont(f);
         ps2 = new JTextField();
         ps2.setColumns(10);
@@ -241,7 +245,7 @@ public class MainClientGUI{
         npr.add(posr);
         npr.add(Box.createHorizontalStrut(10));
         npr.add(ps2);
-        JButton addbr = new JButton("Remove");
+        JButton addbr = new JButton(rb.getString("Remove"));
         addbr.setFont(f);
         addbr.setActionCommand("rem");
         addbr.addActionListener(buttonListener);
@@ -258,7 +262,7 @@ public class MainClientGUI{
         addif.setLayout(new BoxLayout(addif,BoxLayout.Y_AXIS));
         addif.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        JLabel addtif = new JLabel("Add shelter, is max");
+        JLabel addtif = new JLabel(rb.getString("Add shelter, if max"));
         addtif.setFont(f);
         addtif.setHorizontalAlignment(SwingConstants.CENTER);
         addif.add(addtif);

@@ -15,16 +15,17 @@ public class AutorisationDialog {
     DatagramSocket clientSocket;
     InetAddress IPAddress;
 
-
+    public static Locale currentLocale = new Locale("ru", "RU");
+    public static ResourceBundle rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
     private JPanel mainPanel2 = new JPanel();
     private JPanel ap = new JPanel();
-    private JButton regb = new JButton("Registration");
-    private JButton autb = new JButton("Authorization");
+    private JButton regb = new JButton(rb.getString("Registration"));
+    private JButton autb = new JButton(rb.getString("Authorization"));
     private JButton eng = new JButton();
     private JButton rus = new JButton();
     private JButton hor = new JButton();
     private JButton est = new JButton();
-    private JButton exit = new JButton("Exit");
+    private JButton exit = new JButton(rb.getString("Exit"));
     protected JFrame sure;
     private JFrame mainWin;
     private JFrame auth = new JFrame();
@@ -34,9 +35,7 @@ public class AutorisationDialog {
     JPasswordField pas;
     JTextField log;
     JTextField sentem;
-    public static Locale currentLocale = new Locale("ru", "RU");
-    public static ResourceBundle rb = ResourceBundle.getBundle("bundel.Lang", currentLocale);
-    //rb = ResourceBundle.getBundle("client.bundle.Client", currentLocale); После
+
 
 
     public AutorisationDialog(DatagramSocket d, InetAddress i) {
@@ -46,7 +45,7 @@ public class AutorisationDialog {
 
     public void firstDialog() {
         mainWin = new JFrame();
-        mainWin.setTitle("Hello brotishka!");
+        mainWin.setTitle(rb.getString("Hello brotishka!"));
         mainWin.setResizable(false);
         mainWin.getContentPane().add(mainPanel2);
         mainWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,12 +109,12 @@ public class AutorisationDialog {
         mainWin.setVisible(false);
         auth = new JFrame();
         auth.setLocationRelativeTo(null);
-        auth.setTitle("Hmm, who are u???");
+        auth.setTitle(rb.getString("Hmm, who are u???"));
         auth.setResizable(false);
         JPanel mainautp = new JPanel(new GridLayout(3, 1));
         auth.getContentPane().add(mainautp);
         auth.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JLabel who = new JLabel("Tell to us all truth!");
+        JLabel who = new JLabel(rb.getString("Tell to us all truth!"));
         who.setHorizontalAlignment(SwingConstants.CENTER);
         mainautp.add(who);
 
@@ -124,12 +123,12 @@ public class AutorisationDialog {
         Box common = Box.createVerticalBox();
         log = new JTextField(5);
         log.setPreferredSize(new Dimension(100, 18));
-        JLabel elog = new JLabel("Enter ur email");
+        JLabel elog = new JLabel(rb.getString("Enter ur Email"));
         login.add(elog);
         login.add(Box.createHorizontalStrut(30));
         login.add(log);
         pas = new JPasswordField();
-        JLabel epas = new JLabel("Enter ur password");
+        JLabel epas = new JLabel(rb.getString("Enter ur password"));
         pass.add(epas);
         pass.add(Box.createHorizontalStrut(4));
         pass.add(pas);
@@ -141,8 +140,8 @@ public class AutorisationDialog {
         mainautp.add(common);
 
         Box buttons = Box.createHorizontalBox();
-        JButton back = new JButton("Back");
-        JButton aut = new JButton("Log in");
+        JButton back = new JButton(rb.getString("Back"));
+        JButton aut = new JButton(rb.getString("Log in"));
         back.setActionCommand("back");
         back.addActionListener(listenButton);
         aut.setActionCommand("log in");
@@ -180,7 +179,7 @@ public class AutorisationDialog {
             //snd.stopPlay();
         } else {
             //System.out.println(ans);
-            createAllert(ans,"Something wrong bro!");
+            createAllert(ans,rb.getString("Something wrong bro!"));
             return false;
         }
         return true;
@@ -191,26 +190,26 @@ public class AutorisationDialog {
         mainWin.setVisible(false);
         reg = new JFrame();
         reg.setLocationRelativeTo(null);
-        reg.setTitle("Hmm, who're u?");
+        reg.setTitle(rb.getString("Hmm, who are u???"));
         reg.setResizable(false);
         JPanel regpan = new JPanel(new GridLayout(2, 1));
         reg.getContentPane().add(regpan);
         reg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JLabel who = new JLabel("We didn't see u before...");
+        JLabel who = new JLabel(rb.getString("We didn't see u before..."));
         who.setHorizontalAlignment(SwingConstants.CENTER);
         regpan.add(who);
         Box com = Box.createVerticalBox();
         Box text = Box.createHorizontalBox();
         Box but = Box.createHorizontalBox();
 
-        JLabel em = new JLabel("Enter ur Email");
+        JLabel em = new JLabel(rb.getString("Enter ur Email"));
         sentem = new JTextField();
         text.add(em);
         text.add(Box.createHorizontalStrut(15));
         text.add(sentem);
 
-        JButton back = new JButton("Back");
-        JButton register = new JButton("Register");
+        JButton back = new JButton(rb.getString("Back"));
+        JButton register = new JButton(rb.getString("Register"));
         back.setActionCommand("back");
         back.addActionListener(listenButton);
         register.setActionCommand("register");
@@ -237,10 +236,10 @@ public class AutorisationDialog {
         if (ans.equals("Success")) {
             reg.dispose();
             auth();
-            createAllert(ans,"It's okay, bro");
+            createAllert(ans,rb.getString("It's okay, bro"));
 
         } else {
-            createAllert(ans,"Something wrong bro");
+            createAllert(ans,rb.getString("Something wrong bro"));
             //snd.startPlay("yesterday.mp3");
         }
     }
@@ -273,15 +272,15 @@ public class AutorisationDialog {
                 case "exit":
                     sure = new JFrame();
                     sure.setLocationRelativeTo(null);
-                    sure.setTitle("NO, BRO, PLZ NOOOOO");
+                    sure.setTitle(rb.getString("NO, BRO, PLZ NOOOOO"));
                     sure.setResizable(false);
                     JPanel sr = new JPanel(new GridLayout(2, 1));
                     sure.getContentPane().add(sr);
-                    JLabel really = new JLabel("Are u sure? :((");
+                    JLabel really = new JLabel(rb.getString("Are u sure? :(("));
                     really.setHorizontalAlignment(SwingConstants.CENTER);
                     sr.add(really);
-                    JButton yes = new JButton("Yes");
-                    JButton no = new JButton("Okay, i will stay with u bro");
+                    JButton yes = new JButton(rb.getString("Yes"));
+                    JButton no = new JButton(rb.getString("Okay, i will stay with u bro"));
                     Box buttonbox = Box.createHorizontalBox();
                     yes.setPreferredSize(new Dimension(100, 18));
                     yes.setActionCommand("yes");
@@ -319,16 +318,20 @@ public class AutorisationDialog {
                     singUp();
                     break;
                 case"rus":
-
+                    currentLocale = new Locale("ru", "RU");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
                     break;
                 case "hor":
-
+                    currentLocale = new Locale("hr", "HR");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
                     break;
                 case "eng":
-
+                    currentLocale = new Locale("en", "NZ");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
                     break;
                 case "est":
-
+                    currentLocale = new Locale("et", "ET");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
                     break;
 
             }
@@ -359,7 +362,7 @@ public class AutorisationDialog {
         max.add(wr);
         wrong.add(max);
         JLabel an = new JLabel(ans);
-        JButton ok = new JButton("Ok");
+        JButton ok = new JButton(rb.getString("Ok"));
         ok.setActionCommand("ok");
         ok.addActionListener(listenButton);
         max.add(ok);
