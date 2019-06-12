@@ -121,6 +121,7 @@ public class MainClientGUI{
 
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
+        JPanel tr = new JPanel(new BorderLayout());
         mTabel = new MyTableModel(sh);
         mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
@@ -132,6 +133,7 @@ public class MainClientGUI{
         tcm.getColumn(2).setPreferredWidth(300);
         tcm.getColumn(3).setPreferredWidth(203);
         JScrollPane jscrlp = new JScrollPane(table);
+        JTextField search = new JTextField();
 
 
         new Thread(() -> {
@@ -149,8 +151,10 @@ public class MainClientGUI{
 
                 }
         }).start();
+        tr.add(search,BorderLayout.NORTH);
+        tr.add(jscrlp,BorderLayout.CENTER);
 
-        showP.add(jscrlp);
+        showP.add(tr);
         try{
             Packet pac = new Packet("show",username,null);
             DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
@@ -263,6 +267,10 @@ public class MainClientGUI{
                 case "ok":
                     not.dispose();
                     break;
+                case "rem":
+                    String args2 = "{\"name\":\"" + nm2.getText() + "\",\"position\":\"" + ps2.getText() + "\"}";
+                    Packet p2 = new Packet("remove" , args2 , login , "kek");
+                    sendmsg(p2);
 
             }
         }
