@@ -166,7 +166,7 @@ public class MainClientGUI{
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
         JPanel tr = new JPanel(new BorderLayout());
-        mTabel = new MyTableModel(sh, clientSocket, IPAddress, login);
+        mTabel = new MyTableModel(sh, clientSocket, IPAddress, login, rb);
         //mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
         table.setAutoCreateRowSorter(true);
@@ -304,11 +304,11 @@ public class MainClientGUI{
         addtif.setHorizontalAlignment(SwingConstants.CENTER);
         addif.add(addtif);
         Box npif = Box.createHorizontalBox();
-        JLabel nameif = new JLabel("Name:");
+        JLabel nameif = new JLabel(rb.getString("Name: "));
         nameif.setFont(f);
         nmif = new JTextField();
         nmif.setColumns(10);
-        JLabel posif = new JLabel("Position");
+        JLabel posif = new JLabel(rb.getString("Position: "));
         posif.setFont(f);
         psif = new JTextField();
         psif.setColumns(10);
@@ -320,7 +320,7 @@ public class MainClientGUI{
         npif.add(Box.createHorizontalStrut(10));
         npif.add(psif);
         JPanel kek = new JPanel();
-        JButton addbif = new JButton("Add");
+        JButton addbif = new JButton(rb.getString("Add"));
         addbif.setActionCommand("addif");
         addbif.setFont(f);
         addbif.addActionListener(buttonListener);
@@ -338,10 +338,10 @@ public class MainClientGUI{
         Box lol = Box.createHorizontalBox();
         Box removelast = Box.createVerticalBox();
         removelast.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel removl = new JLabel("Remove last");
+        JLabel removl = new JLabel(rb.getString("Remove last"));
         removl.setFont(f);
         removl.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton rl = new JButton("Remove");
+        JButton rl = new JButton(rb.getString("Remove"));
         rl.setFont(f);
         rl.setActionCommand("rl");
         rl.addActionListener(buttonListener);
@@ -359,10 +359,10 @@ public class MainClientGUI{
         Box lol2 = Box.createHorizontalBox();
         Box removefirst = Box.createVerticalBox();
         removefirst.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel removf = new JLabel("Remove first");
+        JLabel removf = new JLabel(rb.getString("Remove first"));
         removf.setFont(f);
         removf.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton rf = new JButton("Remove");
+        JButton rf = new JButton(rb.getString("Remove"));
         rf.setFont(f);
         rf.setActionCommand("rf");
         rf.addActionListener(buttonListener);
@@ -381,10 +381,10 @@ public class MainClientGUI{
         Box lol3 = Box.createHorizontalBox();
         Box info = Box.createVerticalBox();
         info.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel inf = new JLabel("Information");
+        JLabel inf = new JLabel(rb.getString("Information"));
         inf.setFont(f);
         inf.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton rfi = new JButton("Informate");
+        JButton rfi = new JButton(rb.getString("Informate"));
         rfi.setFont(f);
         rfi.setActionCommand("in");
         rfi.addActionListener(buttonListener);
@@ -513,15 +513,15 @@ public class MainClientGUI{
     public void createSureDialog(){
         sureDialog = new JFrame();
         sureDialog.setLocationRelativeTo(null);
-        sureDialog.setTitle("NO, BRO, PLZ NOOOOO");
+        sureDialog.setTitle(rb.getString("NO, BRO, PLZ NOOOOO"));
         sureDialog.setResizable(false);
         JPanel sr = new JPanel(new GridLayout(2, 1));
         sureDialog.getContentPane().add(sr);
-        JLabel really = new JLabel("Are u sure? :((");
+        JLabel really = new JLabel(rb.getString("Are u sure? :(("));
         really.setHorizontalAlignment(SwingConstants.CENTER);
         sr.add(really);
-        JButton yes = new JButton("Yes");
-        JButton no = new JButton("Okay, i will stay with u bro");
+        JButton yes = new JButton(rb.getString("Yes"));
+        JButton no = new JButton(rb.getString("Okay, i will stay with u bro"));
         Box buttonbox = Box.createHorizontalBox();
         yes.setPreferredSize(new Dimension(100, 18));
         yes.setActionCommand("yes");
@@ -576,13 +576,13 @@ public class MainClientGUI{
 
         not = new JFrame();
         not.setLocationRelativeTo(null);
-        not.setTitle("What u can?");
+        not.setTitle(rb.getString("What u can?"));
         JPanel max = new JPanel(new GridLayout(2,1));
         JPanel wr = new JPanel(new FlowLayout(FlowLayout.CENTER));
         max.add(wr);
         not.add(max);
         JLabel an = new JLabel(ans);
-        JButton ok = new JButton("Ok");
+        JButton ok = new JButton(rb.getString("Ok"));
         ok.setActionCommand("ok");
         ok.addActionListener(buttonListener);
         max.add(ok);
@@ -604,12 +604,14 @@ class MyTableModel extends AbstractTableModel {
     DatagramSocket socket;
     InetAddress IP;
     String log;
+    ResourceBundle rb;
 
-    public MyTableModel(CopyOnWriteArrayList<Shelter> d, DatagramSocket socket, InetAddress IP, String log){
+    public MyTableModel(CopyOnWriteArrayList<Shelter> d, DatagramSocket socket, InetAddress IP, String log, ResourceBundle rb){
         this.shelter = d;
         this.socket = socket;
         this.IP = IP;
         this.log = log;
+        this.rb = rb;
     }
 
     @Override
@@ -643,16 +645,16 @@ class MyTableModel extends AbstractTableModel {
         String result = "";
         switch (c) {
             case 0:
-                result = "Name";
+                result = rb.getString("Name");
                 break;
             case 1:
-                result = "Position";
+                result = rb.getString("Position");
                 break;
             case 2:
-                result = "ZoneData";
+                result = rb.getString("ZoneData");
                 break;
             case 3:
-                result = "Creator";
+                result = rb.getString("Creator");
                 break;
         }
         return result;

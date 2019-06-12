@@ -27,7 +27,7 @@ public class Rect extends JComponent implements MouseListener, MouseMotionListen
         g2d.setPaint(c);
         g2d.fillRect(pos,312-high*10,10,high*10);
 
-        super.repaint();
+        repaint();
     }
 
     @Override
