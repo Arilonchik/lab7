@@ -47,24 +47,25 @@ public class ClientThread  extends Thread {
             list.setCollectin(pac.getCollection());
             spam(list.show(),us,packet);
         }
+        if (pac.getCommand()!= null) {
             String command = pac.getCommand();
             try {
                 switch (command) {
                     case "show":
                         System.out.println("kek");
-                        spam(list.show(),us,packet);
+                        spam(list.show(), us, packet);
                         break;
                     case "remove_last":
                         sendMsg(list.remove_last(pac.getLogin()), address, port);
-                        spam(list.show(),us,packet);
+                        spam(list.show(), us, packet);
                         break;
                     case "remove_first":
                         sendMsg(list.remove_first(pac.getLogin()), address, port);
-                        spam(list.show(),us,packet);
+                        spam(list.show(), us, packet);
                         break;
                     case "add":
-                        sendMsg(list.add(pac.getArgument(),pac.getLogin()), address, port);
-                        spam(list.show(),us,packet);
+                        sendMsg(list.add(pac.getArgument(), pac.getLogin()), address, port);
+                        spam(list.show(), us, packet);
                         break;
                     case "info":
                         sendMsg(list.info(), address, port);
@@ -73,12 +74,12 @@ public class ClientThread  extends Thread {
                         sendMsg(list.sort(), address, port);
                         break;
                     case "add_if_max":
-                        sendMsg(list.addIfMax(pac.getArgument(),pac.getLogin()), address, port);
-                        spam(list.show(),us,packet);
+                        sendMsg(list.addIfMax(pac.getArgument(), pac.getLogin()), address, port);
+                        spam(list.show(), us, packet);
                         break;
                     case "remove":
                         sendMsg(list.remove(pac.getArgument(), pac.getLogin()), address, port);
-                        spam(list.show(),us,packet);
+                        spam(list.show(), us, packet);
                         break;
                     case "disconnect":
                         System.out.println("User with Port: " + port + ", IpAddress: " + pac.getLogin() + " disconnect. :(");
@@ -93,27 +94,31 @@ public class ClientThread  extends Thread {
                         sendMsg(list.help(), address, port);
                         break;
                     case "A":
-                        if(pac.getAt() == true){
-                        String ans = ar.auth(con, pac.getLogin(), pac.getPassword());
-                        sendMsg(ans, packet.getAddress(), packet.getPort());}
-                        else{sendMsg("U had already logged in", packet.getAddress(), packet.getPort());}
+                        if (pac.getAt() == true) {
+                            String ans = ar.auth(con, pac.getLogin(), pac.getPassword());
+                            sendMsg(ans, packet.getAddress(), packet.getPort());
+                        } else {
+                            sendMsg("U had already logged in", packet.getAddress(), packet.getPort());
+                        }
                         break;
                     case "R":
-                        if (pac.getAt()){
-                        String answer = ar.reg(con,pac.getLogin());
-                        sendMsg(answer, packet.getAddress(), packet.getPort());}
-                        else{sendMsg("U had already logged in", packet.getAddress(), packet.getPort());}
+                        if (pac.getAt()) {
+                            String answer = ar.reg(con, pac.getLogin());
+                            sendMsg(answer, packet.getAddress(), packet.getPort());
+                        } else {
+                            sendMsg("U had already logged in", packet.getAddress(), packet.getPort());
+                        }
                         break;
                     default:
                         String sm = "Unknown command";
-                        sendMsg(sm,address,port);
+                        sendMsg(sm, address, port);
                         break;
                 }
             } catch (JsonSyntaxException | NullPointerException | NoSuchElementException e) {
                 sendMsg("Enter is wrong.", address, port);
                 e.printStackTrace();
             }
-
+        }
     }
 
     private void sendMsg(String msg, InetAddress address, int port) {
@@ -137,10 +142,12 @@ public class ClientThread  extends Thread {
                 ip.add(us);
                 System.out.println("keks");
             }
-            if( Serializer.deserialize(request.getData()).getCommand().equals("disconnect")){
-                ip.remove(us);
-                System.out.println("lolololol");
-                System.out.println(ip);
+            if(Serializer.deserialize(request.getData()).getCommand() != null) {
+                if (Serializer.deserialize(request.getData()).getCommand().equals("disconnect")) {
+                    ip.remove(us);
+                    System.out.println("lolololol");
+                    System.out.println(ip);
+                }
             }
         }catch (ClassNotFoundException| IOException e){
             e.printStackTrace();

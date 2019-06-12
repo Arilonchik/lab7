@@ -529,9 +529,12 @@ class MyTableModel extends AbstractTableModel {
         }
         fireTableCellUpdated(rowIndex, columnIndex);
         try{
-            Packet p = new Packet (shelter);
+            Packet p = new Packet(shelter);
             DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(p), Serializer.serialize(p).length, IP, 1703);
+            CopyOnWriteArrayList<Shelter> kek = Serializer.deserialize(sendPacket.getData()).getCollection();
+            System.out.println(kek);
             socket.send(sendPacket);
+            System.out.println("memosno");
         }
         catch (Exception e){
             System.out.println("Loook back");
