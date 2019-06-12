@@ -208,6 +208,7 @@ public class UDPServer {
     }
     private void spam(CopyOnWriteArrayList<Shelter> sh, ArrayList<User> ip){
         Packet pac = new Packet(sh);
+        System.out.println(sh);
         int port;
         InetAddress adr;
             for (User i : ip) {

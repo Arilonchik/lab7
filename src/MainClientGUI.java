@@ -144,6 +144,7 @@ public class MainClientGUI{
                         onRun2 =true;
                     }else{
                         answer = p.getAns();
+                        createNotDialog(answer);
                     }
 
                 }
@@ -217,8 +218,8 @@ public class MainClientGUI{
         npr.add(Box.createHorizontalStrut(10));
         npr.add(ps2);
         JButton addbr = new JButton("Remove");
-        addb.setActionCommand("rem");
-        addb.addActionListener(buttonListener);
+        addbr.setActionCommand("rem");
+        addbr.addActionListener(buttonListener);
         rem.add(Box.createVerticalStrut(10));
         rem.add(npr);
         rem.add(Box.createVerticalStrut(10));
@@ -227,7 +228,7 @@ public class MainClientGUI{
 
 
         //mainDialog.pack();
-        mainDialog.setSize(1920,1080);
+        mainDialog.setSize(1280,720);
         mainDialog.setVisible(true);
 
     }
@@ -254,10 +255,10 @@ public class MainClientGUI{
                     sureDialog.dispose();
                     break;
                 case "add":
+                    System.out.println("kek");
                     String args = "{\"name\":\"" + nm.getText() + "\",\"position\":\"" + ps.getText() + "\"}";
                     Packet p = new Packet("add" , args , login , "kek");
                     sendmsg(p);
-                    createNotDialog(answer);
                     break;
                 case "ok":
                     not.dispose();
