@@ -643,7 +643,7 @@ class RowFilterUtil {
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0));
                 }
             }
         });
