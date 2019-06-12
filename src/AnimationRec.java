@@ -26,9 +26,13 @@ class AnimationRec extends JComponent implements ActionListener {
         super.paintComponents(g);
         pos = (int)s.getPos();
         height = s.getName().length()*15;
-        g.drawImage(pic, pos-12, 350-y-60, null);
+        g.drawImage(pic, pos-12, 252-y-60, null);
         g.setColor(c);
-        g.fillRect(pos,350-y,10,y);
+        g.fillRect(pos,252-y,10,y);
+        if (y == height) {
+            g.setColor(new Color(238, 238, 238));
+            g.fillRect(pos-12, 252-60-height, 35, 60);
+        }
         repaint();
     }
 
@@ -36,9 +40,6 @@ class AnimationRec extends JComponent implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         y ++;
         if (y == height) {
-            Graphics g = getGraphics();
-            g.setColor(Color.white);
-            g.fillRect(pos-12, 290-height, 35, 60);
             timer.stop();
         }
     }

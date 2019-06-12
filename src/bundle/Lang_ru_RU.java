@@ -55,6 +55,8 @@ public class Lang_ru_RU extends ListResourceBundle {
             {"Creator", "Властилин"},
             {"ZoneData", "Дата создания"},
             {"Position", "Позиция"},
-            {"Name", "Имя"}
+            {"Name", "Имя"},
+            {"U are log in as: ", "Ваш профиль: "},
+            {"Active user", "Активный пользователь"}
     };
 }

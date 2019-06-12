@@ -127,10 +127,10 @@ public class MainClientGUI{
         //Вывод активного пользователя
         ImageIcon log = new ImageIcon("images/user.png");
         us.setIcon(log);
-        us.setText("U are log in as: " + username);
+        us.setText(rb.getString("U are log in as: ") + username);
 
         us.setFont(f);
-        us.setBorder(BorderFactory.createTitledBorder("Active user"));
+        us.setBorder(BorderFactory.createTitledBorder(rb.getString("Active user")));
         userP.add(us);
         //Вывод help
         help.setText("<html><p align=\"center\">Remove - " + rb.getString("delete chosen shelter") + "<br>" +

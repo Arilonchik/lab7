@@ -26,6 +26,37 @@ public class Lang_hr_HR extends ListResourceBundle {
             {"NO, BRO, PLZ NOOOOO", "NE, BRO, PLZ NOOOOO"},
             {"Are u sure? :((", "Jesi li siguran? : (("},
             {"Yes", "Da"},
-            {"Okay, i will stay with u bro", "U redu, ostat ću s vama"}
+            {"Okay, i will stay with u bro", "U redu, ostat ću s vama"},
+            ///////////////////////////////////////////////////////////
+            {"EXIT", "IZLAZ"},
+            {"Log out", "Odjaviti se"},
+            {"Work bro!", "Radite bro!"},
+            {"delete chosen shelter", "izbrišite odabrano sklonište"},
+            {"insert new shelter", "umetnite novo sklonište"},
+            {"delete last shelter", "izbrisati posljednje sklonište"},
+            {"delete first shelter", "izbrisati prvo sklonište"},
+            {"insert shelter, when it has maximum position", "umetnite sklonište kada ima maksimalni položaj"},
+            {"shows collection's information", "prikazuje podatke o zbirci"},
+            {"Command description", "Opis naredbe"},
+            {"Commands", "Naredbe"},
+            {"Add shelter", "Dodaj sklonište"},
+            {"Name: ", "Ime: "},
+            {"Position: ", "Položaj: "},
+            {"Add", "Dodati"},
+            {"Remove Shelter", "Uklonite sklonište"},
+            {"Remove", "Ukloniti"},
+            {"Add shelter, if max", "Dodajte sklonište, ako je max"},
+            {"Remove last", "Ukloni posljednji"},
+            {"Remove first", "Ukloni prvo"},
+            //
+            {"Information", "Informacija"},
+            {"Informate", "Informate"},
+            {"What u can?", "Što možeš?"},
+            {"Creator", "Tvorac"},
+            {"ZoneData", "ZoneData"},
+            {"Position", "Položaj"},
+            {"Name", "Ime"},
+            {"U are log in as: ", "Prijavite se kao: "},
+            {"Active user", "Aktivni korisnik"}
     };
 }
