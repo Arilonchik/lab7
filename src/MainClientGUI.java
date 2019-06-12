@@ -205,7 +205,7 @@ public class MainClientGUI{
         addb.addActionListener(buttonListener);
         add.add(Box.createVerticalStrut(10));
         add.add(np);
-        add.add(Box.createVerticalStrut(7));
+        add.add(Box.createVerticalStrut(4));
         add.add(addb);
         add.setBorder(BorderFactory.createLineBorder(w));
         commandsP.add(add);
@@ -239,7 +239,7 @@ public class MainClientGUI{
         addbr.addActionListener(buttonListener);
         rem.add(Box.createVerticalStrut(10));
         rem.add(npr);
-        rem.add(Box.createVerticalStrut(5));
+        rem.add(Box.createVerticalStrut(4));
         rem.add(addbr);
         rem.setBorder(BorderFactory.createLineBorder(w));
         commandsP.add(rem);
@@ -277,17 +277,16 @@ public class MainClientGUI{
         addbif.addActionListener(buttonListener);
         addif.add(Box.createVerticalStrut(10));
         addif.add(npif);
-        addif.add(Box.createVerticalStrut(6));
+        addif.add(Box.createVerticalStrut(4));
         kek.add(addbif);
         addif.add(kek);
         addif.setBorder(BorderFactory.createLineBorder(w));
+
         commandsP.add(addif);
 
 
 
         Box lol = Box.createHorizontalBox();
-        lol.setBorder(BorderFactory.createLineBorder(w));
-        lol.add(Box.createHorizontalStrut(140));
         Box removelast = Box.createVerticalBox();
         removelast.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel removl = new JLabel("Remove last");
@@ -298,11 +297,57 @@ public class MainClientGUI{
         rl.setActionCommand("rl");
         rl.addActionListener(buttonListener);
         removelast.add(removl);
-        removelast.add(Box.createVerticalStrut(10));
+        removelast.add(Box.createVerticalStrut(19));
         removelast.add(rl);
         lol.add(removelast);
-        commandsP.add(lol);
+        JPanel mem = new JPanel();
+        mem.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mem.setBorder(BorderFactory.createLineBorder(w));
+        mem.add(lol);
+        commandsP.add(mem);
 
+
+        Box lol2 = Box.createHorizontalBox();
+        Box removefirst = Box.createVerticalBox();
+        removefirst.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel removf = new JLabel("Remove first");
+        removf.setFont(f);
+        removf.setHorizontalAlignment(SwingConstants.CENTER);
+        JButton rf = new JButton("Remove");
+        rf.setFont(f);
+        rf.setActionCommand("rf");
+        rf.addActionListener(buttonListener);
+        removefirst.add(removf);
+        removefirst.add(Box.createVerticalStrut(19));
+        removefirst.add(rf);
+        lol2.add(removefirst);
+        JPanel mem2 = new JPanel();
+        mem2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mem2.setBorder(BorderFactory.createLineBorder(w));
+        mem2.add(lol2);
+        commandsP.add(mem2);
+
+
+
+        Box lol3 = Box.createHorizontalBox();
+        Box info = Box.createVerticalBox();
+        info.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel inf = new JLabel("Information");
+        inf.setFont(f);
+        inf.setHorizontalAlignment(SwingConstants.CENTER);
+        JButton rfi = new JButton("Informate");
+        rfi.setFont(f);
+        rfi.setActionCommand("in");
+        rfi.addActionListener(buttonListener);
+        info.add(inf);
+        info.add(Box.createVerticalStrut(19));
+        info.add(rfi);
+        lol3.add(info);
+        JPanel mem23 = new JPanel();
+        mem23.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mem23.setBorder(BorderFactory.createLineBorder(w));
+        mem23.add(lol3);
+        commandsP.add(mem23);
 
 
 
@@ -354,6 +399,17 @@ public class MainClientGUI{
                     p2 = new Packet("add_if_max" , args2 , login , "kek");
                     sendmsg(p2);
                     break;
+                case "rl":
+                    p2 = new Packet("remove_last" , login , "kek");
+                    sendmsg(p2);
+                    break;
+                case "rf":
+                    p2 = new Packet("remove_first" , login , "kek");
+                    sendmsg(p2);
+                    break;
+                case "in":
+                    p2 = new Packet("info" , login , "kek");
+                    sendmsg(p2);
 
             }
         }
