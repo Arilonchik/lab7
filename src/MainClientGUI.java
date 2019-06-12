@@ -30,13 +30,14 @@ public class MainClientGUI{
     private JTextField nm2;
     private String answer;
     private JFrame not;
+    private MyTableModel mTabel;
 
     private ActionListener buttonListener = new FirstActionListener();
     private String login;
     private String password;
     DatagramSocket clientSocket;
     InetAddress IPAddress;
-    private CopyOnWriteArrayList<Shelter> sh;
+    private CopyOnWriteArrayList<Shelter> sh = new CopyOnWriteArrayList<Shelter>();
     private boolean onRun;
     private boolean onRun2 = false;
 
@@ -51,28 +52,12 @@ public class MainClientGUI{
     public void work(String username){
 
 
-        new Thread(() -> {
+        /*new Thread(() -> {
 
-            while (onRun) {
-                Packet p = takeColl();
-                if (p.getCollection() != null){
-                    sh = p.getCollection();
-                    onRun2 =true;
-                }else{
-                    answer = p.getAns();
-                }
 
-            }
-        }).start();
+        }).start();*/
         login = username;
-        try{
-            Packet pac = new Packet("show",username,null);
-            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
-            clientSocket.send(sendPacket);
-        }
-        catch (Exception e){
-            System.out.println("Loook back");
-        }
+
         //Первоначальные настройки
         mainDialog = new JFrame();
         mainDialog.setTitle("Work bro!");
@@ -136,11 +121,11 @@ public class MainClientGUI{
 
         //Работа с средней панелью
         showP.setLayout(new GridLayout(2,1));
-        MyTableModel mTabel = new MyTableModel();
+        mTabel = new MyTableModel(sh);
         mTabel.setShelter(sh);
         JTable table = new JTable(mTabel);
-        //table.setAutoCreateRowSorter(true);
-        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoCreateRowSorter(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(200);
         tcm.getColumn(1).setPreferredWidth(75);
@@ -150,16 +135,29 @@ public class MainClientGUI{
 
 
         new Thread(() -> {
-            while (onRun2) {
+                while (onRun) {
+                    Packet p = takeColl();
+                    if (p.getCollection() != null){
+                        sh = p.getCollection();
+                        mTabel.setShelter(sh);
+                        mTabel.fireTableDataChanged();
+                        onRun2 =true;
+                    }else{
+                        answer = p.getAns();
+                    }
 
-
-                    mTabel.fireTableDataChanged();
-
-            }
+                }
         }).start();
 
         showP.add(jscrlp);
-
+        try{
+            Packet pac = new Packet("show",username,null);
+            DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(pac), Serializer.serialize(pac).length, IPAddress, 1703);
+            clientSocket.send(sendPacket);
+        }
+        catch (Exception e){
+            System.out.println("Loook back");
+        }
 
 
 
@@ -229,7 +227,7 @@ public class MainClientGUI{
 
 
         //mainDialog.pack();
-        mainDialog.setSize(1280,720);
+        mainDialog.setSize(1920,1080);
         mainDialog.setVisible(true);
 
     }
@@ -361,6 +359,9 @@ class MyTableModel extends AbstractTableModel {
 
     CopyOnWriteArrayList<Shelter> shelter;
 
+    public MyTableModel(CopyOnWriteArrayList<Shelter> d){
+        this.shelter = d;
+    }
 
     @Override
     public int getRowCount() {

@@ -105,10 +105,8 @@ public class ClientThread  extends Thread {
 
     private void sendMsg(String msg, InetAddress address, int port) {
         try {
-            Packet p = new Packet(msg);
+            Packet p = new Packet(msg,true);
             DatagramPacket h = new DatagramPacket(Serializer.serialize(p), Serializer.serialize(p).length, address, port);
-
-
             socket.send(h);
         } catch (IOException e) {
             e.printStackTrace();

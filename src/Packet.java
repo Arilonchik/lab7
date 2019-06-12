@@ -33,8 +33,10 @@ class Packet implements Serializable {
         this.collection = collection;
     }
 
-    public Packet(String a){
-        this.ans = a;
+    public Packet(String ans, boolean at){
+        this.at = at;
+        this.ans = ans;
+        collection = null;
     }
 
 
