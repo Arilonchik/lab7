@@ -132,7 +132,8 @@ public class MainClientGUI{
         JTable table = new JTable(mTabel);
         table.setAutoCreateRowSorter(true);
         JScrollPane jscrlp = new JScrollPane(table);
-        JTextField search = new JTextField();
+        //JTextField search = new JTextField();
+        JTextField search = RowFilterUtil.createRowFilter(table);
 
 
         new Thread(() -> {
@@ -572,13 +573,13 @@ class MyTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Shelter sh = shelter.get(rowIndex);
+        Shelter shg = shelter.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                sh.setName((String) aValue);
+                shg.setName((String) aValue);
                 break;
             case 1:
-                sh.setX((double) aValue);
+                shg.setX((double) aValue);
                 break;
         }
         fireTableCellUpdated(rowIndex, columnIndex);
