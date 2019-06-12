@@ -286,11 +286,9 @@ public class MainClientGUI{
 
 
         Box lol = Box.createHorizontalBox();
-        lol.setBackground(wind);
         lol.setBorder(BorderFactory.createLineBorder(w));
         lol.add(Box.createHorizontalStrut(140));
-        JPanel removelast = new JPanel();
-        removelast.setLayout(new BoxLayout(removelast,BoxLayout.Y_AXIS));
+        Box removelast = Box.createVerticalBox();
         removelast.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel removl = new JLabel("Remove last");
         removl.setFont(f);
