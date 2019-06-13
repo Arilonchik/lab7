@@ -78,6 +78,7 @@ public class MainClientGUI{
 
         //Первоначальные настройки
         mainDialog = new JFrame();
+        mainDialog.setResizable(false);
         mainDialog.setTitle(rb.getString("Work bro!"));
         mainDialog.getContentPane().add(mainPanel);
         mainDialog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -573,7 +574,8 @@ public class MainClientGUI{
             return pac;
         }catch(IOException | ClassNotFoundException e){
             System.out.println("dkk");
-            e.printStackTrace();
+            createNotDialog(secret.sos);
+            //e.printStackTrace();
             return null;
         }
 
@@ -593,6 +595,7 @@ public class MainClientGUI{
         }
         catch (Exception e){
             System.out.println("Loook back");
+            createNotDialog("<html>" + secret.sos);
         }
     }
 

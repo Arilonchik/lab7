@@ -263,6 +263,7 @@ public class AutorisationDialog {
         } catch (Exception e) {
             System.out.println("Something goes wrong...");
             createAllert("<html>RIP SERVER((((((((((" + secret.sos,"RIP SERVER...");
+            SoundPlayer snd =new SoundPlayer("mus/dimon.mp3",5);
             return null;
         }
     }
