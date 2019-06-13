@@ -17,7 +17,7 @@ class AnimationRec extends JComponent implements ActionListener {
     public AnimationRec (Shelter s, Color c) {
         this.s = s;
         this.c = c;
-        pic = new ImageIcon("images/pismak1.png").getImage();
+        pic = new ImageIcon("images/pismak.png").getImage();
         timer = new Timer(20, this);
         timer.start();
     }

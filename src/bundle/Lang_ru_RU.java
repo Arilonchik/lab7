@@ -15,7 +15,7 @@ public class Lang_ru_RU extends ListResourceBundle {
             {"Enter ur Email", "Введите вашу почту"},
             {"Tell to us all truth!", "Расскажи нам всю правду !!"},
             {"Enter ur password", "Введите ваш пароль"},
-            {"Back", "Это не для русских!"},
+            {"Back", "Назад"},
             {"Log in", "Вход"},
             {"Success", "Великолепно"},
             {"Something wrong bro!", "Что-то пошло не так."},
@@ -26,7 +26,7 @@ public class Lang_ru_RU extends ListResourceBundle {
             {"NO, BRO, PLZ NOOOOO", "Одумайся, братик"},
             {"Are u sure? :((", "Ты уверен? :(("},
             {"Yes", "Да"},
-            {"Okay, i will stay with u bro", "Ок, я останусь с собой, братик"},
+            {"Okay, i will stay with u bro", "Ок, я останусь с тобой"},
             //////////////////////////////////////////////////////////////////
             {"EXIT", "Выход"},
             {"Log out", "Выйти из аккаунта"},

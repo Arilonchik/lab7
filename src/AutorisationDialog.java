@@ -15,19 +15,20 @@ public class AutorisationDialog {
     DatagramSocket clientSocket;
     InetAddress IPAddress;
 
-    public static Locale currentLocale = new Locale("ru", "RU");
+    public static Locale currentLocale = new Locale("en", "NZ");
     public static ResourceBundle rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
     private JPanel mainPanel2 = new JPanel();
     private JPanel ap = new JPanel();
-    private JButton regb = new JButton(rb.getString("Registration"));
-    private JButton autb = new JButton(rb.getString("Authorization"));
+    private JButton regb = new JButton();
+    private JButton autb = new JButton();
     private JButton eng = new JButton();
     private JButton rus = new JButton();
     private JButton hor = new JButton();
     private JButton est = new JButton();
-    private JButton exit = new JButton(rb.getString("Exit"));
+    private JButton exit = new JButton();
     protected JFrame sure;
     private JFrame mainWin;
+    private JLabel who,elog,epas;
     private JFrame auth = new JFrame();
     JFrame wrong;
     JFrame reg = new JFrame();
@@ -35,6 +36,7 @@ public class AutorisationDialog {
     JPasswordField pas;
     JTextField log;
     JTextField sentem;
+    SoundPlayer snd;
 
 
 
@@ -45,8 +47,9 @@ public class AutorisationDialog {
 
     public void firstDialog() {
         mainWin = new JFrame();
-        mainWin.setTitle(rb.getString("Hello brotishka!"));
+        snd = new SoundPlayer("mus/mk11.mp3");
         mainWin.setResizable(false);
+        setT();
         mainWin.getContentPane().add(mainPanel2);
         mainWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -89,6 +92,7 @@ public class AutorisationDialog {
         autb.setPreferredSize(new Dimension(100, 18));
         autb.setActionCommand("Aut");
         autb.addActionListener(listenButton);
+
         regb.setPreferredSize(new Dimension(100, 18));
         regb.setActionCommand("reg");
         regb.addActionListener(listenButton);
@@ -109,12 +113,13 @@ public class AutorisationDialog {
         mainWin.setVisible(false);
         auth = new JFrame();
         auth.setLocationRelativeTo(null);
-        auth.setTitle(rb.getString("Hmm, who are u???"));
+
         auth.setResizable(false);
         JPanel mainautp = new JPanel(new GridLayout(3, 1));
         auth.getContentPane().add(mainautp);
         auth.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JLabel who = new JLabel(rb.getString("Tell to us all truth!"));
+        who = new JLabel();
+        who.setText(rb.getString("Tell to us all truth!"));
         who.setHorizontalAlignment(SwingConstants.CENTER);
         mainautp.add(who);
 
@@ -123,12 +128,12 @@ public class AutorisationDialog {
         Box common = Box.createVerticalBox();
         log = new JTextField(5);
         log.setPreferredSize(new Dimension(100, 18));
-        JLabel elog = new JLabel(rb.getString("Enter ur Email"));
+        elog = new JLabel(rb.getString("Enter ur Email"));
         login.add(elog);
         login.add(Box.createHorizontalStrut(30));
         login.add(log);
         pas = new JPasswordField();
-        JLabel epas = new JLabel(rb.getString("Enter ur password"));
+        epas = new JLabel(rb.getString("Enter ur password"));
         pass.add(epas);
         pass.add(Box.createHorizontalStrut(4));
         pass.add(pas);
@@ -175,7 +180,7 @@ public class AutorisationDialog {
             MainClientGUI gui = new MainClientGUI(clientSocket,IPAddress);
             gui.work(login);
             auth.dispose();
-            //snd.close();
+            snd.close();
             //snd.stopPlay();
         } else {
             //System.out.println(ans);
@@ -261,7 +266,13 @@ public class AutorisationDialog {
             return null;
         }
     }
+    public void setT(){
+        regb.setText(rb.getString("Registration"));
+        exit.setText(rb.getString("Exit"));
+        mainWin.setTitle(rb.getString("Hello brotishka!"));
+        autb.setText(rb.getString("Authorization"));
 
+    }
 
     public class FirstActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -320,18 +331,22 @@ public class AutorisationDialog {
                 case"rus":
                     currentLocale = new Locale("ru", "RU");
                     rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    setT();
                     break;
                 case "hor":
                     currentLocale = new Locale("hr", "HR");
                     rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    setT();
                     break;
                 case "eng":
                     currentLocale = new Locale("en", "NZ");
                     rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    setT();
                     break;
                 case "est":
                     currentLocale = new Locale("et", "ET");
                     rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    setT();
                     break;
 
             }

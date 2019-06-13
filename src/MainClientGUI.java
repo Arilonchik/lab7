@@ -45,8 +45,10 @@ public class MainClientGUI{
     private JButton rus = new JButton();
     private JButton hor = new JButton();
     private JButton est = new JButton();
+    private JLabel descrip, addt,name,pos,remt,namer,posr,addtif,nameif,posif,removl,removf,inf;
+    private JButton addb,addbr,addbif,rl,rf,rfi;
 
-    Font f = new Font("Arial Black", Font.BOLD, 14);
+    Font f = new Font("Arial Black", Font.BOLD, 12);
 
     private ActionListener buttonListener = new FirstActionListener();
     private String login;
@@ -85,7 +87,7 @@ public class MainClientGUI{
         mainPanel.setBackground(wind);
         commandsP.setBackground(wind);
         userP.setBackground(wind);
-        mainDialog.setTitle("Не смотри сюда");
+
         //разбиение Главной области на 3 разных по шаблону (смотри дискорд), расскраска такая пока что чтобы понимать области
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(commandsP,BorderLayout.WEST);
@@ -180,7 +182,7 @@ public class MainClientGUI{
                 while (onRun) {
                     Packet p = takeColl();
                     if (p.getCollection() != null){
-                        System.out.println("lol");
+                        //System.out.println("lol");
                         sh = p.getCollection();
                         mTabel.setShelter(sh);
                         mTabel.fireTableDataChanged();
@@ -209,7 +211,7 @@ public class MainClientGUI{
             clientSocket.send(sendPacket);
         }
         catch (Exception e){
-            System.out.println("Loook back");
+            //System.out.println("Loook back");
         }
 
 
@@ -219,7 +221,7 @@ public class MainClientGUI{
 
         //Работа с левой панелью
         commandsP.setLayout(new GridLayout(7,1));
-        JLabel descrip = new JLabel(rb.getString("Commands"));
+        descrip = new JLabel(rb.getString("Commands"));
         descrip.setFont(f);
         descrip.setHorizontalAlignment(SwingConstants.CENTER);
         descrip.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -228,16 +230,16 @@ public class MainClientGUI{
         JPanel add = new JPanel();
         add.setLayout(new BoxLayout(add,BoxLayout.Y_AXIS));
         add.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        JLabel addt = new JLabel(rb.getString("Add shelter"));
+        addt = new JLabel(rb.getString("Add shelter"));
         addt.setFont(f);
         addt.setHorizontalAlignment(SwingConstants.CENTER);
         add.add(addt);
         Box np = Box.createHorizontalBox();
-        JLabel name = new JLabel(rb.getString("Name: "));
+        name = new JLabel(rb.getString("Name: "));
         name.setFont(f);
         nm = new JTextField();
         nm.setColumns(10);
-        JLabel pos = new JLabel(rb.getString("Position: "));
+        pos = new JLabel(rb.getString("Position: "));
         pos.setFont(f);
         ps = new JTextField();
         ps.setColumns(10);
@@ -248,7 +250,7 @@ public class MainClientGUI{
         np.add(pos);
         np.add(Box.createHorizontalStrut(10));
         np.add(ps);
-        JButton addb = new JButton(rb.getString("Add"));
+        addb = new JButton(rb.getString("Add"));
         addb.setActionCommand("add");
         addb.setFont(f);
         addb.addActionListener(buttonListener);
@@ -262,16 +264,16 @@ public class MainClientGUI{
         JPanel rem = new JPanel();
         rem.setLayout(new BoxLayout(rem,BoxLayout.Y_AXIS));
         rem.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        JLabel remt = new JLabel(rb.getString("Remove Shelter"));
+        remt = new JLabel(rb.getString("Remove Shelter"));
         remt.setFont(f);
         remt.setHorizontalAlignment(SwingConstants.CENTER);
         rem.add(remt);
         Box npr = Box.createHorizontalBox();
-        JLabel namer = new JLabel(rb.getString("Name: "));
+        namer = new JLabel(rb.getString("Name: "));
         namer.setFont(f);
         nm2 = new JTextField();
         nm2.setColumns(10);
-        JLabel posr = new JLabel(rb.getString("Position: "));
+        posr = new JLabel(rb.getString("Position: "));
         posr.setFont(f);
         ps2 = new JTextField();
         ps2.setColumns(10);
@@ -282,7 +284,7 @@ public class MainClientGUI{
         npr.add(posr);
         npr.add(Box.createHorizontalStrut(10));
         npr.add(ps2);
-        JButton addbr = new JButton(rb.getString("Remove"));
+        addbr = new JButton(rb.getString("Remove"));
         addbr.setFont(f);
         addbr.setActionCommand("rem");
         addbr.addActionListener(buttonListener);
@@ -299,16 +301,16 @@ public class MainClientGUI{
         addif.setLayout(new BoxLayout(addif,BoxLayout.Y_AXIS));
         addif.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        JLabel addtif = new JLabel(rb.getString("Add shelter, if max"));
+        addtif = new JLabel(rb.getString("Add shelter, if max"));
         addtif.setFont(f);
         addtif.setHorizontalAlignment(SwingConstants.CENTER);
         addif.add(addtif);
         Box npif = Box.createHorizontalBox();
-        JLabel nameif = new JLabel(rb.getString("Name: "));
+        nameif = new JLabel(rb.getString("Name: "));
         nameif.setFont(f);
         nmif = new JTextField();
         nmif.setColumns(10);
-        JLabel posif = new JLabel(rb.getString("Position: "));
+        posif = new JLabel(rb.getString("Position: "));
         posif.setFont(f);
         psif = new JTextField();
         psif.setColumns(10);
@@ -320,7 +322,7 @@ public class MainClientGUI{
         npif.add(Box.createHorizontalStrut(10));
         npif.add(psif);
         JPanel kek = new JPanel();
-        JButton addbif = new JButton(rb.getString("Add"));
+        addbif = new JButton(rb.getString("Add"));
         addbif.setActionCommand("addif");
         addbif.setFont(f);
         addbif.addActionListener(buttonListener);
@@ -338,10 +340,10 @@ public class MainClientGUI{
         Box lol = Box.createHorizontalBox();
         Box removelast = Box.createVerticalBox();
         removelast.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel removl = new JLabel(rb.getString("Remove last"));
+        removl = new JLabel(rb.getString("Remove last"));
         removl.setFont(f);
         removl.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton rl = new JButton(rb.getString("Remove"));
+        rl = new JButton(rb.getString("Remove"));
         rl.setFont(f);
         rl.setActionCommand("rl");
         rl.addActionListener(buttonListener);
@@ -359,10 +361,10 @@ public class MainClientGUI{
         Box lol2 = Box.createHorizontalBox();
         Box removefirst = Box.createVerticalBox();
         removefirst.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel removf = new JLabel(rb.getString("Remove first"));
+        removf = new JLabel(rb.getString("Remove first"));
         removf.setFont(f);
         removf.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton rf = new JButton(rb.getString("Remove"));
+        rf = new JButton(rb.getString("Remove"));
         rf.setFont(f);
         rf.setActionCommand("rf");
         rf.addActionListener(buttonListener);
@@ -381,10 +383,10 @@ public class MainClientGUI{
         Box lol3 = Box.createHorizontalBox();
         Box info = Box.createVerticalBox();
         info.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel inf = new JLabel(rb.getString("Information"));
+        inf = new JLabel(rb.getString("Information"));
         inf.setFont(f);
         inf.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton rfi = new JButton(rb.getString("Informate"));
+        rfi = new JButton(rb.getString("Informate"));
         rfi.setFont(f);
         rfi.setActionCommand("in");
         rfi.addActionListener(buttonListener);
@@ -406,14 +408,48 @@ public class MainClientGUI{
 
 
 
-
+        //setT();
         //mainDialog.pack();
         mainDialog.setSize(1900,720);
         mainDialog.setVisible(true);
 
     }
 
-
+        private void setT(){
+            mainDialog.setTitle(rb.getString("Work bro!"));
+            us.setBorder(BorderFactory.createTitledBorder(rb.getString("Active user")));
+            us.setBorder(BorderFactory.createTitledBorder("Active user"));
+            help.setText("<html><p align=\"center\">Remove - " + rb.getString("delete chosen shelter") + "<br>" +
+                    "Add - " + rb.getString("insert new shelter") + "<br>" +
+                    "Remove_last - " + rb.getString("delete last shelter") + "<br>" +
+                    "Remove_first - " + rb.getString("delete first shelter") + "<br>" +
+                    /*"show - refresh collection<br>" +*/
+                    "AddIfMax - " + rb.getString("insert shelter, when it has maximum position") + "<br>" +
+                    "Info - " + rb.getString("shows collection's information") + "</html>");
+            help.setBorder(BorderFactory.createTitledBorder(rb.getString("Command description")));
+            descrip.setText(rb.getString("Commands"));
+            addt.setText(rb.getString("Add shelter"));
+            name.setText(rb.getString("Name: "));
+            pos.setText(rb.getString("Position: "));
+            remt.setText(rb.getString("Remove Shelter"));
+            namer.setText(rb.getString("Name: "));
+            posr.setText(rb.getString("Position: "));
+            addtif.setText(rb.getString("Add shelter, if max"));
+            nameif.setText(rb.getString("Name: "));
+            posif.setText(rb.getString("Position: "));
+            removl.setText(rb.getString("Remove last"));
+            removf.setText(rb.getString("Remove first"));
+            inf.setText(rb.getString("Information"));
+            addb.setText(rb.getString("Add"));
+            addbr.setText(rb.getString("Remove"));
+            addbif.setText(rb.getString("Add"));
+            rl.setText(rb.getString("Remove"));
+            rf.setText(rb.getString("Remove"));
+            rfi.setText(rb.getString("Informate"));
+            exit.setText(rb.getString("EXIT"));
+            logout.setText(rb.getString("Log out"));
+            us.setText(rb.getString("U are log in as: ") + login);
+        }
 
     public class FirstActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -468,6 +504,30 @@ public class MainClientGUI{
                 case "in":
                     p2 = new Packet("info" , login , "kek");
                     sendmsg(p2);
+                    break;
+                case"rus":
+                    currentLocale = new Locale("ru", "RU");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    Font f2 = new Font("Arial Black", Font.BOLD, 12);
+                    //us.setFont(f2);
+                    //help.setFont(f2);
+                    setT();
+                    break;
+                case "hor":
+                    currentLocale = new Locale("hr", "HR");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    setT();
+                    break;
+                case "eng":
+                    currentLocale = new Locale("en", "NZ");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    setT();
+                    break;
+                case "est":
+                    currentLocale = new Locale("et", "ET");
+                    rb = ResourceBundle.getBundle("bundle.Lang", currentLocale);
+                    setT();
+                    break;
 
             }
         }
@@ -654,6 +714,7 @@ class MyTableModel extends AbstractTableModel {
             max.add(wr);
             not.add(max);
             JLabel an = new JLabel("You can't edit this filed.");
+            SoundPlayer snd = new SoundPlayer("mus/Eto_ne_vash_obekt.mp3");
             wr.add(an);
             not.pack();
             not.setResizable(false);
