@@ -726,7 +726,7 @@ class MyTableModel extends AbstractTableModel {
             DatagramPacket sendPacket = new DatagramPacket(Serializer.serialize(p), Serializer.serialize(p).length, IP, 1703);
             CopyOnWriteArrayList<Shelter> kek = Serializer.deserialize(sendPacket.getData()).getCollection();
             System.out.println(kek);
-            socket.send(sendPacket);
+            socket.send(sendPacket); //
             System.out.println("memosno");
         }
         catch (Exception e){
